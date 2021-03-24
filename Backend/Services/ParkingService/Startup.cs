@@ -17,6 +17,7 @@ namespace Parking
 {
     public class Startup
     {
+        readonly string corsPolicy = "corsPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,6 +30,15 @@ namespace Parking
         {
             services.AddDbContext<ParkingContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:ParkingDB"]));
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(corsPolicy,
+                    builder => builder.WithOrigins()
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +54,8 @@ namespace Parking
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(corsPolicy);
 
             app.UseEndpoints(endpoints =>
             {
