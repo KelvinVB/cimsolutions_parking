@@ -9,7 +9,7 @@ namespace ParkingService.Models
     {
         public int parkingGarageID { get; set; }
         public string name { get; set; }
-        public string adress { get; set; }
+        public string address { get; set; }
         public string city { get; set; }
         public string postcode { get; set; }
         public int totalParkingSpots { get; set; }

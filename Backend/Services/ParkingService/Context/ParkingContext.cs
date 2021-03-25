@@ -20,13 +20,16 @@ namespace ParkingService.Context
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //parkingGarage
+            //ParkingGarage
             modelBuilder.Entity<ParkingGarage>(pg =>
             {
                 pg.HasKey(e => e.parkingGarageID);
                 pg.Property(e => e.parkingGarageID).ValueGeneratedOnAdd();
                 pg.Property(e => e.parkingGarageID).IsRequired();
                 pg.Property(e => e.name).IsRequired();
+                pg.Property(e => e.address).IsRequired();
+                pg.Property(e => e.city).IsRequired();
+                pg.Property(e => e.postcode).IsRequired();
             });
             //ParkingSpot
             modelBuilder.Entity<ParkingSpot>(ps =>
@@ -35,6 +38,7 @@ namespace ParkingService.Context
                 ps.Property(e => e.parkingSpotID).ValueGeneratedOnAdd();
                 ps.Property(e => e.parkingSpotID).IsRequired();
                 ps.Property(e => e.name).IsRequired();
+                ps.HasOne(e => e.parkingGarage).WithMany(e => e.parkingSpots).HasForeignKey(e => e.parkingGarageID).IsRequired();
             });
             //ReservationTimeSlot
             modelBuilder.Entity<ReservationTimeSlot>(rt =>
@@ -44,6 +48,7 @@ namespace ParkingService.Context
                 rt.Property(e => e.reservationTimeSlotID).IsRequired();
                 rt.Property(e => e.startReservation).IsRequired();
                 rt.Property(e => e.endReservation).IsRequired();
+                rt.HasOne(e => e.parkingSpot).WithMany(e => e.reservationTimeSlots).HasForeignKey(e => e.parkingSpotID).IsRequired();
             });
         }
     }

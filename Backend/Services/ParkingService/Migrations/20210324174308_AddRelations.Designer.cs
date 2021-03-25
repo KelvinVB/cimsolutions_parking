@@ -10,8 +10,8 @@ using ParkingService.Context;
 namespace ParkingService.Migrations
 {
     [DbContext(typeof(ParkingContext))]
-    [Migration("20210322151931_Initial")]
-    partial class Initial
+    [Migration("20210324174308_AddRelations")]
+    partial class AddRelations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,9 +29,11 @@ namespace ParkingService.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("city")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("freeParkingSpots")
@@ -42,6 +44,7 @@ namespace ParkingService.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("postcode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("totalParkingSpots")
@@ -66,7 +69,7 @@ namespace ParkingService.Migrations
                     b.Property<int>("parkStatus")
                         .HasColumnType("int");
 
-                    b.Property<int?>("parkingGarageID")
+                    b.Property<int>("parkingGarageID")
                         .HasColumnType("int");
 
                     b.HasKey("parkingSpotID");
@@ -86,7 +89,7 @@ namespace ParkingService.Migrations
                     b.Property<DateTime>("endReservation")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("parkingSpotID")
+                    b.Property<int>("parkingSpotID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("startReservation")
@@ -101,16 +104,24 @@ namespace ParkingService.Migrations
 
             modelBuilder.Entity("ParkingService.Models.ParkingSpot", b =>
                 {
-                    b.HasOne("ParkingService.Models.ParkingGarage", null)
+                    b.HasOne("ParkingService.Models.ParkingGarage", "parkingGarage")
                         .WithMany("parkingSpots")
-                        .HasForeignKey("parkingGarageID");
+                        .HasForeignKey("parkingGarageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("parkingGarage");
                 });
 
             modelBuilder.Entity("ParkingService.Models.ReservationTimeSlot", b =>
                 {
-                    b.HasOne("ParkingService.Models.ParkingSpot", null)
+                    b.HasOne("ParkingService.Models.ParkingSpot", "parkingSpot")
                         .WithMany("reservationTimeSlots")
-                        .HasForeignKey("parkingSpotID");
+                        .HasForeignKey("parkingSpotID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("parkingSpot");
                 });
 
             modelBuilder.Entity("ParkingService.Models.ParkingGarage", b =>

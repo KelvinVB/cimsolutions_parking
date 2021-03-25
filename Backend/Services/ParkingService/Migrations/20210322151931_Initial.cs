@@ -14,7 +14,7 @@ namespace ParkingService.Migrations
                     parkingGarageID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    adress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     city = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     postcode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     totalParkingSpots = table.Column<int>(type: "int", nullable: false),
