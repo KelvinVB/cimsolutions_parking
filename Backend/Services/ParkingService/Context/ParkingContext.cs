@@ -17,7 +17,7 @@ namespace ParkingService.Context
         public DbSet<ParkingGarage> ParkingGarages { get; set; }
         public DbSet<ParkingSpot> parkingSpots { get; set; }
         public DbSet<ReservationTimeSlot> reservationTimeSlots { get; set; }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //ParkingGarage
@@ -50,6 +50,66 @@ namespace ParkingService.Context
                 rt.Property(e => e.endReservation).IsRequired();
                 rt.HasOne(e => e.parkingSpot).WithMany(e => e.reservationTimeSlots).HasForeignKey(e => e.parkingSpotID).IsRequired();
             });
+
+            //ParkingGarage data
+            modelBuilder.Entity<ParkingGarage>().HasData(
+                new ParkingGarage
+                {
+                    parkingGarageID = 1,
+                    name = "CimParking",
+                    address = "De Waal 21b",
+                    city = "Best",
+                    postcode = "5684 PH",
+                    totalParkingSpots = 150
+                }
+            ); ;
+
+            //ParkingSpot data
+            modelBuilder.Entity<ParkingSpot>().HasData(
+                new ParkingSpot
+                {
+                    parkingSpotID = 1,
+                    name = "A1",
+                    parkingGarageID = 1
+                },
+                new ParkingSpot
+                {
+                    parkingSpotID = 2,
+                    name = "A2",
+                    parkingGarageID = 1
+                },
+                new ParkingSpot
+                {
+                    parkingSpotID = 3,
+                    name = "A3",
+                    parkingGarageID = 1
+                }
+            );
+
+            //ReservationTimeSlot data
+            modelBuilder.Entity<ReservationTimeSlot>().HasData(
+                new ReservationTimeSlot
+                {
+                    reservationTimeSlotID = 1,
+                    startReservation = new DateTime(2021, 3, 26, 10, 30, 00),
+                    endReservation = new DateTime(2021, 3, 26, 11, 30, 00),
+                    parkingSpotID = 1
+                },
+                new ReservationTimeSlot
+                {
+                    reservationTimeSlotID = 2,
+                    startReservation = new DateTime(2021, 3, 27, 10, 00, 00),
+                    endReservation = new DateTime(2021, 3, 27, 10, 00, 00),
+                    parkingSpotID = 1
+                },
+                new ReservationTimeSlot
+                {
+                    reservationTimeSlotID = 3,
+                    startReservation = new DateTime(2021, 3, 26, 10, 30, 00),
+                    endReservation = new DateTime(2021, 3, 26, 10, 30, 00),
+                    parkingSpotID = 2
+                }
+            );
         }
     }
 }
