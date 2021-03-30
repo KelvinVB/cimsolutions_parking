@@ -10,7 +10,7 @@ namespace AccountService.Managers
 {
     public class AccountManager : IAccountManager
     {
-        public Task<IActionResult> GetUserByToken()
+        public Account GetAccountByToken()
         {
             throw new NotImplementedException();
         }

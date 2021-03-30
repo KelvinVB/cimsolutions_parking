@@ -12,13 +12,18 @@ namespace AccountService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase, IAccountManager
+    public class AccountController : ControllerBase
     {
         IAccountManager accountManager;
 
-        public Task<IActionResult> GetUserByToken()
+        public IActionResult GetAccountByToken()
         {
-            return accountManager.GetUserByToken();
+            Account account = accountManager.GetAccountByToken();
+
+            if (account == null)
+                return BadRequest(new { message = "Can't receive account" });
+
+            return Ok(account);
         }
 
         public Task<IActionResult> Post([FromBody] Account acount)

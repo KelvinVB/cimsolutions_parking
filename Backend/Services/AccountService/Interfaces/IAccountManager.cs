@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace AccountService.Interfaces
 {
-    interface IAccountManager
+    public interface IAccountManager
     {
         Task<IActionResult> Post([FromBody]Account model);
-        Task<IActionResult> GetUserByToken();
+        Account GetAccountByToken();
     }
 }
