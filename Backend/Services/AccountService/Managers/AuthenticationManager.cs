@@ -10,6 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace AccountService.Managers
 {
@@ -68,6 +69,12 @@ namespace AccountService.Managers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public Account GetUserByToken(string accountID)
+        {
+            var user = users.Find(x=> x.accountID.Equals(accountID));
+            return user;
         }
     }
 }
