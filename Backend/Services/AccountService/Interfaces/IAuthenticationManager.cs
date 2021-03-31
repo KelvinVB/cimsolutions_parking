@@ -11,6 +11,6 @@ namespace AccountService.Interfaces
         AuthenticateResponse Authenticate(Authentication authenticationModel);
         IEnumerable<Account> GetAll();
         Account GetById(int id);
-        Account GetUserByToken(string accountID);
+        Account GetAccount(string accountID);
     }
 }

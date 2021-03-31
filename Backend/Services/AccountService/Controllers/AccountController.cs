@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AccountService.Interfaces;
 using AccountService.Managers;
 using AccountService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +18,17 @@ namespace AccountService.Controllers
     {
         IAccountManager accountManager;
 
-        public IActionResult GetAccountByToken()
+        public AccountController(IAccountManager accountManager)
         {
-            Account account = accountManager.GetAccountByToken();
+            this.accountManager = accountManager;
+        }
+
+        [HttpGet("get")]
+        [Authorize(Roles = "user")]
+        public IActionResult GetAccount()
+        {
+            var accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Account account = accountManager.GetAccount(accountID);
 
             if (account == null)
                 return BadRequest(new { message = "Can't receive account" });
@@ -26,9 +36,16 @@ namespace AccountService.Controllers
             return Ok(account);
         }
 
-        public Task<IActionResult> Post([FromBody] Account acount)
+        [HttpPost("create")]
+        public IActionResult CreateAccount([FromBody] Account request)
         {
-            return accountManager.Post(acount);
+            Account account = accountManager.CreateAccount(request);
+            if(account == null)
+            {
+                return BadRequest("Could not create a new account.");
+            }
+
+            return Ok(account);
         }
     }
 }

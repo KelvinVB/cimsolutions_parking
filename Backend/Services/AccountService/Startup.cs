@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Options;
 
 namespace AccountService
 {
@@ -46,9 +47,7 @@ namespace AccountService
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
-
-            //string secretKey = Configuration.GetSection("AppSettings").GetSection("Secret").Value;
-            //var key = Encoding.ASCII.GetBytes(secretKey);
+            services.AddScoped<IAccountManager, AccountManager>();
 
             //get jwt configuration from appsettings
             var jwtTokenConfig = Configuration.GetSection("JwtTokenConfig").Get<JwtTokenConfig>();
@@ -80,6 +79,12 @@ namespace AccountService
             {
                 options.AddPolicy("user", policy => policy.RequireClaim("rol", "api_access"));
             });
+
+            services.Configure<AccountDatabaseSettings>(
+                Configuration.GetSection(nameof(AccountDatabaseSettings)));
+
+            services.AddSingleton<IAccountDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<AccountDatabaseSettings>>().Value);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

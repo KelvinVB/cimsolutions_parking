@@ -9,7 +9,9 @@ namespace AccountService.Interfaces
 {
     public interface IAccountManager
     {
-        Task<IActionResult> Post([FromBody]Account model);
-        Account GetAccountByToken();
+        Account CreateAccount(Account account);
+        Account GetAccount(string accountID);
+        Account UpdateAccount(Account account);
+        Account DeleteAccount(Account account);
     }
 }

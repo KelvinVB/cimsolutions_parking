@@ -56,10 +56,11 @@ namespace AccountService.Managers
             // return null if user not found
             if (user == null) return null;
 
-            //add accountId claim
+            //add accountId and role claim
             var claims = new[]
             {
-            new Claim(ClaimTypes.NameIdentifier,user.accountID)
+            new Claim(ClaimTypes.NameIdentifier,user.accountID),
+            new Claim(ClaimTypes.Role, user.role)
             };
 
             // authentication successful so generate jwt token
@@ -80,7 +81,7 @@ namespace AccountService.Managers
             return accessToken;
         }
 
-        public Account GetUserByToken(string accountID)
+        public Account GetAccount(string accountID)
         {
             var user = users.Find(x => x.accountID.Equals(accountID));
             return user;

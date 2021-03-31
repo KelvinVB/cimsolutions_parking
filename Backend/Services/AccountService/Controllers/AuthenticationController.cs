@@ -34,15 +34,15 @@ namespace AccountService.Controllers
         }
 
         [HttpGet("token")]
-        [Authorize]
-        public IActionResult GetUserByToken()
+        [Authorize(Roles ="user")]
+        public IActionResult GetAccount()
         {
             var accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if(accountID == null)
             {
                 return BadRequest();
             }
-            var user = authenticationManager.GetUserByToken(accountID);
+            var user = authenticationManager.GetAccount(accountID);
             return Ok(user);
         }
     }
