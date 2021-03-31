@@ -14,9 +14,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AccountService.Managers
 {
-    public class AuthenticationManager: IAuthenticationManager
+    public class AuthenticationManager : IAuthenticationManager
     {
         private readonly AppSettings appSettings;
+        private readonly JwtTokenConfig jwtTokenConfig;
+        private readonly byte[] secret;
 
         private List<Authentication> accounts = new List<Authentication>
         {
@@ -28,9 +30,12 @@ namespace AccountService.Managers
             new Account { accountID = "test", firstName = "test", lastName = "test", email = "test" }
         };
 
-        public AuthenticationManager(IOptions<AppSettings> appSettings)
+        public AuthenticationManager(IOptions<AppSettings> appSettings, JwtTokenConfig jwtTokenConfig)
         {
             this.appSettings = appSettings.Value;
+            this.jwtTokenConfig = jwtTokenConfig;
+            this.secret = Encoding.ASCII.GetBytes(jwtTokenConfig.Secret);
+
         }
 
         public IEnumerable<Account> GetAll()
@@ -43,37 +48,41 @@ namespace AccountService.Managers
             throw new NotImplementedException();
         }
 
-        AuthenticateResponse IAuthenticationManager.Authenticate(Authentication authenticationModel)
+        AuthenticateResponse IAuthenticationManager.Authenticate(Authentication request)
         {
-            var account = accounts.SingleOrDefault(x => x.username == authenticationModel.username && x.password == authenticationModel.password);
+            var account = accounts.SingleOrDefault(x => x.username == request.username && x.password == request.password);
             var user = users.SingleOrDefault(x => x.accountID == account.accountID);
 
             // return null if user not found
             if (user == null) return null;
 
+            //add accountId claim
+            var claims = new[]
+            {
+            new Claim(ClaimTypes.NameIdentifier,user.accountID)
+            };
+
             // authentication successful so generate jwt token
-            var token = generateJwtToken(account);
+            var token = generateJwtToken(account, claims, DateTime.Now);
 
             return new AuthenticateResponse(user, token);
         }
-        private string generateJwtToken(Authentication user)
+        private string generateJwtToken(Authentication user, Claim[] claims, DateTime currentDateTime)
         {
-            // generate token that is valid for 7 days
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.accountID) }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var jwtToken = new JwtSecurityToken(
+            jwtTokenConfig.Issuer,
+            jwtTokenConfig.Audience,
+            claims,
+            expires: currentDateTime.AddDays(jwtTokenConfig.AccessTokenExpiration),
+            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256Signature));
+            var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+
+            return accessToken;
         }
 
         public Account GetUserByToken(string accountID)
         {
-            var user = users.Find(x=> x.accountID.Equals(accountID));
+            var user = users.Find(x => x.accountID.Equals(accountID));
             return user;
         }
     }

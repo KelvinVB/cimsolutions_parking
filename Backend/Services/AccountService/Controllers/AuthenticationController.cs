@@ -23,9 +23,9 @@ namespace AccountService.Controllers
         }
 
         [HttpPost("authenticate")]
-        public IActionResult Authenticate(Authentication authenticationModel)
+        public IActionResult Authenticate([FromBody] Authentication request)
         {
-            var response = authenticationManager.Authenticate(authenticationModel);
+            var response = authenticationManager.Authenticate(request);
 
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -34,14 +34,15 @@ namespace AccountService.Controllers
         }
 
         [HttpGet("token")]
+        [Authorize]
         public IActionResult GetUserByToken()
         {
-            var userName = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if(userName == null)
+            var accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if(accountID == null)
             {
                 return BadRequest();
             }
-            var user = authenticationManager.GetUserByToken(userName);
+            var user = authenticationManager.GetUserByToken(accountID);
             return Ok(user);
         }
     }

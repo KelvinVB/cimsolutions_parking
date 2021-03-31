@@ -47,9 +47,14 @@ namespace AccountService
 
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 
-            string secretKey = Configuration.GetSection("AppSettings").GetSection("Secret").Value;
-            var key = Encoding.ASCII.GetBytes(secretKey);
+            //string secretKey = Configuration.GetSection("AppSettings").GetSection("Secret").Value;
+            //var key = Encoding.ASCII.GetBytes(secretKey);
 
+            //get jwt configuration from appsettings
+            var jwtTokenConfig = Configuration.GetSection("JwtTokenConfig").Get<JwtTokenConfig>();
+            services.AddSingleton(jwtTokenConfig);
+
+            //setting up the authentication and add parameters to the validation of the token
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -60,11 +65,14 @@ namespace AccountService
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = false,
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtTokenConfig.Issuer,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtTokenConfig.Secret)),
+                    ValidAudience = jwtTokenConfig.Audience,
                     ValidateAudience = false,
                     ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                    ClockSkew = TimeSpan.FromMinutes(1)
                 };
             });
 
