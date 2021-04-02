@@ -1,11 +1,13 @@
 ﻿using AccountService.Helpers;
 using AccountService.Interfaces;
 using AccountService.Models;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace AccountService.Managers
@@ -30,8 +32,10 @@ namespace AccountService.Managers
         /// <returns>account</returns>
         public Account CreateAccount(Account account)
         {
-            Authentication auth = new Authentication(account.accountID, account.username, account.password);
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(account.password);
             accounts.InsertOne(account);
+
+            Authentication auth = new Authentication(account.accountID, account.username, passwordHash);
             accountCredentials.InsertOne(auth);
             return account;
         }
@@ -50,7 +54,7 @@ namespace AccountService.Managers
         {
             throw new NotImplementedException();
         }
-        
+
         public Account DeleteAccount(Account request)
         {
             throw new NotImplementedException();

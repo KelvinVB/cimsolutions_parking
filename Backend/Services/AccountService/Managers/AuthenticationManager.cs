@@ -53,7 +53,13 @@ namespace AccountService.Managers
         /// <returns>AuthenticateResponse</returns>
         AuthenticateResponse IAuthenticationManager.Authenticate(Authentication request)
         {
-            Authentication auth = accountCredentials.Find(x => x.username == request.username && x.password == request.password).SingleOrDefault();
+            Authentication auth = accountCredentials.Find(x => x.username == request.username).SingleOrDefault();
+            bool validPassword = BCrypt.Net.BCrypt.Verify(request.password, auth.password);
+            if (!validPassword)
+            {
+                return null;
+            }
+
             Account user = accounts.Find(x => x.accountID == auth.accountID).SingleOrDefault();
 
             // return null if user not found
