@@ -21,8 +21,16 @@ namespace AccountService.Managers
         {
             MongoClient client = new MongoClient(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
+            
             accounts = database.GetCollection<Account>(settings.AccountsCollectionName);
             accountCredentials = database.GetCollection<Authentication>(settings.AuthenticationCollectionName);
+
+            CreateIndexOptions options = new CreateIndexOptions() { Unique = true };
+            StringFieldDefinition<Account> field = new StringFieldDefinition<Account>("email");
+            IndexKeysDefinition<Account> indexDefinition = new IndexKeysDefinitionBuilder<Account>().Ascending(field);
+
+            CreateIndexModel<Account> indexModel = new CreateIndexModel<Account>(indexDefinition, options);
+            accounts.Indexes.CreateOne(indexModel);
         }
 
         /// <summary>
@@ -33,8 +41,8 @@ namespace AccountService.Managers
         public Account CreateAccount(Account account)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(account.password);
-            accounts.InsertOne(account);
 
+            accounts.InsertOne(account);
             Authentication auth = new Authentication(account.accountID, account.username, passwordHash);
             accountCredentials.InsertOne(auth);
             return account;
