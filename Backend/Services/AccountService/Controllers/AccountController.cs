@@ -40,6 +40,7 @@ namespace AccountService.Controllers
         public IActionResult CreateAccount([FromBody] Account request)
         {
             Account account = accountManager.CreateAccount(request);
+
             if(account == null)
             {
                 return BadRequest("Could not create a new account.");

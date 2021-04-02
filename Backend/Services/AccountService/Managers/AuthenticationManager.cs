@@ -11,30 +11,26 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using MongoDB.Driver;
 
 namespace AccountService.Managers
 {
     public class AuthenticationManager : IAuthenticationManager
     {
-        private readonly AppSettings appSettings;
+        private readonly AppSettings settings;
         private readonly JwtTokenConfig jwtTokenConfig;
         private readonly byte[] secret;
+        private readonly IMongoCollection<Account> accounts;
+        private readonly IMongoCollection<Authentication> accountCredentials;
 
-        private List<Authentication> accounts = new List<Authentication>
+        public AuthenticationManager(IAccountDatabaseSettings settings, JwtTokenConfig jwtTokenConfig)
         {
-            new Authentication { accountID = "test", username = "test", password = "test" }
-        };
-
-        private List<Account> users = new List<Account>
-        {
-            new Account { accountID = "test", firstName = "test", lastName = "test", email = "test" }
-        };
-
-        public AuthenticationManager(IOptions<AppSettings> appSettings, JwtTokenConfig jwtTokenConfig)
-        {
-            this.appSettings = appSettings.Value;
             this.jwtTokenConfig = jwtTokenConfig;
             this.secret = Encoding.ASCII.GetBytes(jwtTokenConfig.Secret);
+            MongoClient client = new MongoClient(settings.ConnectionString);
+            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
+            accounts = database.GetCollection<Account>(settings.AccountsCollectionName);
+            accountCredentials = database.GetCollection<Authentication>(settings.AuthenticationCollectionName);
 
         }
 
@@ -50,8 +46,8 @@ namespace AccountService.Managers
 
         AuthenticateResponse IAuthenticationManager.Authenticate(Authentication request)
         {
-            var account = accounts.SingleOrDefault(x => x.username == request.username && x.password == request.password);
-            var user = users.SingleOrDefault(x => x.accountID == account.accountID);
+            Authentication auth = accountCredentials.Find(x => x.username == request.username && x.password == request.password).SingleOrDefault();
+            Account user = accounts.Find(x => x.accountID == auth.accountID).SingleOrDefault();
 
             // return null if user not found
             if (user == null) return null;
@@ -64,7 +60,7 @@ namespace AccountService.Managers
             };
 
             // authentication successful so generate jwt token
-            var token = generateJwtToken(account, claims, DateTime.Now);
+            var token = generateJwtToken(auth, claims, DateTime.Now);
 
             return new AuthenticateResponse(user, token);
         }
@@ -83,7 +79,7 @@ namespace AccountService.Managers
 
         public Account GetAccount(string accountID)
         {
-            var user = users.Find(x => x.accountID.Equals(accountID));
+            Account user = accounts.Find(x => x.accountID.Equals(accountID)).SingleOrDefault();
             return user;
         }
     }

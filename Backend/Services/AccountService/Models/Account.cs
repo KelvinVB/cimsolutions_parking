@@ -23,5 +23,7 @@ namespace AccountService.Models
         public string email { get; set; }
         public DateTime dateOfBirth { get; set; }
         public string role { get; set; } = "user";
+        [BsonIgnore]
+        public string password { get; set; }
     }
 }
