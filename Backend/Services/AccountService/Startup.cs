@@ -50,7 +50,7 @@ namespace AccountService
             services.AddScoped<IAccountManager, AccountManager>();
 
             //get jwt configuration from appsettings
-            var jwtTokenConfig = Configuration.GetSection("JwtTokenConfig").Get<JwtTokenConfig>();
+            JwtTokenConfig jwtTokenConfig = Configuration.GetSection("JwtTokenConfig").Get<JwtTokenConfig>();
             services.AddSingleton(jwtTokenConfig);
 
             //setting up the authentication and add parameters to the validation of the token

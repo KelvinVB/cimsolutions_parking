@@ -17,7 +17,6 @@ namespace AccountService.Managers
 {
     public class AuthenticationManager : IAuthenticationManager
     {
-        private readonly AppSettings settings;
         private readonly JwtTokenConfig jwtTokenConfig;
         private readonly byte[] secret;
         private readonly IMongoCollection<Account> accounts;
@@ -25,8 +24,11 @@ namespace AccountService.Managers
 
         public AuthenticationManager(IAccountDatabaseSettings settings, JwtTokenConfig jwtTokenConfig)
         {
+            //token configuration
             this.jwtTokenConfig = jwtTokenConfig;
             this.secret = Encoding.ASCII.GetBytes(jwtTokenConfig.Secret);
+
+            //mongodb configuration
             MongoClient client = new MongoClient(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
             accounts = database.GetCollection<Account>(settings.AccountsCollectionName);
@@ -39,11 +41,16 @@ namespace AccountService.Managers
             throw new NotImplementedException();
         }
 
-        public Account GetById(int id)
+        public Account GetById(string id)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Authenticates using credentials
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>AuthenticateResponse</returns>
         AuthenticateResponse IAuthenticationManager.Authenticate(Authentication request)
         {
             Authentication auth = accountCredentials.Find(x => x.username == request.username && x.password == request.password).SingleOrDefault();
@@ -53,34 +60,38 @@ namespace AccountService.Managers
             if (user == null) return null;
 
             //add accountId and role claim
-            var claims = new[]
+            Claim[] claims = new[]
             {
             new Claim(ClaimTypes.NameIdentifier,user.accountID),
             new Claim(ClaimTypes.Role, user.role)
             };
 
             // authentication successful so generate jwt token
-            var token = generateJwtToken(auth, claims, DateTime.Now);
+            string token = generateJwtToken(auth, claims, DateTime.Now);
 
             return new AuthenticateResponse(user, token);
         }
+
+        /// <summary>
+        /// Generates JWT with role and expiration date
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="claims"></param>
+        /// <param name="currentDateTime"></param>
+        /// <returns>string token</returns>
         private string generateJwtToken(Authentication user, Claim[] claims, DateTime currentDateTime)
         {
-            var jwtToken = new JwtSecurityToken(
-            jwtTokenConfig.Issuer,
-            jwtTokenConfig.Audience,
-            claims,
-            expires: currentDateTime.AddDays(jwtTokenConfig.AccessTokenExpiration),
-            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256Signature));
-            var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+            JwtSecurityToken jwtToken = new JwtSecurityToken(
+                jwtTokenConfig.Issuer,
+                jwtTokenConfig.Audience,
+                claims,
+                expires: currentDateTime.AddDays(jwtTokenConfig.AccessTokenExpiration),
+                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256Signature)
+            );
+
+            string accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
             return accessToken;
-        }
-
-        public Account GetAccount(string accountID)
-        {
-            Account user = accounts.Find(x => x.accountID.Equals(accountID)).SingleOrDefault();
-            return user;
         }
     }
 }

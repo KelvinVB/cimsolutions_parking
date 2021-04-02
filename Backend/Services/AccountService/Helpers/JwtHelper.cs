@@ -24,7 +24,7 @@ namespace AccountService.Helpers
 
         public async Task Invoke(HttpContext context, IAuthenticationManager authenticationManager)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            string token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token != null)
                 attachUserToContext(context, authenticationManager, token);
@@ -36,8 +36,8 @@ namespace AccountService.Helpers
         {
             try
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                byte[] key = Encoding.ASCII.GetBytes(_appSettings.Secret);
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -47,8 +47,8 @@ namespace AccountService.Helpers
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
 
-                var jwtToken = (JwtSecurityToken)validatedToken;
-                var accountID = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                JwtSecurityToken jwtToken = (JwtSecurityToken)validatedToken;
+                string accountID = jwtToken.Claims.First(x => x.Type == "id").Value;
 
                 //jwt validation succeeded
                 context.Items["Account"] = authenticationManager.GetById(accountID);

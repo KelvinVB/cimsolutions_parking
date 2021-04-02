@@ -22,28 +22,20 @@ namespace AccountService.Controllers
             this.authenticationManager = authenticationManager;
         }
 
+        /// <summary>
+        /// authenticates the user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>AuthenticateResponse with token</returns>
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] Authentication request)
         {
-            var response = authenticationManager.Authenticate(request);
+            AuthenticateResponse response = authenticationManager.Authenticate(request);
 
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             return Ok(response);
-        }
-
-        [HttpGet("token")]
-        [Authorize(Roles ="user")]
-        public IActionResult GetAccount()
-        {
-            var accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if(accountID == null)
-            {
-                return BadRequest();
-            }
-            var user = authenticationManager.GetAccount(accountID);
-            return Ok(user);
         }
     }
 }

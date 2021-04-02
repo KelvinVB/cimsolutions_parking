@@ -19,5 +19,13 @@ namespace AccountService.Models
         public string username { get; set; }
         [Required(ErrorMessage = "Password is required")]
         public string password { get; set; }
+
+        public Authentication() { }
+        public Authentication(string accountID, string username, string password)
+        {
+            this.accountID = accountID;
+            this.username = username;
+            this.password = password;
+        }
     }
 }

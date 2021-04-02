@@ -10,7 +10,6 @@ namespace AccountService.Interfaces
     {
         AuthenticateResponse Authenticate(Authentication authenticationModel);
         IEnumerable<Account> GetAll();
-        Account GetById(int id);
-        Account GetAccount(string accountID);
+        Account GetById(string id);
     }
 }

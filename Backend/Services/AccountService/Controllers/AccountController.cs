@@ -23,11 +23,15 @@ namespace AccountService.Controllers
             this.accountManager = accountManager;
         }
 
+        /// <summary>
+        /// retrieves account from database with token
+        /// </summary>
+        /// <returns>account</returns>
         [HttpGet("get")]
         [Authorize(Roles = "user")]
         public IActionResult GetAccount()
         {
-            var accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Account account = accountManager.GetAccount(accountID);
 
             if (account == null)
@@ -36,6 +40,11 @@ namespace AccountService.Controllers
             return Ok(account);
         }
 
+        /// <summary>
+        /// Creates a new account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>account</returns>
         [HttpPost("create")]
         public IActionResult CreateAccount([FromBody] Account request)
         {

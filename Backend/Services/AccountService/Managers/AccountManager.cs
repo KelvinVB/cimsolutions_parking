@@ -23,17 +23,24 @@ namespace AccountService.Managers
             accountCredentials = database.GetCollection<Authentication>(settings.AuthenticationCollectionName);
         }
 
+        /// <summary>
+        /// Creates new account
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns>account</returns>
         public Account CreateAccount(Account account)
         {
+            Authentication auth = new Authentication(account.accountID, account.username, account.password);
             accounts.InsertOne(account);
-            Authentication auth = new Authentication();
-            auth.accountID = account.accountID;
-            auth.username = account.username;
-            auth.password = account.password;
             accountCredentials.InsertOne(auth);
             return account;
         }
 
+        /// <summary>
+        /// retrieves account from database with accountID
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns>account</returns>
         public Account GetAccount(string accountID)
         {
             return accounts.Find(a => a.accountID == accountID).FirstOrDefault();
