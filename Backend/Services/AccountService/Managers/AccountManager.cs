@@ -19,9 +19,9 @@ namespace AccountService.Managers
 
         public AccountManager(IAccountDatabaseSettings settings)
         {
+            //database configuration
             MongoClient client = new MongoClient(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
-            
             accounts = database.GetCollection<Account>(settings.AccountsCollectionName);
             accountCredentials = database.GetCollection<Authentication>(settings.AuthenticationCollectionName);
 
@@ -38,13 +38,13 @@ namespace AccountService.Managers
         /// </summary>
         /// <param name="account"></param>
         /// <returns>account</returns>
-        public Account CreateAccount(Account account)
+        public async Task<Account> CreateAccount(Account account)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(account.password);
 
-            accounts.InsertOne(account);
+            await accounts.InsertOneAsync(account);
             Authentication auth = new Authentication(account.accountID, account.username, passwordHash);
-            accountCredentials.InsertOne(auth);
+            await accountCredentials.InsertOneAsync(auth);
             return account;
         }
 
@@ -53,17 +53,29 @@ namespace AccountService.Managers
         /// </summary>
         /// <param name="accountID"></param>
         /// <returns>account</returns>
-        public Account GetAccount(string accountID)
+        public async Task<Account> GetAccount(string accountID)
         {
-            return accounts.Find(a => a.accountID == accountID).FirstOrDefault();
+            Account response = await accounts.Find(a => a.accountID == accountID).FirstOrDefaultAsync<Account>();
+            return response;
         }
 
-        public Account UpdateAccount(Account request)
+        public async Task<Account> UpdateAccount(Account request)
         {
-            throw new NotImplementedException();
+            Account account = accounts.Find(a => a.accountID == request.accountID).FirstOrDefault();
+            if (request.dateOfBirth != null)
+                account.dateOfBirth = request.dateOfBirth;
+            if (request.email != null)
+                account.email = request.email;
+            if (request.firstName != null)
+                account.firstName = request.firstName;
+            if (request.lastName != null)
+                account.lastName = request.lastName;
+            
+            await accounts.ReplaceOneAsync(a => a.accountID.Equals(account.accountID), account);
+            return account;
         }
 
-        public Account DeleteAccount(Account request)
+        public async Task<Account> DeleteAccount(Account request)
         {
             throw new NotImplementedException();
         }

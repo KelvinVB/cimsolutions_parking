@@ -29,10 +29,10 @@ namespace AccountService.Controllers
         /// <returns>account</returns>
         [HttpGet("get")]
         [Authorize(Roles = "user")]
-        public IActionResult GetAccount()
+        public async Task<IActionResult> GetAccountAsync()
         {
             string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            Account account = accountManager.GetAccount(accountID);
+            Account account = await accountManager.GetAccount(accountID);
 
             if (account == null)
                 return BadRequest(new { message = "Can't receive account" });
@@ -46,11 +46,26 @@ namespace AccountService.Controllers
         /// <param name="request"></param>
         /// <returns>account</returns>
         [HttpPost("create")]
-        public IActionResult CreateAccount([FromBody] Account request)
+        public async Task<IActionResult> CreateAccountAsync([FromBody] Account request)
         {
-            Account account = accountManager.CreateAccount(request);
+            Account account = await accountManager.CreateAccount(request);
 
             if(account == null)
+            {
+                return BadRequest("Could not create a new account.");
+            }
+
+            return Ok(account);
+        }
+
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateAccountAsync(Account request)
+        {
+            string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            request.accountID = accountID;
+            Account account = await accountManager.UpdateAccount(request);
+
+            if (account == null)
             {
                 return BadRequest("Could not create a new account.");
             }
