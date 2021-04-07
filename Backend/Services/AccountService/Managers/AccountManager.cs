@@ -75,9 +75,18 @@ namespace AccountService.Managers
             return account;
         }
 
-        public async Task<Account> DeleteAccount(Account request)
+        public async Task<Account> DeleteAccount(string accountID)
         {
-            throw new NotImplementedException();
+            Account account = accounts.Find(a => a.accountID.Equals(accountID)).FirstOrDefault();
+            Authentication auth = accountCredentials.Find(a => a.accountID.Equals(accountID)).FirstOrDefault();
+
+            if (account == null || auth == null)
+                return null;
+
+            await accounts.DeleteOneAsync(a => a.accountID.Equals(account.accountID));
+            await accountCredentials.DeleteOneAsync(a => a.accountID.Equals(auth.accountID));
+
+            return account;
         }
     }
 }

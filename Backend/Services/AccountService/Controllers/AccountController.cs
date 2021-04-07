@@ -67,7 +67,21 @@ namespace AccountService.Controllers
 
             if (account == null)
             {
-                return BadRequest("Could not create a new account.");
+                return BadRequest("Could not update account.");
+            }
+
+            return Ok(account);
+        }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteAccountAsync()
+        {
+            string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Account account = await accountManager.DeleteAccount(accountID);
+
+            if (account == null)
+            {
+                return BadRequest("Could not delete the account.");
             }
 
             return Ok(account);

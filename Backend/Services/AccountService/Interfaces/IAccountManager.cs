@@ -12,6 +12,6 @@ namespace AccountService.Interfaces
         Task<Account> CreateAccount(Account account);
         Task<Account> GetAccount(string accountID);
         Task<Account> UpdateAccount(Account account);
-        Task<Account> DeleteAccount(Account account);
+        Task<Account> DeleteAccount(string accountID);
     }
 }
