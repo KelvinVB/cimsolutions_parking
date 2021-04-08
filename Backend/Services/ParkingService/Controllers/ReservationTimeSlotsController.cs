@@ -17,9 +17,10 @@ namespace ParkingService.Controllers
     {
         private IReservationTimeSlotManager reservationTimeSlotManager;
 
-        public ReservationTimeSlotsController(IReservationTimeSlotManager reservationTimeSlotManager)
+        public ReservationTimeSlotsController(IReservationTimeSlotManager reservationTimeSlotManager, ParkingContext context)
         {
             this.reservationTimeSlotManager = reservationTimeSlotManager;
+            reservationTimeSlotManager.SetContext(context);
         }
 
         // GET: api/ReservationTimeSlots

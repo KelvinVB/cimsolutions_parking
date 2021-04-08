@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ParkingService.Context;
+using ParkingService.Interfaces;
+using ParkingService.Managers;
 
 namespace Parking
 {
@@ -38,7 +40,10 @@ namespace Parking
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
-            
+
+            services.AddScoped<IParkingGarageManager, ParkingGarageManager>();
+            services.AddScoped<IParkingSpotManager, ParkingSpotManager>();
+            services.AddScoped<IReservationTimeSlotManager, ReservationTimeSlotManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

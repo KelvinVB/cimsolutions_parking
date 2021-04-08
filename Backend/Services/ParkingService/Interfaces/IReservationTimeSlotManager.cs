@@ -1,4 +1,5 @@
-﻿using ParkingService.Models;
+﻿using ParkingService.Context;
+using ParkingService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace ParkingService.Interfaces
 {
     public interface IReservationTimeSlotManager
     {
+        void SetContext(ParkingContext context);
         Task<ReservationTimeSlot> CreateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot);
         Task<ReservationTimeSlot> GetReservationTimeSlot(int reservationTimeSlotID);
         Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot);

@@ -1,4 +1,5 @@
-﻿using ParkingService.Interfaces;
+﻿using ParkingService.Context;
+using ParkingService.Interfaces;
 using ParkingService.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,11 @@ namespace ParkingService.Managers
 {
     public class ParkingSpotManager : IParkingSpotManager
     {
+        private ParkingContext context;
+        public void SetContext(ParkingContext context)
+        {
+            this.context = context;
+        }
         public Task<ParkingSpot> CreateParkingSpot(ParkingSpot parkingSpot)
         {
             throw new NotImplementedException();

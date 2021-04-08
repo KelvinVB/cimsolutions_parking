@@ -1,4 +1,5 @@
-﻿using ParkingService.Interfaces;
+﻿using ParkingService.Context;
+using ParkingService.Interfaces;
 using ParkingService.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,11 @@ namespace ParkingService.Managers
 {
     public class ReservationTimeSlotManager : IReservationTimeSlotManager
     {
+        private ParkingContext context;
+        public void SetContext(ParkingContext context)
+        {
+            this.context = context;
+        }
         public Task<ReservationTimeSlot> CreateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
         {
             throw new NotImplementedException();

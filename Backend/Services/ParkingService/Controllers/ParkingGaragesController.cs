@@ -17,9 +17,10 @@ namespace ParkingService.Controllers
     {
         private IParkingGarageManager parkingGarageManager;
 
-        public ParkingGaragesController(IParkingGarageManager parkingGarageManager)
+        public ParkingGaragesController(IParkingGarageManager parkingGarageManager, ParkingContext context)
         {
             this.parkingGarageManager = parkingGarageManager;
+            parkingGarageManager.SetContext(context);
         }
 
         /// <summary>

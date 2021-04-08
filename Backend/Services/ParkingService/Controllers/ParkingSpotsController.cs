@@ -17,9 +17,10 @@ namespace ParkingService.Controllers
     {
         private IParkingSpotManager parkingSpotManager;
 
-        public ParkingSpotsController(IParkingSpotManager parkingSpotManager)
+        public ParkingSpotsController(IParkingSpotManager parkingSpotManager, ParkingContext context)
         {
             this.parkingSpotManager = parkingSpotManager;
+            parkingSpotManager.SetContext(context);
         }
 
         /// <summary>
