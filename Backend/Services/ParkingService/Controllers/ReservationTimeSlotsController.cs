@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkingService.Context;
+using ParkingService.Interfaces;
 using ParkingService.Models;
 
 namespace ParkingService.Controllers
@@ -14,25 +15,29 @@ namespace ParkingService.Controllers
     [ApiController]
     public class ReservationTimeSlotsController : ControllerBase
     {
-        private readonly ParkingContext _context;
+        private IReservationTimeSlotManager reservationTimeSlotManager;
 
-        public ReservationTimeSlotsController(ParkingContext context)
+        public ReservationTimeSlotsController(IReservationTimeSlotManager reservationTimeSlotManager)
         {
-            _context = context;
+            this.reservationTimeSlotManager = reservationTimeSlotManager;
         }
 
         // GET: api/ReservationTimeSlots
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReservationTimeSlot>>> GetreservationTimeSlots()
         {
-            return await _context.reservationTimeSlots.ToListAsync();
+            throw new NotImplementedException();
         }
 
-        // GET: api/ReservationTimeSlots/5
+        /// <summary>
+        /// get time slot of reservation
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>ReservationTimeSlot</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<ReservationTimeSlot>> GetReservationTimeSlot(int id)
         {
-            var reservationTimeSlot = await _context.reservationTimeSlots.FindAsync(id);
+            var reservationTimeSlot = await reservationTimeSlotManager.GetReservationTimeSlot(id);
 
             if (reservationTimeSlot == null)
             {
@@ -42,69 +47,49 @@ namespace ParkingService.Controllers
             return reservationTimeSlot;
         }
 
-        // PUT: api/ReservationTimeSlots/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// updates existing reservation
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="reservationTimeSlot"></param>
+        /// <returns>ReservationTimeSlot</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutReservationTimeSlot(int id, ReservationTimeSlot reservationTimeSlot)
+        public async Task<ActionResult<ReservationTimeSlot>> PutReservationTimeSlot(int id, ReservationTimeSlot reservationTimeSlot)
         {
             if (id != reservationTimeSlot.reservationTimeSlotID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(reservationTimeSlot).State = EntityState.Modified;
+            ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(reservationTimeSlot);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ReservationTimeSlotExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return reservation;
         }
 
-        // POST: api/ReservationTimeSlots
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Create new reservation
+        /// </summary>
+        /// <param name="reservationTimeSlot"></param>
+        /// <returns>ReservationTimeSLot</returns>
         [HttpPost]
         public async Task<ActionResult<ReservationTimeSlot>> PostReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
         {
-            _context.reservationTimeSlots.Add(reservationTimeSlot);
-            await _context.SaveChangesAsync();
+            ReservationTimeSlot reservation = await reservationTimeSlotManager.CreateReservationTimeSlot(reservationTimeSlot);
 
-            return CreatedAtAction("GetReservationTimeSlot", new { id = reservationTimeSlot.reservationTimeSlotID }, reservationTimeSlot);
+            return reservation;
         }
 
-        // DELETE: api/ReservationTimeSlots/5
+        /// <summary>
+        /// Deletes reservation
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>ReservationTimeSlot</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<ReservationTimeSlot>> DeleteReservationTimeSlot(int id)
         {
-            var reservationTimeSlot = await _context.reservationTimeSlots.FindAsync(id);
-            if (reservationTimeSlot == null)
-            {
-                return NotFound();
-            }
+            ReservationTimeSlot reservation = await reservationTimeSlotManager.DeleteReservationTimeSlot(id);
 
-            _context.reservationTimeSlots.Remove(reservationTimeSlot);
-            await _context.SaveChangesAsync();
-
-            return reservationTimeSlot;
-        }
-
-        private bool ReservationTimeSlotExists(int id)
-        {
-            return _context.reservationTimeSlots.Any(e => e.reservationTimeSlotID == id);
+            return reservation;
         }
     }
 }
