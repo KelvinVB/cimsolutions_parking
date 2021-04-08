@@ -23,11 +23,22 @@ namespace ParkingService.Controllers
             reservationTimeSlotManager.SetContext(context);
         }
 
-        // GET: api/ReservationTimeSlots
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ReservationTimeSlot>>> GetreservationTimeSlots()
+        /// <summary>
+        /// Gets all reservation for a parking spot
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>List of ReservationTimeSlot</returns>
+        [HttpGet("getall/{id}")]
+        public async Task<ActionResult<List<ReservationTimeSlot>>> GetAllreservationTimeSlots(int id)
         {
-            throw new NotImplementedException();
+            List<ReservationTimeSlot> reservationTimeSlot = await reservationTimeSlotManager.GetAllReservationTimeSlots(id);
+
+            if(reservationTimeSlot == null)
+            {
+                return NotFound();
+            }
+
+            return reservationTimeSlot;
         }
 
         /// <summary>
@@ -59,10 +70,15 @@ namespace ParkingService.Controllers
         {
             if (id != reservationTimeSlot.reservationTimeSlotID)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(reservationTimeSlot);
+            
+            if (reservation == null)
+            {
+                return BadRequest();
+            }
 
             return reservation;
         }
@@ -77,6 +93,11 @@ namespace ParkingService.Controllers
         {
             ReservationTimeSlot reservation = await reservationTimeSlotManager.CreateReservationTimeSlot(reservationTimeSlot);
 
+            if (reservation == null)
+            {
+                return BadRequest();
+            }
+
             return reservation;
         }
 
@@ -89,6 +110,11 @@ namespace ParkingService.Controllers
         public async Task<ActionResult<ReservationTimeSlot>> DeleteReservationTimeSlot(int id)
         {
             ReservationTimeSlot reservation = await reservationTimeSlotManager.DeleteReservationTimeSlot(id);
+
+            if(reservation == null)
+            {
+                return BadRequest();
+            }
 
             return reservation;
         }

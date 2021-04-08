@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ParkingService.Managers
 {
@@ -75,9 +76,33 @@ namespace ParkingService.Managers
             }
         }
 
-        public Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
+        public async Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
         {
-            throw new NotImplementedException();
+            try
+            {
+                context.reservationTimeSlots.Update(reservationTimeSlot);
+                await context.SaveChangesAsync();
+
+                return reservationTimeSlot;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<ReservationTimeSlot>> GetAllReservationTimeSlots(int parkingSpotID)
+        {
+            try
+            {
+                List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.parkingSpotID == parkingSpotID).ToListAsync();
+
+                return reservations;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }
