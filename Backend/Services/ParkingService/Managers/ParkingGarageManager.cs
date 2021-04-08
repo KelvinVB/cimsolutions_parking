@@ -27,11 +27,23 @@ namespace ParkingService.Managers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Get parking garage with id
+        /// </summary>
+        /// <param name="parkingGarageID"></param>
+        /// <returns>ParkingGarage</returns>
         public async Task<ParkingGarage> GetParkingGarage(int parkingGarageID)
         {
-            ParkingGarage parkingGarage = await context.ParkingGarages.FindAsync(parkingGarageID);
+            try
+            {
+                ParkingGarage parkingGarage = await context.ParkingGarages.FindAsync(parkingGarageID);
 
-            return parkingGarage;
+                return parkingGarage;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
 
         public Task<ParkingGarage> UpdateParkingGarage(ParkingGarage parkingGarage)

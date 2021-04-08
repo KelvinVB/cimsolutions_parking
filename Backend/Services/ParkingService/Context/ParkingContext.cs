@@ -48,6 +48,7 @@ namespace ParkingService.Context
                 rt.Property(e => e.reservationTimeSlotID).IsRequired();
                 rt.Property(e => e.startReservation).IsRequired();
                 rt.Property(e => e.endReservation).IsRequired();
+                rt.Property(e => e.licensePlateNumber).IsRequired();
                 rt.HasOne(e => e.parkingSpot).WithMany(e => e.reservationTimeSlots).HasForeignKey(e => e.parkingSpotID).IsRequired();
             });
 

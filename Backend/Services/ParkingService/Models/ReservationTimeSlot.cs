@@ -12,5 +12,7 @@ namespace ParkingService.Models
         public DateTime endReservation { get; set; }
         public ParkingSpot parkingSpot { get; set; }
         public int parkingSpotID { get; set; }
+        public string accountID { get; set; }
+        public string licensePlateNumber { get; set; }
     }
 }

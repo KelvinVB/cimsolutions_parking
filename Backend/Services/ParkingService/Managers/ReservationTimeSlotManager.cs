@@ -15,19 +15,64 @@ namespace ParkingService.Managers
         {
             this.context = context;
         }
-        public Task<ReservationTimeSlot> CreateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
+
+        /// <summary>
+        /// creates new reservation
+        /// </summary>
+        /// <param name="reservationTimeSlot"></param>
+        /// <returns>ReservationTimeSlot</returns>
+        public async Task<ReservationTimeSlot> CreateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await context.reservationTimeSlots.AddAsync(reservationTimeSlot);
+                await context.SaveChangesAsync();
+                return reservationTimeSlot;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
-        public Task<ReservationTimeSlot> DeleteReservationTimeSlot(int reservationTimeSlotID)
+        /// <summary>
+        /// Deletes reservation
+        /// </summary>
+        /// <param name="reservationTimeSlotID"></param>
+        /// <returns>ReservationTimeSlot</returns>
+        public async Task<ReservationTimeSlot> DeleteReservationTimeSlot(int reservationTimeSlotID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ReservationTimeSlot reservation = await context.reservationTimeSlots.FindAsync(reservationTimeSlotID);
+                context.reservationTimeSlots.Remove(reservation);
+                await context.SaveChangesAsync();
+
+                return reservation;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
-        public Task<ReservationTimeSlot> GetReservationTimeSlot(int reservationTimeSlotID)
+        /// <summary>
+        /// Gets reservation with id
+        /// </summary>
+        /// <param name="reservationTimeSlotID"></param>
+        /// <returns>ReservationTimeSlot</returns>
+        public async Task<ReservationTimeSlot> GetReservationTimeSlot(int reservationTimeSlotID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ReservationTimeSlot reservation = await context.reservationTimeSlots.FindAsync(reservationTimeSlotID);
+
+                return reservation;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
