@@ -12,7 +12,7 @@ namespace ParkingService.Models
         public parkStatus parkStatus { get; set; }
         public int parkingGarageID { get; set; }
         public ParkingGarage parkingGarage { get; set; }
-        public List<ReservationTimeSlot> reservationTimeSlots { get; set; }
+        public virtual ICollection<ReservationTimeSlot> reservationTimeSlots { get; set; }
 
         public ParkingSpot()
         {

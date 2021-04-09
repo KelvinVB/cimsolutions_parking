@@ -1,4 +1,5 @@
-﻿using ParkingService.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using ParkingService.Context;
 using ParkingService.Interfaces;
 using ParkingService.Models;
 using System;
@@ -33,6 +34,40 @@ namespace ParkingService.Managers
         public Task<ParkingSpot> UpdateParkingSpot(ParkingSpot parkingSpot)
         {
             throw new NotImplementedException();
+        }
+
+        public int GetAllFreeParkingSpots(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                List<ParkingSpot> parkingSpots = context.parkingSpots.Include(p=> p.reservationTimeSlots).ToList();
+                int count = 0;
+                bool free = true;
+
+                for (int i = 0; i < parkingSpots.Count; i++)
+                {
+                    free = true;
+                    for (int j = 0; j < parkingSpots[i].reservationTimeSlots.Count; j++)
+                    {
+                        List<ReservationTimeSlot> reservations = parkingSpots[i].reservationTimeSlots.ToList();
+                        if(reservations[j].startReservation < endDate && reservations[j].endReservation >= startDate)
+                        {
+                            free = false;
+                            break;
+                        }
+                    }
+                    if (free)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
     }
 }

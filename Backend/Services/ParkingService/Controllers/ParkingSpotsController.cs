@@ -101,5 +101,17 @@ namespace ParkingService.Controllers
 
             return parkingSpot;
         }
+
+
+        [HttpGet("test")]
+        public async Task<ActionResult<ReservationTimeSlot>> test([FromBody] TimeSlot timeSlot)
+        {
+            DateTime start = DateTime.ParseExact(timeSlot.startDateTime, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact(timeSlot.endDateTime, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+            int amount = parkingSpotManager.GetAllFreeParkingSpots(start, end);
+
+            return Ok(amount);
+        }
     }
 }
