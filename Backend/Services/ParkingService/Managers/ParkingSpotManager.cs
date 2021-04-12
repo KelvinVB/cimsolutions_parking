@@ -36,11 +36,11 @@ namespace ParkingService.Managers
             throw new NotImplementedException();
         }
 
-        public int GetAllFreeParkingSpots(DateTime startDate, DateTime endDate)
+        public async Task<int> GetAmountFreeParkingSpots(DateTime startDate, DateTime endDate)
         {
             try
             {
-                List<ParkingSpot> parkingSpots = context.parkingSpots.Include(p=> p.reservationTimeSlots).ToList();
+                List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p=> p.reservationTimeSlots).ToListAsync();
                 int count = 0;
                 bool free = true;
 
@@ -67,6 +67,37 @@ namespace ParkingService.Managers
             catch (Exception e)
             {
                 return 0;
+            }
+        }
+
+        public async Task<ParkingSpot> GetFreeParkingSpot(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p => p.reservationTimeSlots).ToListAsync();
+                
+                for (int i = 0; i < parkingSpots.Count; i++)
+                {
+                    bool free = true;
+
+                    for (int j = 0; j < parkingSpots[i].reservationTimeSlots.Count; j++)
+                    {
+                        List<ReservationTimeSlot> reservations = parkingSpots[i].reservationTimeSlots.ToList();
+                        if (reservations[j].startReservation < endDate && reservations[j].endReservation >= startDate)
+                        {
+                            free = false;
+                        }
+                    }
+                    if (free)
+                    {
+                        return parkingSpots[i];
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
     }

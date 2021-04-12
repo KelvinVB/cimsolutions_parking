@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,14 @@ namespace ParkingService.Controllers
     public class ParkingSpotsController : ControllerBase
     {
         private IParkingSpotManager parkingSpotManager;
+        private IReservationTimeSlotManager reservationTimeSlotManager;
 
-        public ParkingSpotsController(IParkingSpotManager parkingSpotManager, ParkingContext context)
+        public ParkingSpotsController(IParkingSpotManager parkingSpotManager, IReservationTimeSlotManager reservationTimeSlotManager, ParkingContext context)
         {
             this.parkingSpotManager = parkingSpotManager;
+            this.reservationTimeSlotManager = reservationTimeSlotManager;
             parkingSpotManager.SetContext(context);
+            reservationTimeSlotManager.SetContext(context);
         }
 
         /// <summary>
@@ -102,16 +106,31 @@ namespace ParkingService.Controllers
             return parkingSpot;
         }
 
-
-        [HttpGet("test")]
-        public async Task<ActionResult<ReservationTimeSlot>> test([FromBody] TimeSlot timeSlot)
+        [HttpGet("freespots")]
+        public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] TimeSlot timeSlot)
         {
             DateTime start = DateTime.ParseExact(timeSlot.startDateTime, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
             DateTime end = DateTime.ParseExact(timeSlot.endDateTime, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 
-            int amount = parkingSpotManager.GetAllFreeParkingSpots(start, end);
+            int amount = await parkingSpotManager.GetAmountFreeParkingSpots(start, end);
 
             return Ok(amount);
+        }
+
+        [HttpGet("reserve")]
+        public async Task<ActionResult<ReservationTimeSlot>> Reserve([FromBody] ReservationTimeSlot reservation)
+        {
+            string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            ParkingSpot parkingSpot = await parkingSpotManager.GetFreeParkingSpot(reservation.startReservation, reservation.endReservation);
+            if(parkingSpot == null)
+            {
+                return BadRequest("No parking spots available");
+            }
+            
+            reservation.parkingSpotID = parkingSpot.parkingSpotID;
+            await reservationTimeSlotManager.CreateReservationTimeSlot(reservation);
+
+            return Ok(parkingSpot);
         }
     }
 }
