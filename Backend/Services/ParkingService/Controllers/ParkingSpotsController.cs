@@ -109,18 +109,15 @@ namespace ParkingService.Controllers
         [HttpGet("freespots")]
         public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] TimeSlot timeSlot)
         {
-            DateTime start = DateTime.ParseExact(timeSlot.startDateTime, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-            DateTime end = DateTime.ParseExact(timeSlot.endDateTime, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-
-            int amount = await parkingSpotManager.GetAmountFreeParkingSpots(start, end);
+            int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.startDateTime, timeSlot.endDateTime);
 
             return Ok(amount);
         }
 
-        [HttpGet("reserve")]
+        [HttpPost("reserve")]
         public async Task<ActionResult<ReservationTimeSlot>> Reserve([FromBody] ReservationTimeSlot reservation)
         {
-            string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string accountID = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             ParkingSpot parkingSpot = await parkingSpotManager.GetFreeParkingSpot(reservation.startReservation, reservation.endReservation);
             if (parkingSpot == null)
             {
