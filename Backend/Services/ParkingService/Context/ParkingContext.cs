@@ -48,6 +48,7 @@ namespace ParkingService.Context
                 rt.Property(e => e.reservationTimeSlotID).IsRequired();
                 rt.Property(e => e.startReservation).IsRequired();
                 rt.Property(e => e.endReservation).IsRequired();
+                rt.Property(e => e.licensePlateNumber).IsRequired();
                 rt.HasOne(e => e.parkingSpot).WithMany(e => e.reservationTimeSlots).HasForeignKey(e => e.parkingSpotID).IsRequired();
             });
 
@@ -93,6 +94,7 @@ namespace ParkingService.Context
                     reservationTimeSlotID = 1,
                     startReservation = new DateTime(2021, 3, 26, 10, 30, 00),
                     endReservation = new DateTime(2021, 3, 26, 11, 30, 00),
+                    licensePlateNumber = "A-111-AA",
                     parkingSpotID = 1
                 },
                 new ReservationTimeSlot
@@ -100,6 +102,7 @@ namespace ParkingService.Context
                     reservationTimeSlotID = 2,
                     startReservation = new DateTime(2021, 3, 27, 10, 00, 00),
                     endReservation = new DateTime(2021, 3, 27, 10, 00, 00),
+                    licensePlateNumber = "A-111-AA",
                     parkingSpotID = 1
                 },
                 new ReservationTimeSlot
@@ -107,6 +110,7 @@ namespace ParkingService.Context
                     reservationTimeSlotID = 3,
                     startReservation = new DateTime(2021, 3, 26, 10, 30, 00),
                     endReservation = new DateTime(2021, 3, 26, 10, 30, 00),
+                    licensePlateNumber = "A-111-AA",
                     parkingSpotID = 2
                 }
             );

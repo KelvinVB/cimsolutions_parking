@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkingService.Context;
+using ParkingService.Interfaces;
 using ParkingService.Models;
 
 namespace ParkingService.Controllers
@@ -14,25 +15,33 @@ namespace ParkingService.Controllers
     [Route("api/[controller]")]
     public class ParkingGaragesController : ControllerBase
     {
-        private readonly ParkingContext _context;
+        private IParkingGarageManager parkingGarageManager;
 
-        public ParkingGaragesController(ParkingContext context)
+        public ParkingGaragesController(IParkingGarageManager parkingGarageManager, ParkingContext context)
         {
-            _context = context;
+            this.parkingGarageManager = parkingGarageManager;
+            parkingGarageManager.SetContext(context);
         }
 
-        // GET: api/ParkingGarages
+        /// <summary>
+        /// Get all parking garages
+        /// </summary>
+        /// <returns>List of ParkingGarage</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ParkingGarage>>> GetParkingGarages()
         {
-            return await _context.ParkingGarages.ToListAsync();
+            throw new NotImplementedException();
         }
 
-        // GET: api/ParkingGarages/5
+        /// <summary>
+        /// Get parking garage information with id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>ParkingGarage</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<ParkingGarage>> GetParkingGarage(int id)
         {
-            var parkingGarage = await _context.ParkingGarages.FindAsync(id);
+            var parkingGarage = await parkingGarageManager.GetParkingGarage(id);
 
             if (parkingGarage == null)
             {
@@ -42,69 +51,55 @@ namespace ParkingService.Controllers
             return parkingGarage;
         }
 
-        // PUT: api/ParkingGarages/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Updates parking garage information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="parkingGarage"></param>
+        /// <returns>ParkingGarage</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutParkingGarage(int id, ParkingGarage parkingGarage)
+        public async Task<ActionResult<ParkingGarage>> PutParkingGarage(int id, ParkingGarage parkingGarage)
         {
             if (id != parkingGarage.parkingGarageID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(parkingGarage).State = EntityState.Modified;
+            parkingGarage.parkingGarageID = id;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ParkingGarageExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await parkingGarageManager.UpdateParkingGarage(parkingGarage);
 
-            return NoContent();
+            return parkingGarage;
         }
 
-        // POST: api/ParkingGarages
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Create new parking garage
+        /// </summary>
+        /// <param name="parkingGarage"></param>
+        /// <returns>ParkingGarage</returns>
         [HttpPost]
         public async Task<ActionResult<ParkingGarage>> PostParkingGarage(ParkingGarage parkingGarage)
         {
-            _context.ParkingGarages.Add(parkingGarage);
-            await _context.SaveChangesAsync();
+            ParkingGarage newParkingGarage = await parkingGarageManager.CreateParkingGarage(parkingGarage);
 
-            return CreatedAtAction("GetParkingGarage", new { id = parkingGarage.parkingGarageID }, parkingGarage);
+            return newParkingGarage;
         }
 
-        // DELETE: api/ParkingGarages/5
+        /// <summary>
+        /// Delete parking garage with id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>ParkingGarage</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<ParkingGarage>> DeleteParkingGarage(int id)
         {
-            var parkingGarage = await _context.ParkingGarages.FindAsync(id);
+            ParkingGarage parkingGarage = await parkingGarageManager.DeleteParkingGarage(id);
             if (parkingGarage == null)
             {
                 return NotFound();
             }
 
-            _context.ParkingGarages.Remove(parkingGarage);
-            await _context.SaveChangesAsync();
-
             return parkingGarage;
-        }
-
-        private bool ParkingGarageExists(int id)
-        {
-            return _context.ParkingGarages.Any(e => e.parkingGarageID == id);
         }
     }
 }

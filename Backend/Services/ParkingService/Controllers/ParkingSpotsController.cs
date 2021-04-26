@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkingService.Context;
+using ParkingService.Interfaces;
 using ParkingService.Models;
 
 namespace ParkingService.Controllers
@@ -14,25 +16,36 @@ namespace ParkingService.Controllers
     [ApiController]
     public class ParkingSpotsController : ControllerBase
     {
-        private readonly ParkingContext _context;
+        private IParkingSpotManager parkingSpotManager;
+        private IReservationTimeSlotManager reservationTimeSlotManager;
 
-        public ParkingSpotsController(ParkingContext context)
+        public ParkingSpotsController(IParkingSpotManager parkingSpotManager, IReservationTimeSlotManager reservationTimeSlotManager, ParkingContext context)
         {
-            _context = context;
+            this.parkingSpotManager = parkingSpotManager;
+            this.reservationTimeSlotManager = reservationTimeSlotManager;
+            parkingSpotManager.SetContext(context);
+            reservationTimeSlotManager.SetContext(context);
         }
 
-        // GET: api/ParkingSpots
+        /// <summary>
+        /// Get all parking spots
+        /// </summary>
+        /// <returns>List of ParkingSpot</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ParkingSpot>>> GetparkingSpots()
+        public async Task<ActionResult<IEnumerable<ParkingSpot>>> GetParkingSpots()
         {
-            return await _context.parkingSpots.ToListAsync();
+            throw new NotImplementedException();
         }
 
-        // GET: api/ParkingSpots/5
+        /// <summary>
+        /// Get parking spot information with id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>ParkingSpot</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<ParkingSpot>> GetParkingSpot(int id)
         {
-            var parkingSpot = await _context.parkingSpots.FindAsync(id);
+            var parkingSpot = await parkingSpotManager.GetParkingSpot(id);
 
             if (parkingSpot == null)
             {
@@ -42,69 +55,80 @@ namespace ParkingService.Controllers
             return parkingSpot;
         }
 
-        // PUT: api/ParkingSpots/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Updates parking spot information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="parkingSpot"></param>
+        /// <returns>ParkingSpot</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutParkingSpot(int id, ParkingSpot parkingSpot)
+        public async Task<ActionResult<ParkingSpot>> PutParkingSpot(int id, ParkingSpot parkingSpot)
         {
             if (id != parkingSpot.parkingSpotID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(parkingSpot).State = EntityState.Modified;
+            parkingSpot.parkingSpotID = id;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ParkingSpotExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await parkingSpotManager.UpdateParkingSpot(parkingSpot);
 
-            return NoContent();
+            return parkingSpot;
         }
 
-        // POST: api/ParkingSpots
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Create new parking spot
+        /// </summary>
+        /// <param name="parkingSpot"></param>
+        /// <returns>ParkingSpot</returns>
         [HttpPost]
         public async Task<ActionResult<ParkingSpot>> PostParkingSpot(ParkingSpot parkingSpot)
         {
-            _context.parkingSpots.Add(parkingSpot);
-            await _context.SaveChangesAsync();
+            ParkingSpot newParkingSpot = await parkingSpotManager.CreateParkingSpot(parkingSpot);
 
-            return CreatedAtAction("GetParkingSpot", new { id = parkingSpot.parkingSpotID }, parkingSpot);
+            return newParkingSpot;
         }
 
-        // DELETE: api/ParkingSpots/5
+        /// <summary>
+        /// Delete parking spot with id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>ParkingSpot</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<ParkingSpot>> DeleteParkingSpot(int id)
         {
-            var parkingSpot = await _context.parkingSpots.FindAsync(id);
+            ParkingSpot parkingSpot = await parkingSpotManager.DeleteParkingSpot(id);
             if (parkingSpot == null)
             {
                 return NotFound();
             }
 
-            _context.parkingSpots.Remove(parkingSpot);
-            await _context.SaveChangesAsync();
-
             return parkingSpot;
         }
 
-        private bool ParkingSpotExists(int id)
+        [HttpGet("freespots")]
+        public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] TimeSlot timeSlot)
         {
-            return _context.parkingSpots.Any(e => e.parkingSpotID == id);
+            int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.startDateTime, timeSlot.endDateTime);
+
+            return Ok(amount);
+        }
+
+        [HttpPost("reserve")]
+        public async Task<ActionResult<ReservationTimeSlot>> Reserve([FromBody] ReservationTimeSlot reservation)
+        {
+            string accountID = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            ParkingSpot parkingSpot = await parkingSpotManager.GetFreeParkingSpot(reservation.startReservation, reservation.endReservation);
+            if (parkingSpot == null)
+            {
+                return BadRequest("No parking spots available");
+            }
+            else
+            {
+                reservation.parkingSpotID = parkingSpot.parkingSpotID;
+                await reservationTimeSlotManager.CreateReservationTimeSlot(reservation);
+                return Ok(parkingSpot);
+            }
         }
     }
 }
