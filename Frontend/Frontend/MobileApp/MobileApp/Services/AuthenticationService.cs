@@ -24,11 +24,10 @@ namespace MobileApp.Services
 
         public async Task<string> Login(Authentication credentials)
         {
-            string token = "";
             var jsonObject = JsonConvert.SerializeObject(credentials);
             var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
             var result = await client.PostAsync(path + "authenticate", content);
-            token = result.Content.ReadAsStringAsync().Result;
+            string token = result.Content.ReadAsStringAsync().Result;
 
             return token;
         }

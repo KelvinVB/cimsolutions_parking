@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MobileApp.Models;
+using MobileApp.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,13 +14,20 @@ namespace MobileApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
+        AuthenticationService authenticationService;
         public LoginPage()
         {
             InitializeComponent();
+            authenticationService = new AuthenticationService();
         }
 
-        void OnButtonLoginClicked(object sender, EventArgs args)
+        async void OnButtonLoginClicked(object sender, EventArgs args)
         {
+            Authentication credentials = new Authentication();
+            credentials.username = EntryUsername.Text;
+            credentials.password = EntryPassword.Text;
+
+            await authenticationService.Login(credentials);
         }
         void OnButtonRegisterClicked(object sender, EventArgs args)
         {
