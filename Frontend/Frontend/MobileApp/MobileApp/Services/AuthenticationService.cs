@@ -1,5 +1,4 @@
-﻿using Flurl.Http;
-using MobileApp.Models;
+﻿using MobileApp.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,30 +8,29 @@ using System.Threading.Tasks;
 
 namespace MobileApp.Services
 {
-    public class ParkingSpotService
+    public class AuthenticationService
     {
         private static HttpClient client;
         private string path;
-
-        public ParkingSpotService()
+        public AuthenticationService()
         {
             var httpClientHandler = new HttpClientHandler();
 
             httpClientHandler.ServerCertificateCustomValidationCallback =
             (message, cert, chain, errors) => { return true; };
             client = new HttpClient(httpClientHandler);
-            path = "https://10.0.2.2:5001/api/parkingspots/";
+            path = "https://10.0.2.2:5101/api/authentication/";
         }
 
-        public async Task<int> GetFreeSpotsAsync(TimeSlot timeSlot)
+        public async Task<string> Login(Authentication credentials)
         {
-            int freeSpaces = 0;
-            var jsonObject = JsonConvert.SerializeObject(timeSlot);
+            string token = "";
+            var jsonObject = JsonConvert.SerializeObject(credentials);
             var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
-            var result = client.PostAsync(path+"freespots", content).Result;
-            freeSpaces = Int32.Parse(result.Content.ReadAsStringAsync().Result);
-            
-            return freeSpaces;
+            var result = await client.PostAsync(path + "authenticate", content);
+            token = result.Content.ReadAsStringAsync().Result;
+
+            return token;
         }
     }
 }
