@@ -31,11 +31,11 @@ namespace ParkingService.Controllers
         /// Get all parking spots
         /// </summary>
         /// <returns>List of ParkingSpot</returns>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ParkingSpot>>> GetParkingSpots()
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<ParkingSpot>>> GetParkingSpots()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// Get parking spot information with id
@@ -106,7 +106,7 @@ namespace ParkingService.Controllers
             return parkingSpot;
         }
 
-        [HttpGet("freespots")]
+        [HttpPost("freespots")]
         public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] TimeSlot timeSlot)
         {
             int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.startDateTime, timeSlot.endDateTime);

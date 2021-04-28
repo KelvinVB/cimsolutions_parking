@@ -10,14 +10,17 @@
     <StackLayout Spacing="20" Padding="15">
         <Label Text="Parking" FontSize="Large" />
         
-        <Label Text="Date:" FontSize="Small"/>
-        <DatePicker x:Name="DatePicker" FontSize="Medium"/>
+        <Label Text="Start Date:" FontSize="Small"/>
+        <DatePicker x:Name="DatePickerStart" FontSize="Medium"/>
+        <TimePicker x:Name="TimePickerStart" FontSize="Medium"/>
 
-        <Label Text="Time:" FontSize="Small"/>
-        <TimePicker x:Name="TimePicker" FontSize="Medium"/>
+        <Label Text="End Date:" FontSize="Small"/>
+        <DatePicker x:Name="DatePickerEnd" FontSize="Medium"/>
+        <TimePicker x:Name="TimePickerEnd" FontSize="Medium"/>
 
-        <Button Text="Check time" FontSize="Medium"/>
+        <Button x:Name="ButtonFreeSpots"  Text="Check time" FontSize="Medium" Clicked="OnButtonClicked"/>
 
-        </StackLayout>
+        <Label x:Name="amountLabel" Text="Free spots: " FontSize="Medium"/>
+    </StackLayout>
     
 </ContentPage>

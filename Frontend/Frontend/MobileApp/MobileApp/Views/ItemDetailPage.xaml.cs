@@ -5,6 +5,7 @@ using Xamarin.Forms.Xaml;
 
 using MobileApp.Models;
 using MobileApp.ViewModels;
+using MobileApp.Services;
 
 namespace MobileApp.Views
 {
@@ -14,18 +15,19 @@ namespace MobileApp.Views
     public partial class ItemDetailPage : ContentPage
     {
         ItemDetailViewModel viewModel;
+        private ParkingSpotService parkingSpotService;
 
         public ItemDetailPage(ItemDetailViewModel viewModel)
         {
             InitializeComponent();
-
+            parkingSpotService = new ParkingSpotService();
             BindingContext = this.viewModel = viewModel;
         }
 
         public ItemDetailPage()
         {
             InitializeComponent();
-
+            parkingSpotService = new ParkingSpotService();
             var item = new Item
             {
                 Text = "Item 1",
@@ -34,6 +36,18 @@ namespace MobileApp.Views
 
             viewModel = new ItemDetailViewModel(item);
             BindingContext = viewModel;
+        }
+        async void OnButtonClicked(object sender, EventArgs args)
+        {
+            TimeSlot timeSlot = new TimeSlot();
+            DateTime start = DatePickerStart.Date + TimePickerStart.Time;
+            DateTime end = DatePickerEnd.Date + TimePickerEnd.Time;
+
+            timeSlot.startDateTime = start;
+            timeSlot.endDateTime = end;
+            int amount = await parkingSpotService.GetFreeSpotsAsync(timeSlot);
+
+            amountLabel.Text = "Free spots: " + amount;
         }
     }
 }
