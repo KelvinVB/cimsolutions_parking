@@ -14,5 +14,6 @@ namespace MobileApp.Models
         public DateTime dateOfBirth { get; set; }
         public string role { get; set; } = "user";
         public string password { get; set; }
+        public string token { get; set; }
     }
 }

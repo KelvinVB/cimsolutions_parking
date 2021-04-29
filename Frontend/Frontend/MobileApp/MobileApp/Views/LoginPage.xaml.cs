@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,7 +27,8 @@ namespace MobileApp.Views
             credentials.username = EntryUsername.Text;
             credentials.password = EntryPassword.Text;
 
-            await authenticationService.Login(credentials);
+            Account account = await authenticationService.Login(credentials);
+            await SecureStorage.SetAsync("token", account.token);
         }
         void OnButtonRegisterClicked(object sender, EventArgs args)
         {

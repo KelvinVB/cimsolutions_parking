@@ -22,14 +22,15 @@ namespace MobileApp.Services
             path = "https://10.0.2.2:5101/api/authentication/";
         }
 
-        public async Task<string> Login(Authentication credentials)
+        public async Task<Account> Login(Authentication credentials)
         {
             var jsonObject = JsonConvert.SerializeObject(credentials);
             var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
             var result = await client.PostAsync(path + "authenticate", content);
-            string token = result.Content.ReadAsStringAsync().Result;
+            string jsonString = await result.Content.ReadAsStringAsync();
+            Account account = JsonConvert.DeserializeObject<Account>(jsonString);
 
-            return token;
+            return account;
         }
     }
 }
