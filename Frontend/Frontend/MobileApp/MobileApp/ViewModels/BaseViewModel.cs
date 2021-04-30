@@ -13,6 +13,7 @@ namespace MobileApp.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public IAccountService accountService => DependencyService.Get<IAccountService>() ?? new AccountService();
 
         bool isBusy = false;
         public bool IsBusy

@@ -28,6 +28,10 @@ namespace MobileApp.Views
             credentials.password = EntryPassword.Text;
 
             Account account = await authenticationService.Login(credentials);
+            if (account.username != null)
+            { 
+                await SecureStorage.SetAsync("username", account.username); 
+            }
             await SecureStorage.SetAsync("token", account.token);
         }
         void OnButtonRegisterClicked(object sender, EventArgs args)

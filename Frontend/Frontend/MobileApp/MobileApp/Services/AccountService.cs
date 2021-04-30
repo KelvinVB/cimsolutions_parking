@@ -6,10 +6,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace MobileApp.Services
 {
-    public class AccountService
+    public class AccountService : IAccountService
     {
         private static HttpClient client;
         private string path;
@@ -25,9 +26,9 @@ namespace MobileApp.Services
 
         public async Task<Account> GetAccount()
         {
-            string token = "";
+            string token = await SecureStorage.GetAsync("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.GetAsync(path);
+            var result = await client.GetAsync(path + "get/");
             var jsonString = await result.Content.ReadAsStringAsync();
             Account account = JsonConvert.DeserializeObject<Account>(jsonString);
 

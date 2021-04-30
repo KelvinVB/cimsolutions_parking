@@ -1,13 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.AccountPage">
-  <ContentView.Content>
+    <ContentPage.BindingContext>
+        <viewModel:AccountViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
       <StackLayout>
-          <Label Text="Hello Xamarin.Forms!" />
-      </StackLayout>
-  </ContentView.Content>
-</ContentView>
+            <Label Text="test" FontSize="Large"/>
+            <Entry Text="{Binding account.firstName}" Placeholder="First Name" FontSize="Medium"/>
+        </StackLayout>
+  </ContentPage.Content>
+</ContentPage>

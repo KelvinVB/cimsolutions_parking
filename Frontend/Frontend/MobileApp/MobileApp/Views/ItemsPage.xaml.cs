@@ -10,6 +10,8 @@ using Xamarin.Forms.Xaml;
 using MobileApp.Models;
 using MobileApp.Views;
 using MobileApp.ViewModels;
+using Xamarin.Essentials;
+using MobileApp.Services;
 
 namespace MobileApp.Views
 {
@@ -19,6 +21,7 @@ namespace MobileApp.Views
     public partial class ItemsPage : ContentPage
     {
         ItemsViewModel viewModel;
+
 
         public ItemsPage()
         {
@@ -41,7 +44,16 @@ namespace MobileApp.Views
 
         async void Account_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new LoginPage());
+            string token = await SecureStorage.GetAsync("token");
+            if (token == null)
+            {
+                await Navigation.PushAsync(new LoginPage());
+            }
+            else
+            {
+                await Navigation.PushAsync(new AccountPage());
+            }
+
         }
 
         protected override void OnAppearing()
