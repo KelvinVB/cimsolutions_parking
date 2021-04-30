@@ -29,7 +29,7 @@ namespace MobileApp.Services
             int freeSpaces = 0;
             var jsonObject = JsonConvert.SerializeObject(timeSlot);
             var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
-            var result = client.PostAsync(path+"freespots", content).Result;
+            var result = await client.PostAsync(path+"freespots", content);
             freeSpaces = Int32.Parse(result.Content.ReadAsStringAsync().Result);
             
             return freeSpaces;

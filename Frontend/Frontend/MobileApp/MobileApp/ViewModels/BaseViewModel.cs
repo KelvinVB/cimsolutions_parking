@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
 using Xamarin.Forms;
-
 using MobileApp.Models;
 using MobileApp.Services;
+using MobileApp.Interfaces;
 
 namespace MobileApp.ViewModels
 {

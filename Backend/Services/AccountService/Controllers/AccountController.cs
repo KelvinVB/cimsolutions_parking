@@ -58,7 +58,7 @@ namespace AccountService.Controllers
             return Ok(account);
         }
 
-        [HttpPost("update")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateAccountAsync(Account request)
         {
             string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -73,7 +73,7 @@ namespace AccountService.Controllers
             return Ok(account);
         }
 
-        [HttpPost("delete")]
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeleteAccountAsync()
         {
             string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;

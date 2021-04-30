@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -22,6 +23,47 @@ namespace MobileApp.ViewModels
         {
             account = await accountService.GetAccount();
             OnPropertyChanged("CurrentAccount");
+        }
+        public async Task<bool> PostAccount(Account account)
+        {
+            try
+            {
+                await accountService.PostAccount(account);
+                this.account = account;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateAccount(Account account)
+        {
+            try
+            {
+                await accountService.PutAccount(account);
+                this.account = account;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAccount()
+        {
+            try
+            {
+                bool status = await accountService.DeleteAccount();
+                return status;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
         }
     }
 }

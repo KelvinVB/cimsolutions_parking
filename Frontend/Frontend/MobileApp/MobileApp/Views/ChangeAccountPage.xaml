@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MobileApp.Views.ChangeAccountPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Change account information" FontSize="Large"/>
+            <Label Text="First name: " FontSize="Medium"/>
+            <Entry x:Name="EntryFirstName" Text="{Binding account.firstName}" FontSize="Medium"/>
+            <Label Text="Last name: " FontSize="Medium"/>
+            <Entry x:Name="EntryLastName" Text="{Binding account.lastName}" FontSize="Medium"/>
+            <Label Text="Email: " FontSize="Medium"/>
+            <Entry x:Name="EntryEmail" Text="{Binding account.email}" FontSize="Medium"/>
+            <Label Text="Username: " FontSize="Medium"/>
+            <Entry x:Name="EntryUsername" Text="{Binding account.username}" FontSize="Medium"/>
+            <Label Text="Date of birth: " FontSize="Medium"/>
+            <DatePicker x:Name="DatePickerDateOfBirth" Date="{Binding account.dateOfBirth}" FontSize="Medium"/>
+
+            <Button Text="Change account information" x:Name="ButtonUpdate" FontSize="Medium" Clicked="OnButtonUpdateClicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

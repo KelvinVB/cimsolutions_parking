@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,6 +28,30 @@ namespace MobileApp.Views
             InitializeComponent();
             this.accountViewModel = accountViewModel;
             BindingContext = this.accountViewModel;
+        }
+
+        public void OnButtonLogOutClicked(object sender, EventArgs args)
+        {
+            SecureStorage.Remove("token");
+            accountViewModel.account = null;
+        }
+
+        public async void OnButtonUpdateClicked(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new ChangeAccountPage());
+        }
+
+        public async void OnButtonDeleteClicked(object sender, EventArgs args)
+        {
+            bool success = await accountViewModel.DeleteAccount();
+            if (success)
+            {
+                await Navigation.PushAsync(new MainPage());
+            }
+            else
+            {
+                await DisplayAlert("Error", "Could not delete account", "Ok");
+            }
         }
     }
 }

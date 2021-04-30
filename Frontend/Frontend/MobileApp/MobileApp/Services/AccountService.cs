@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using MobileApp.Interfaces;
 
 namespace MobileApp.Services
 {
@@ -35,8 +36,69 @@ namespace MobileApp.Services
             return account;
         }
 
-        public void PostAccount() { }
-        public void PutAccount() { }
-        public void DeleteAccount() { }
+        public async Task<Account> PostAccount(Account account)
+        {
+            var jsonObject = JsonConvert.SerializeObject(account);
+            var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
+
+            try
+            {
+                var result = await client.PostAsync(path + "create/", content);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return account;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public async Task<Account> PutAccount(Account account)
+        {
+            string token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var jsonObject = JsonConvert.SerializeObject(account);
+            var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
+
+            try
+            {
+                var result = await client.PutAsync(path + "update/", content);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return account;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public async Task<bool> DeleteAccount()
+        {
+            string token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            try
+            {
+                var result = await client.DeleteAsync(path + "delete/");
+
+                return result.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

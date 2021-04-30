@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MobileApp.Views.RegisterPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Register" FontSize="Large"/>
+            <Label Text="First name: " FontSize="Medium"/>
+            <Entry x:Name="EntryFirstName" Text="First name" FontSize="Medium"/>
+            <Label Text="Last name: " FontSize="Medium"/>
+            <Entry x:Name="EntryLastName" Text="Last name" FontSize="Medium"/>
+            <Label Text="Email: " FontSize="Medium"/>
+            <Entry x:Name="EntryEmail" Text="Email" FontSize="Medium"/>
+            <Label Text="Username: " FontSize="Medium"/>
+            <Entry x:Name="EntryUsername" Text="Username" FontSize="Medium"/>
+            <Label Text="Date of birth: " FontSize="Medium"/>
+            <DatePicker x:Name="DatePickerDateOfBirth" Date="{Binding account.dateOfBirth}" FontSize="Medium"/>
+            <Label Text="Password" FontSize="Medium"/>
+            <Entry x:Name="EntryPassword" Text="Password" FontSize="Medium" IsPassword="True"/>
+            <Label Text="Confirm Password" FontSize="Medium"/>
+            <Entry x:Name="EntryConfirmPassword" Text="Password" FontSize="Medium" IsPassword="True"/>
+
+            <Button Text="Register" x:Name="ButtonRegister" FontSize="Medium" Clicked="OnButtonRegisterClicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

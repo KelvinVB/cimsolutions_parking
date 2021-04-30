@@ -11,8 +11,13 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
       <StackLayout>
-            <Label Text="test" FontSize="Large"/>
-            <Entry Text="{Binding account.firstName}" Placeholder="First Name" FontSize="Medium"/>
+            <Label Text="Account" FontSize="Large"/>
+            <Label Text="Name: " FontSize="Medium"/>
+            <Label Text="{Binding account.firstName}" FontSize="Medium"/>
+            <Label Text="{Binding account.firstName}" FontSize="Medium"/>
+            <Button Text="Change account information" x:Name="ButtonUpdate" FontSize="Medium" Clicked="OnButtonUpdateClicked"/>
+            <Button Text="Log out" x:Name="ButtonLogOut" FontSize="Medium" Clicked="OnButtonLogOutClicked"/>
+            <Button Text="Delete account" x:Name="ButtonDelete" FontSize="Medium" Clicked="OnButtonDeleteClicked"/>
         </StackLayout>
   </ContentPage.Content>
 </ContentPage>

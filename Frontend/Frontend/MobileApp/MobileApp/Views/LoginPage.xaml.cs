@@ -34,8 +34,9 @@ namespace MobileApp.Views
             }
             await SecureStorage.SetAsync("token", account.token);
         }
-        void OnButtonRegisterClicked(object sender, EventArgs args)
+        async void OnButtonRegisterClicked(object sender, EventArgs args)
         {
+            await Navigation.PushAsync(new RegisterPage());
         }
     }
 }

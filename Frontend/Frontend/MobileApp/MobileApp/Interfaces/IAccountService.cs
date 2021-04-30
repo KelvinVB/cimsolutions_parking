@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MobileApp
+namespace MobileApp.Interfaces
 {
     public interface IAccountService
     {
         Task<Account> GetAccount();
-        void PostAccount();
-        void PutAccount();
-        void DeleteAccount();
+        Task<Account> PostAccount(Account account);
+        Task<Account> PutAccount(Account account);
+        Task<bool> DeleteAccount();
     }
 }
