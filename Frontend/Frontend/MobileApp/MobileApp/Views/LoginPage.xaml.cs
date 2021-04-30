@@ -1,5 +1,6 @@
 ﻿using MobileApp.Models;
 using MobileApp.Services;
+using MobileApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,16 @@ namespace MobileApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        AuthenticationService authenticationService;
+        LoginViewModel loginViewModel;
         public LoginPage()
         {
             InitializeComponent();
-            authenticationService = new AuthenticationService();
+            loginViewModel = new LoginViewModel();
+        }
+        public LoginPage(LoginViewModel loginViewModel)
+        {
+            InitializeComponent();
+            this.loginViewModel = loginViewModel;
         }
 
         async void OnButtonLoginClicked(object sender, EventArgs args)
@@ -27,12 +33,15 @@ namespace MobileApp.Views
             credentials.username = EntryUsername.Text;
             credentials.password = EntryPassword.Text;
 
-            Account account = await authenticationService.Login(credentials);
-            if (account.username != null)
-            { 
-                await SecureStorage.SetAsync("username", account.username); 
+            bool success = await loginViewModel.Login(credentials);
+            if (success)
+            {
+                await Navigation.PushAsync(new MainPage()); 
             }
-            await SecureStorage.SetAsync("token", account.token);
+            else
+            {
+                await DisplayAlert("Error", "Could not create a new account", "Ok");
+            }
         }
         async void OnButtonRegisterClicked(object sender, EventArgs args)
         {

@@ -13,6 +13,7 @@ namespace MobileApp.ViewModels
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
         public IAccountService accountService => DependencyService.Get<IAccountService>() ?? new AccountService();
+        public IAuthenticationService authenticationService => DependencyService.Get<IAuthenticationService>() ?? new AuthenticationService();
 
         bool isBusy = false;
         public bool IsBusy

@@ -1,4 +1,5 @@
-﻿using MobileApp.Models;
+﻿using MobileApp.Interfaces;
+using MobileApp.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MobileApp.Services
 {
-    public class AuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         private static HttpClient client;
         private string path;
