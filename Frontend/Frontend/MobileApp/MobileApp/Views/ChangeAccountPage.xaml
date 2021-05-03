@@ -6,20 +6,20 @@
              mc:Ignorable="d"
              x:Class="MobileApp.Views.ChangeAccountPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Change account information" FontSize="Large"/>
-            <Label Text="First name: " FontSize="Medium"/>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Change account information" Style="{StaticResource LabelH1}"/>
+            <Label Text="First name: " Style="{StaticResource LabelH2}"/>
             <Entry x:Name="EntryFirstName" Text="{Binding account.firstName}" FontSize="Medium"/>
-            <Label Text="Last name: " FontSize="Medium"/>
+            <Label Text="Last name: " Style="{StaticResource LabelH2}"/>
             <Entry x:Name="EntryLastName" Text="{Binding account.lastName}" FontSize="Medium"/>
-            <Label Text="Email: " FontSize="Medium"/>
+            <Label Text="Email: " Style="{StaticResource LabelH2}"/>
             <Entry x:Name="EntryEmail" Text="{Binding account.email}" FontSize="Medium"/>
-            <Label Text="Username: " FontSize="Medium"/>
+            <Label Text="Username: " Style="{StaticResource LabelH2}"/>
             <Entry x:Name="EntryUsername" Text="{Binding account.username}" FontSize="Medium"/>
-            <Label Text="Date of birth: " FontSize="Medium"/>
+            <Label Text="Date of birth: " Style="{StaticResource LabelH2}"/>
             <DatePicker x:Name="DatePickerDateOfBirth" Date="{Binding account.dateOfBirth}" FontSize="Medium"/>
 
-            <Button Text="Change account information" x:Name="ButtonUpdate" FontSize="Medium" Clicked="OnButtonUpdateClicked"/>
+            <Button Text="Change account information" x:Name="ButtonUpdate" FontSize="Medium" Clicked="OnButtonUpdateClicked" Style="{StaticResource ButtonStyle}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -6,18 +6,15 @@
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.AccountPage">
-    <ContentPage.BindingContext>
-        <viewModel:AccountViewModel/>
-    </ContentPage.BindingContext>
-    <ContentPage.Content>
-      <StackLayout>
-            <Label Text="Account" FontSize="Large"/>
-            <Label Text="Name: " FontSize="Medium"/>
-            <Label Text="{Binding account.firstName}" FontSize="Medium"/>
-            <Label Text="{Binding account.firstName}" FontSize="Medium"/>
-            <Button Text="Change account information" x:Name="ButtonUpdate" FontSize="Medium" Clicked="OnButtonUpdateClicked"/>
-            <Button Text="Log out" x:Name="ButtonLogOut" FontSize="Medium" Clicked="OnButtonLogOutClicked"/>
-            <Button Text="Delete account" x:Name="ButtonDelete" FontSize="Medium" Clicked="OnButtonDeleteClicked"/>
+        <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Account" Style="{StaticResource LabelH1}"/>
+            <Label Text="Name: " Style="{StaticResource LabelH2}"/>
+            <Label Text="{Binding account.firstName}" Style="{StaticResource LabelH2}"/>
+            <Label Text="{Binding account.firstName}" Style="{StaticResource LabelH2}"/>
+            <Button Text="Change account information" x:Name="ButtonUpdate" FontSize="Medium" Clicked="OnButtonUpdateClicked" Style="{StaticResource ButtonStyle}"/>
+            <Button Text="Log out" x:Name="ButtonLogOut" FontSize="Medium" Clicked="OnButtonLogOutClicked" Style="{StaticResource ButtonStyle}"/>
+            <Button Text="Delete account" x:Name="ButtonDelete" FontSize="Medium" Clicked="OnButtonDeleteClicked" Style="{StaticResource ButtonStyle}"/>
         </StackLayout>
   </ContentPage.Content>
 </ContentPage>

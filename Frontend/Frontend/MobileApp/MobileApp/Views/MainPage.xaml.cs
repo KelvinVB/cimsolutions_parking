@@ -36,6 +36,15 @@ namespace MobileApp.Views
                     case (int)MenuItemType.About:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));
                         break;
+                    case (int)MenuItemType.Account:
+                        MenuPages.Add(id, new NavigationPage(new AccountPage()));
+                        break;
+                    case (int)MenuItemType.Reservations:
+                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                        break;
+                    case (int)MenuItemType.Payments:
+                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                        break;
                 }
             }
 
