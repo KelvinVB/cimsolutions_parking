@@ -37,22 +37,18 @@ namespace MobileApp.Services
                 {
                     return account;
                 }
-                else if ((int)result.StatusCode == 400)
+                else if ((int)result.StatusCode == 401)
                 {
-                    throw new HttpRequestException();
+                    throw new UnauthorizedAccessException();
                 }
                 else
                 {
                     throw new Exception();
                 }
             }
-            catch (HttpRequestException)
+            catch (Exception)
             {
-                throw new HttpRequestException();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
+                throw;
             }
         }
     }

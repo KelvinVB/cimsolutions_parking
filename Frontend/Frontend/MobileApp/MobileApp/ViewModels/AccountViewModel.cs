@@ -21,8 +21,15 @@ namespace MobileApp.ViewModels
 
         async void InitializeAccount()
         {
-            account = await accountService.GetAccount();
-            OnPropertyChanged("CurrentAccount");
+            try
+            {
+                account = await accountService.GetAccount();
+                OnPropertyChanged("CurrentAccount");
+            }
+            catch(Exception)
+            {
+                return;
+            }
         }
         public async Task<bool> PostAccount(Account account)
         {
@@ -34,7 +41,7 @@ namespace MobileApp.ViewModels
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
         }
 
@@ -48,7 +55,7 @@ namespace MobileApp.ViewModels
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
         }
 
@@ -56,12 +63,12 @@ namespace MobileApp.ViewModels
         {
             try
             {
-                bool status = await accountService.DeleteAccount();
-                return status;
+                await accountService.DeleteAccount();
+                return true;
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
 
         }

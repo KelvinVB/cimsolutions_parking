@@ -42,7 +42,7 @@ namespace MobileApp.Views
                     await Navigation.PopAsync();
                 }
             }
-            catch (HttpRequestException)
+            catch (UnauthorizedAccessException)
             {
                 await DisplayAlert("Could not log in", "Wrong username or password", "Ok");
             }

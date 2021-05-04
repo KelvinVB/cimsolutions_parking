@@ -56,6 +56,7 @@ namespace AccountService.Managers
             try
             {
                 Authentication auth = accountCredentials.Find(x => x.username == request.username).SingleOrDefault();
+                
                 bool validPassword = BCrypt.Net.BCrypt.Verify(request.password, auth.password);
                 if (!validPassword)
                 {
@@ -70,14 +71,18 @@ namespace AccountService.Managers
                 //add accountId and role claim
                 Claim[] claims = new[]
                 {
-            new Claim(ClaimTypes.NameIdentifier,user.accountID),
-            new Claim(ClaimTypes.Role, user.role)
-            };
+                    new Claim(ClaimTypes.NameIdentifier,user.accountID),
+                    new Claim(ClaimTypes.Role, user.role)
+                };
 
                 // authentication successful so generate jwt token
                 string token = generateJwtToken(auth, claims, DateTime.Now);
 
                 return new AuthenticateResponse(user, token);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
             }
             catch (Exception e)
             {

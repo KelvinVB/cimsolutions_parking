@@ -39,6 +39,10 @@ namespace AccountService.Controllers
 
                 return Ok(response);
             }
+            catch (NullReferenceException)
+            {
+                return Unauthorized();
+            }
             catch(Exception)
             {
                 return BadRequest();

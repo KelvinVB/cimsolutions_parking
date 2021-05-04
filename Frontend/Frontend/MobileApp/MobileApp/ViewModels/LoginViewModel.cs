@@ -28,13 +28,9 @@ namespace MobileApp.ViewModels
                 await SecureStorage.SetAsync("token", account.token);
                 return true;
             }
-            catch(HttpRequestException)
-            {
-                throw new HttpRequestException();
-            }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
     }

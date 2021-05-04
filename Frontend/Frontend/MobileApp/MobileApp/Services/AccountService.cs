@@ -29,11 +29,26 @@ namespace MobileApp.Services
         {
             string token = await SecureStorage.GetAsync("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.GetAsync(path + "get/");
-            var jsonString = await result.Content.ReadAsStringAsync();
-            Account account = JsonConvert.DeserializeObject<Account>(jsonString);
 
-            return account;
+            try
+            {
+                var result = await client.GetAsync(path + "get/");
+                var jsonString = await result.Content.ReadAsStringAsync();
+                Account account = JsonConvert.DeserializeObject<Account>(jsonString);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return account;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<Account> PostAccount(Account account)
@@ -54,9 +69,9 @@ namespace MobileApp.Services
                     throw new Exception();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                throw;
             }
         }
         public async Task<Account> PutAccount(Account account)
@@ -79,9 +94,9 @@ namespace MobileApp.Services
                     throw new Exception();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                throw;
             }
         }
         public async Task<bool> DeleteAccount()
@@ -93,11 +108,18 @@ namespace MobileApp.Services
             {
                 var result = await client.DeleteAsync(path + "delete/");
 
-                return result.IsSuccessStatusCode;
+                if (result.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
         }
     }

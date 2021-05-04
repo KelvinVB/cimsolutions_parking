@@ -44,13 +44,13 @@ namespace MobileApp.Views
 
         public async void OnButtonDeleteClicked(object sender, EventArgs args)
         {
-            bool success = await accountViewModel.DeleteAccount();
-            if (success)
+            try
             {
+                await accountViewModel.DeleteAccount();
                 await Navigation.PushAsync(new MainPage());
             }
-            else
-            {
+            catch (Exception) 
+            { 
                 await DisplayAlert("Error", "Could not delete account", "Ok");
             }
         }
