@@ -52,6 +52,7 @@ namespace MobileApp.Views
                 bool success = await accountViewModel.PostAccount(account);
                 if (success)
                 {
+                    await Navigation.PopAsync();
                     await Navigation.PushAsync(new AccountPage());
                 }
                 else

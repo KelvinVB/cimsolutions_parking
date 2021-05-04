@@ -25,13 +25,35 @@ namespace MobileApp.Services
 
         public async Task<Account> Login(Authentication credentials)
         {
-            var jsonObject = JsonConvert.SerializeObject(credentials);
-            var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
-            var result = await client.PostAsync(path + "authenticate", content);
-            string jsonString = await result.Content.ReadAsStringAsync();
-            Account account = JsonConvert.DeserializeObject<Account>(jsonString);
+            try
+            {
+                var jsonObject = JsonConvert.SerializeObject(credentials);
+                var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
+                var result = await client.PostAsync(path + "authenticate", content);
+                string jsonString = await result.Content.ReadAsStringAsync();
+                Account account = JsonConvert.DeserializeObject<Account>(jsonString);
 
-            return account;
+                if (result.IsSuccessStatusCode)
+                {
+                    return account;
+                }
+                else if ((int)result.StatusCode == 400)
+                {
+                    throw new HttpRequestException();
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (HttpRequestException)
+            {
+                throw new HttpRequestException();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

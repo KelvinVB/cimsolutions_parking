@@ -30,12 +30,20 @@ namespace AccountService.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] Authentication request)
         {
-            AuthenticateResponse response = authenticationManager.Authenticate(request);
+            try
+            {
+                AuthenticateResponse response = authenticationManager.Authenticate(request);
 
-            if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                if (response == null)
+                    return BadRequest(new { message = "Username or password is incorrect" });
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch(Exception)
+            {
+                return BadRequest();
+            }
+
         }
     }
 }

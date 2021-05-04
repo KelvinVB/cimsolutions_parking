@@ -40,7 +40,7 @@ namespace MobileApp.Views
                         MenuPages.Add(id, new NavigationPage(new AccountPage()));
                         break;
                     case (int)MenuItemType.Reservations:
-                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                        MenuPages.Add(id, new NavigationPage(new ReservationPage()));
                         break;
                     case (int)MenuItemType.Payments:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));

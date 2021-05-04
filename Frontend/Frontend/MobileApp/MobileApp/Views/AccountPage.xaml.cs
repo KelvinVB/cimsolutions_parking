@@ -30,10 +30,11 @@ namespace MobileApp.Views
             BindingContext = this.accountViewModel;
         }
 
-        public void OnButtonLogOutClicked(object sender, EventArgs args)
+        public async void OnButtonLogOutClicked(object sender, EventArgs args)
         {
             SecureStorage.Remove("token");
             accountViewModel.account = null;
+            await Navigation.PopAsync();
         }
 
         public async void OnButtonUpdateClicked(object sender, EventArgs args)

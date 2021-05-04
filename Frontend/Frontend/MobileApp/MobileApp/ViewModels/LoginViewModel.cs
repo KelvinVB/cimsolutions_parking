@@ -1,6 +1,7 @@
 ﻿using MobileApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -27,9 +28,13 @@ namespace MobileApp.ViewModels
                 await SecureStorage.SetAsync("token", account.token);
                 return true;
             }
+            catch(HttpRequestException)
+            {
+                throw new HttpRequestException();
+            }
             catch (Exception)
             {
-                return false;
+                throw new Exception();
             }
         }
     }

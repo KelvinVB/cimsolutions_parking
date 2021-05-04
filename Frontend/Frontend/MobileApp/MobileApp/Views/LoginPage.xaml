@@ -7,14 +7,14 @@
              x:Class="MobileApp.Views.LoginPage">
     
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Login" FontSize="Large" />
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Login" Style="{StaticResource LabelH1}" />
 
-            <Entry x:Name="EntryUsername" Placeholder="Username" FontSize="Medium"/>
-            <Entry x:Name="EntryPassword" Placeholder="Password" FontSize="Medium"/>
+            <Entry x:Name="EntryUsername" Placeholder="Username" />
+            <Entry x:Name="EntryPassword" Placeholder="Password" />
 
-            <Button x:Name="ButtonLogin"  Text="Login" FontSize="Medium" Clicked="OnButtonLoginClicked"/>
-            <Button x:Name="ButtonRegister"  Text="Register" FontSize="Medium" Clicked="OnButtonRegisterClicked"/>
+            <Button x:Name="ButtonLogin"  Text="Login" Clicked="OnButtonLoginClicked" Style="{StaticResource ButtonStyle}"/>
+            <Button x:Name="ButtonRegister"  Text="Register" Clicked="OnButtonRegisterClicked" Style="{StaticResource ButtonStyle}"/>
 
         </StackLayout>
     </ContentPage.Content>

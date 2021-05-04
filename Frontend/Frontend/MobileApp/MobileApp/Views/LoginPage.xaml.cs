@@ -4,6 +4,7 @@ using MobileApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -33,14 +34,21 @@ namespace MobileApp.Views
             credentials.username = EntryUsername.Text;
             credentials.password = EntryPassword.Text;
 
-            bool success = await loginViewModel.Login(credentials);
-            if (success)
+            try
             {
-                await Navigation.PushAsync(new MainPage()); 
+                bool success = await loginViewModel.Login(credentials);
+                if (success)
+                {
+                    await Navigation.PopAsync();
+                }
             }
-            else
+            catch (HttpRequestException)
             {
-                await DisplayAlert("Error", "Could not create a new account", "Ok");
+                await DisplayAlert("Could not log in", "Wrong username or password", "Ok");
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Error", "Something went wrong", "Ok");
             }
         }
         async void OnButtonRegisterClicked(object sender, EventArgs args)
