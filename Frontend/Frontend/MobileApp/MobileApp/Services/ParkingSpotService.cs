@@ -29,7 +29,7 @@ namespace MobileApp.Services
             path = "https://10.0.2.2:5001/api/parkingspots/";
         }
 
-        public async Task<int> GetFreeSpotsAsync(TimeSlot timeSlot)
+        public async Task<int> GetFreeSpotsAsync(StartEndDateTime timeSlot)
         {
             int freeSpaces = 0;
             var jsonObject = JsonConvert.SerializeObject(timeSlot);
@@ -75,6 +75,10 @@ namespace MobileApp.Services
                 else if ((int)result.StatusCode == 400)
                 {
                     throw new HttpRequestException(result.Content.ToString());
+                }
+                else if ((int)result.StatusCode == 401)
+                {
+                    throw new UnauthorizedAccessException(result.Content.ToString());
                 }
                 else
                 {

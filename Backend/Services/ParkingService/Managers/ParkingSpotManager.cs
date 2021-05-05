@@ -64,7 +64,7 @@ namespace ParkingService.Managers
 
                 return count;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return 0;
             }
@@ -95,7 +95,7 @@ namespace ParkingService.Managers
                 }
                 return null;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

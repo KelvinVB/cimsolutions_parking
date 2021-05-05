@@ -15,7 +15,7 @@ namespace MobileApp.ViewModels
         {
             parkingSpot = new ParkingSpot();
         }
-        public async Task<int> GetFreeSpot(TimeSlot timeSlot)
+        public async Task<int> GetFreeSpot(StartEndDateTime timeSlot)
         {
             try
             {

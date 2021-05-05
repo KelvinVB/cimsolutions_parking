@@ -30,7 +30,7 @@ namespace ParkingService.Managers
                 await context.SaveChangesAsync();
                 return reservationTimeSlot;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -51,7 +51,7 @@ namespace ParkingService.Managers
 
                 return reservation;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -70,7 +70,7 @@ namespace ParkingService.Managers
 
                 return reservation;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -85,7 +85,7 @@ namespace ParkingService.Managers
 
                 return reservationTimeSlot;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -99,7 +99,7 @@ namespace ParkingService.Managers
 
                 return reservations;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

@@ -119,6 +119,10 @@ namespace ParkingService.Controllers
         {
             string accountID = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             ParkingSpot parkingSpot = await parkingSpotManager.GetFreeParkingSpot(reservation.startReservation, reservation.endReservation);
+            if(accountID == null)
+            {
+                return Unauthorized();
+            }
             if (parkingSpot == null)
             {
                 return BadRequest("No parking spots available");
@@ -126,6 +130,7 @@ namespace ParkingService.Controllers
             else
             {
                 reservation.parkingSpotID = parkingSpot.parkingSpotID;
+                reservation.accountID = accountID;
                 await reservationTimeSlotManager.CreateReservationTimeSlot(reservation);
                 return Ok(parkingSpot);
             }

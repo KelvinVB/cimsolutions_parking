@@ -39,15 +39,22 @@ namespace MobileApp.Views
         }
         async void OnButtonClicked(object sender, EventArgs args)
         {
-            TimeSlot timeSlot = new TimeSlot();
+            StartEndDateTime timeSlot = new StartEndDateTime();
             DateTime start = DatePickerStart.Date + TimePickerStart.Time;
             DateTime end = DatePickerEnd.Date + TimePickerEnd.Time;
 
             timeSlot.startDateTime = start;
             timeSlot.endDateTime = end;
-            int amount = await parkingSpotService.GetFreeSpotsAsync(timeSlot);
 
-            amountLabel.Text = "Free spots: " + amount;
+            try
+            {
+                int amount = await parkingSpotService.GetFreeSpotsAsync(timeSlot);
+                amountLabel.Text = "Free spots: " + amount;
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Error", "An error has occured.", "Ok");
+            }
         }
     }
 }

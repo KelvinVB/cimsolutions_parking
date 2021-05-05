@@ -34,13 +34,18 @@ namespace MobileApp.Views
         public async void OnButtonClicked(object sender, EventArgs args)
         {
             TimeSlot timeSlot = new TimeSlot();
-            timeSlot.startDateTime = DatePickerStart.Date + TimePickerStart.Time;
-            timeSlot.endDateTime = DatePickerEnd.Date + TimePickerEnd.Time;
+            timeSlot.startReservation = DatePickerStart.Date + TimePickerStart.Time;
+            timeSlot.endReservation = DatePickerEnd.Date + TimePickerEnd.Time;
+            timeSlot.licensePlateNumber = labelLicensePlate.Text;
 
             try
             {
-                int amount = await parkingSpotViewModel.GetFreeSpot(timeSlot);
+                timeSlot = await parkingSpotViewModel.ReserveWithAccount(timeSlot);
 
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await DisplayAlert("Error", "Could not find current user.", "Ok");
             }
             catch (TimeoutException)
             {
@@ -48,7 +53,7 @@ namespace MobileApp.Views
             }
             catch (Exception)
             {
-                await DisplayAlert("Error", "An unexpected error occured. Please try again later.", "Ok");
+                await DisplayAlert("Error", "An unexpected error occured. Please check if you have entered correct values in all fields.", "Ok");
             }
         }
 
