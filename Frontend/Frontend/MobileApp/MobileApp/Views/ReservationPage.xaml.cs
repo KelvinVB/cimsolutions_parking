@@ -14,16 +14,21 @@ namespace MobileApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ReservationPage : ContentPage
     {
-        ParkingSpotViewModel viewModel;
-        public ReservationPage(ParkingSpotViewModel viewModel)
+        ParkingSpotViewModel parkingSpotViewModel;
+        AccountViewModel accountViewModel;
+        public ReservationPage(ParkingSpotViewModel viewModel, AccountViewModel accountViewModel)
         {
             InitializeComponent();
-            this.viewModel = viewModel;
+            this.parkingSpotViewModel = viewModel;
+            this.accountViewModel = accountViewModel;
+            BindingContext = accountViewModel;
         }
         public ReservationPage()
         {
             InitializeComponent();
-            this.viewModel = new ParkingSpotViewModel();
+            this.parkingSpotViewModel = new ParkingSpotViewModel();
+            this.accountViewModel = new AccountViewModel();
+            BindingContext = this.accountViewModel;
         }
 
         public async void OnButtonClicked(object sender, EventArgs args)
@@ -34,8 +39,7 @@ namespace MobileApp.Views
 
             try
             {
-                int amount = await viewModel.GetFreeSpot(timeSlot);
-                amountLabel.Text = "Free spots: " + amount;
+                int amount = await parkingSpotViewModel.GetFreeSpot(timeSlot);
 
             }
             catch (TimeoutException)
@@ -46,6 +50,23 @@ namespace MobileApp.Views
             {
                 await DisplayAlert("Error", "An unexpected error occured. Please try again later.", "Ok");
             }
+        }
+
+        public async void OnButtonChangeClicked(object sender, EventArgs args)
+        {
+            string result = await DisplayPromptAsync("License plate number", "Please fill in your license plate number.", maxLength:8, keyboard:Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+            if(result == null)
+            {
+                return;
+            }
+
+            if(result.Length < 6)
+            {
+                await DisplayAlert("Error", "Please fill in a correct license plate number", "Ok");
+                return;
+            }
+            result.ToUpper();
+            labelLicensePlate.Text = result;
         }
     }
 }

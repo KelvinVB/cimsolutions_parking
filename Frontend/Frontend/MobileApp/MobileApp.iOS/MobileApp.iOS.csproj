@@ -154,4 +154,7 @@
       <Name>MobileApp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\LicensePlateBlank.png" />
+  </ItemGroup>
 </Project>

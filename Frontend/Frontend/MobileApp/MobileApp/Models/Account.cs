@@ -15,5 +15,6 @@ namespace MobileApp.Models
         public string role { get; set; } = "user";
         public string password { get; set; }
         public string token { get; set; }
+        public string licensePlateNumber { get; set; }
     }
 }

@@ -22,13 +22,9 @@ namespace MobileApp.ViewModels
                 int amount = await parkingSpotService.GetFreeSpotsAsync(timeSlot);
                 return amount;
             }
-            catch (TimeoutException te)
-            {
-                throw new TimeoutException(te.Message);
-            }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -39,13 +35,22 @@ namespace MobileApp.ViewModels
                 await parkingSpotService.ReserveWithAccount(timeSlot);
                 return timeSlot;
             }
-            catch (TimeoutException te)
+            catch (Exception)
             {
-                throw new TimeoutException(te.Message);
+                throw;
+            }
+        }
+
+        public async Task<TimeSlot> ReserveWithoutAccount(TimeSlot timeSlot)
+        {
+            try
+            {
+                await parkingSpotService.ReserveWithoutAccount(timeSlot);
+                return timeSlot;
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
     }

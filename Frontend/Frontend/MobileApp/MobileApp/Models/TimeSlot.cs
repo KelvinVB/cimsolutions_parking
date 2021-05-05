@@ -11,5 +11,6 @@ namespace MobileApp.Models
         public DateTime endDateTime { get; set; }
         public ParkingSpot parkingSpot { get; set; }
         public int parkingSpotID { get; set; }
+        public string licensePlateNumber { get; set; }
     }
 }

@@ -5,8 +5,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace MobileApp.Services
 {
@@ -41,7 +43,7 @@ namespace MobileApp.Services
                 {
                     return freeSpaces;
                 }
-                else if (result.StatusCode.Equals("400"))
+                else if ((int)result.StatusCode == 400)
                 {
                     throw new HttpRequestException(result.Content.ToString());
                 }
@@ -50,29 +52,27 @@ namespace MobileApp.Services
                     throw new Exception();
                 }
             }
-            catch(TimeoutException te)
+            catch (Exception)
             {
-                throw new TimeoutException(te.Message);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
+                throw;
             }
         }
 
         public async Task<TimeSlot> ReserveWithAccount(TimeSlot timeSlot)
         {
+            string token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var jsonObject = JsonConvert.SerializeObject(timeSlot);
             var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
 
             try
             {
-                var result = await client.PostAsync(path + "freespots", content);
+                var result = await client.PostAsync(path + "reserve", content);
                 if (result.IsSuccessStatusCode)
                 {
                     return timeSlot;
                 }
-                else if (result.StatusCode.Equals("400"))
+                else if ((int)result.StatusCode == 400)
                 {
                     throw new HttpRequestException(result.Content.ToString());
                 }
@@ -81,14 +81,15 @@ namespace MobileApp.Services
                     throw new Exception();
                 }
             }
-            catch (TimeoutException te)
+            catch (Exception)
             {
-                throw new TimeoutException(te.Message);
+                throw;
             }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+        }
+
+        public Task<TimeSlot> ReserveWithoutAccount(TimeSlot timeSlot)
+        {
+            throw new NotImplementedException();
         }
     }
 }
