@@ -41,6 +41,7 @@ namespace MobileApp.Views
             try
             {
                 timeSlot = await parkingSpotViewModel.ReserveWithAccount(timeSlot);
+                await DisplayAlert("Success", "Reservation planned on: " + timeSlot.startReservation.ToString() + " untill: " + timeSlot.endReservation.ToString(), "Ok");
 
             }
             catch (UnauthorizedAccessException)
