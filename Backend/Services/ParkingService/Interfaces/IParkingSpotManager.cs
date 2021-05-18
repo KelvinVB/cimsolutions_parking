@@ -12,6 +12,7 @@ namespace ParkingService.Interfaces
         void SetContext(ParkingContext context);
         Task<ParkingSpot> CreateParkingSpot(ParkingSpot parkingSpot);
         Task<ParkingSpot> GetParkingSpot(int parkingSpotID);
+        Task<List<ParkingSpot>> GetAllParkingSpots(int parkingGarageID);
         Task<ParkingSpot> UpdateParkingSpot(ParkingSpot parkingSpot);
         Task<ParkingSpot> DeleteParkingSpot(int parkingSpotID);
         Task<int> GetAmountFreeParkingSpots(DateTime startDate, DateTime endDate);

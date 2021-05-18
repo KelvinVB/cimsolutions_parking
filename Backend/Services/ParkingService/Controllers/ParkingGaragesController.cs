@@ -30,7 +30,15 @@ namespace ParkingService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ParkingGarage>>> GetParkingGarages()
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<ParkingGarage> parkingGarage = await parkingGarageManager.GetAllParkingGarages();
+                return Ok(parkingGarage);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -41,14 +49,21 @@ namespace ParkingService.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ParkingGarage>> GetParkingGarage(int id)
         {
-            var parkingGarage = await parkingGarageManager.GetParkingGarage(id);
-
-            if (parkingGarage == null)
+            try
             {
-                return NotFound();
-            }
+                var parkingGarage = await parkingGarageManager.GetParkingGarage(id);
 
-            return parkingGarage;
+                if (parkingGarage == null)
+                {
+                    return NotFound();
+                }
+
+                return parkingGarage;
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -58,18 +73,27 @@ namespace ParkingService.Controllers
         /// <param name="parkingGarage"></param>
         /// <returns>ParkingGarage</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ParkingGarage>> PutParkingGarage(int id, ParkingGarage parkingGarage)
+        public async Task<ActionResult<ParkingGarage>> PutParkingGarage(int id, [FromBody] ParkingGarage parkingGarage)
         {
             if (id != parkingGarage.parkingGarageID)
             {
                 return BadRequest();
             }
 
-            parkingGarage.parkingGarageID = id;
+            try
+            {
+                await parkingGarageManager.UpdateParkingGarage(parkingGarage);
 
-            await parkingGarageManager.UpdateParkingGarage(parkingGarage);
-
-            return parkingGarage;
+                return Ok(parkingGarage);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -78,11 +102,18 @@ namespace ParkingService.Controllers
         /// <param name="parkingGarage"></param>
         /// <returns>ParkingGarage</returns>
         [HttpPost]
-        public async Task<ActionResult<ParkingGarage>> PostParkingGarage(ParkingGarage parkingGarage)
+        public async Task<ActionResult<ParkingGarage>> PostParkingGarage([FromBody] ParkingGarage parkingGarage)
         {
-            ParkingGarage newParkingGarage = await parkingGarageManager.CreateParkingGarage(parkingGarage);
+            try
+            {
+                ParkingGarage newParkingGarage = await parkingGarageManager.CreateParkingGarage(parkingGarage);
 
-            return newParkingGarage;
+                return Ok(newParkingGarage);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -93,13 +124,24 @@ namespace ParkingService.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ParkingGarage>> DeleteParkingGarage(int id)
         {
-            ParkingGarage parkingGarage = await parkingGarageManager.DeleteParkingGarage(id);
-            if (parkingGarage == null)
+            try
+            {
+                ParkingGarage parkingGarage = await parkingGarageManager.DeleteParkingGarage(id);
+                if (parkingGarage == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(parkingGarage);
+            }
+            catch (NullReferenceException)
             {
                 return NotFound();
             }
-
-            return parkingGarage;
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }

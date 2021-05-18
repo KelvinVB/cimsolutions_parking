@@ -32,7 +32,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
 
@@ -46,6 +46,11 @@ namespace ParkingService.Managers
             try
             {
                 ReservationTimeSlot reservation = await context.reservationTimeSlots.FindAsync(reservationTimeSlotID);
+                if(reservation == null)
+                {
+                    throw new NullReferenceException();
+                }
+
                 context.reservationTimeSlots.Remove(reservation);
                 await context.SaveChangesAsync();
 
@@ -53,7 +58,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
 
@@ -72,10 +77,15 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
 
+        /// <summary>
+        /// update timeslot
+        /// </summary>
+        /// <param name="reservationTimeSlot"></param>
+        /// <returns>ReservationTimeSlot</returns>
         public async Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
         {
             try
@@ -87,10 +97,15 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
 
+        /// <summary>
+        /// Gets all timeslots
+        /// </summary>
+        /// <param name="parkingSpotID"></param>
+        /// <returns>List of ReservationTimeSlot</returns>
         public async Task<List<ReservationTimeSlot>> GetAllReservationTimeSlots(int parkingSpotID)
         {
             try
@@ -101,7 +116,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
     }

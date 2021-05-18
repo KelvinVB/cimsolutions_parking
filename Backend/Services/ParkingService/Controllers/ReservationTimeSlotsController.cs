@@ -28,17 +28,24 @@ namespace ParkingService.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>List of ReservationTimeSlot</returns>
-        [HttpGet("getall/{id}")]
+        [HttpGet("all/{id}")]
         public async Task<ActionResult<List<ReservationTimeSlot>>> GetAllreservationTimeSlots(int id)
         {
-            List<ReservationTimeSlot> reservationTimeSlot = await reservationTimeSlotManager.GetAllReservationTimeSlots(id);
-
-            if(reservationTimeSlot == null)
+            try
             {
-                return NotFound();
-            }
+                List<ReservationTimeSlot> reservationTimeSlot = await reservationTimeSlotManager.GetAllReservationTimeSlots(id);
 
-            return reservationTimeSlot;
+                if (reservationTimeSlot == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(reservationTimeSlot);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -49,14 +56,21 @@ namespace ParkingService.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ReservationTimeSlot>> GetReservationTimeSlot(int id)
         {
-            var reservationTimeSlot = await reservationTimeSlotManager.GetReservationTimeSlot(id);
-
-            if (reservationTimeSlot == null)
+            try
             {
-                return NotFound();
-            }
+                var reservationTimeSlot = await reservationTimeSlotManager.GetReservationTimeSlot(id);
 
-            return reservationTimeSlot;
+                if (reservationTimeSlot == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(reservationTimeSlot);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -66,21 +80,32 @@ namespace ParkingService.Controllers
         /// <param name="reservationTimeSlot"></param>
         /// <returns>ReservationTimeSlot</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ReservationTimeSlot>> PutReservationTimeSlot(int id, ReservationTimeSlot reservationTimeSlot)
+        public async Task<ActionResult<ReservationTimeSlot>> PutReservationTimeSlot(int id, [FromBody] ReservationTimeSlot reservationTimeSlot)
         {
             if (id != reservationTimeSlot.reservationTimeSlotID)
             {
                 return NotFound();
             }
 
-            ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(reservationTimeSlot);
-            
-            if (reservation == null)
+            try
+            {
+                ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(reservationTimeSlot);
+
+                if (reservation == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(reservation);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
-
-            return reservation;
         }
 
         /// <summary>
@@ -89,16 +114,23 @@ namespace ParkingService.Controllers
         /// <param name="reservationTimeSlot"></param>
         /// <returns>ReservationTimeSLot</returns>
         [HttpPost]
-        public async Task<ActionResult<ReservationTimeSlot>> PostReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
+        public async Task<ActionResult<ReservationTimeSlot>> PostReservationTimeSlot([FromBody] ReservationTimeSlot reservationTimeSlot)
         {
-            ReservationTimeSlot reservation = await reservationTimeSlotManager.CreateReservationTimeSlot(reservationTimeSlot);
+            try
+            {
+                ReservationTimeSlot reservation = await reservationTimeSlotManager.CreateReservationTimeSlot(reservationTimeSlot);
 
-            if (reservation == null)
+                if (reservation == null)
+                {
+                    return BadRequest();
+                }
+
+                return reservation;
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
-
-            return reservation;
         }
 
         /// <summary>
@@ -111,12 +143,23 @@ namespace ParkingService.Controllers
         {
             ReservationTimeSlot reservation = await reservationTimeSlotManager.DeleteReservationTimeSlot(id);
 
-            if(reservation == null)
+            try
+            {
+                if (reservation == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(reservation);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
-
-            return reservation;
         }
     }
 }

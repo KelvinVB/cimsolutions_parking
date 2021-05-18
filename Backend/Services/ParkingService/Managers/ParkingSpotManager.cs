@@ -16,31 +16,123 @@ namespace ParkingService.Managers
         {
             this.context = context;
         }
-        public Task<ParkingSpot> CreateParkingSpot(ParkingSpot parkingSpot)
+
+        /// <summary>
+        /// Creates a parking spot
+        /// </summary>
+        /// <param name="parkingSpot"></param>
+        /// <returns>ParkingSpot</returns>
+        public async Task<ParkingSpot> CreateParkingSpot(ParkingSpot parkingSpot)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await context.parkingSpots.AddAsync(parkingSpot);
+                context.SaveChanges();
+                return parkingSpot;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
-        public Task<ParkingSpot> DeleteParkingSpot(int parkingSpotID)
+        /// <summary>
+        /// Deletes a parking spot
+        /// </summary>
+        /// <param name="parkingSpotID"></param>
+        /// <returns>ParkingSpot</returns>
+        public async Task<ParkingSpot> DeleteParkingSpot(int parkingSpotID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ParkingSpot parkingSpot = await context.parkingSpots.SingleAsync(p => p.parkingSpotID == parkingSpotID);
+                if(parkingSpot == null)
+                {
+                    throw new NullReferenceException();
+                }
+
+                context.parkingSpots.Remove(parkingSpot);
+                context.SaveChanges();
+                return parkingSpot;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
-        public Task<ParkingSpot> GetParkingSpot(int parkingSpotID)
+        /// <summary>
+        /// Gets a parking spot
+        /// </summary>
+        /// <param name="parkingSpotID"></param>
+        /// <returns>ParkingSpot</returns>
+        public async Task<ParkingSpot> GetParkingSpot(int parkingSpotID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ParkingSpot parkingSpot = await context.parkingSpots.Where(p => p.parkingSpotID == parkingSpotID).FirstOrDefaultAsync();
+                return parkingSpot;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
-        public Task<ParkingSpot> UpdateParkingSpot(ParkingSpot parkingSpot)
+        /// <summary>
+        /// returns all parking spots in a parking garage
+        /// </summary>
+        /// <param name="parkingGarageID"></param>
+        /// <returns>List of parkingSpots</returns>
+        public async Task<List<ParkingSpot>> GetAllParkingSpots(int parkingGarageID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<ParkingSpot> parkingSpots = await context.parkingSpots.Where(p => p.parkingGarageID == parkingGarageID).ToListAsync();
+                return parkingSpots;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
+        /// <summary>
+        /// Updates parking spot
+        /// </summary>
+        /// <param name="parkingSpot"></param>
+        /// <returns>ParkingSpot</returns>
+        public async Task<ParkingSpot> UpdateParkingSpot(ParkingSpot parkingSpot)
+        {
+            try
+            {
+                ParkingSpot oldParkingSpot = await context.parkingSpots.SingleAsync(p => p.parkingSpotID == parkingSpot.parkingSpotID);
+                if (oldParkingSpot == null)
+                {
+                    throw new NullReferenceException();
+                }
+
+                oldParkingSpot = parkingSpot;
+                context.SaveChanges();
+                return parkingSpot;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+
+        /// <summary>
+        /// finds the amount of free parking spots with a given timeslot
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns>int</returns>
         public async Task<int> GetAmountFreeParkingSpots(DateTime startDate, DateTime endDate)
         {
             try
             {
-                List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p=> p.reservationTimeSlots).ToListAsync();
+                List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p => p.reservationTimeSlots).ToListAsync();
                 int count = 0;
                 bool free = true;
 
@@ -50,7 +142,7 @@ namespace ParkingService.Managers
                     for (int j = 0; j < parkingSpots[i].reservationTimeSlots.Count; j++)
                     {
                         List<ReservationTimeSlot> reservations = parkingSpots[i].reservationTimeSlots.ToList();
-                        if(reservations[j].startReservation < endDate && reservations[j].endReservation >= startDate)
+                        if (reservations[j].startReservation < endDate && reservations[j].endReservation >= startDate)
                         {
                             free = false;
                             break;
@@ -66,16 +158,22 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                return 0;
+                throw new Exception();
             }
         }
 
+        /// <summary>
+        /// Finds a free parking spot with the given timeslot
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns>ParkingSpot</returns>
         public async Task<ParkingSpot> GetFreeParkingSpot(DateTime startDate, DateTime endDate)
         {
             try
             {
                 List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p => p.reservationTimeSlots).ToListAsync();
-                
+
                 for (int i = 0; i < parkingSpots.Count; i++)
                 {
                     bool free = true;
@@ -97,7 +195,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
     }
