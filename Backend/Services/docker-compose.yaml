@@ -61,6 +61,17 @@ services:
     depends_on:
       - kong-database
     restart: on-failure
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    user: root
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Root_123
+    volumes:
+      - ./data:/var/opt/mssql/data
     
   accountservice:
     container_name: accountservice
@@ -69,3 +80,11 @@ services:
       dockerfile: Dockerfile
     ports: 
        - "5000:80"
+
+  parkingservice:
+    container_name: parkingservice
+    build:
+      context: ./parkingservice
+      dockerfile: Dockerfile
+    ports: 
+       - "5100:80"
