@@ -45,10 +45,10 @@ namespace ParkingService.Managers
         {
             try
             {
-                ParkingSpot parkingSpot = await context.parkingSpots.SingleAsync(p => p.parkingSpotID == parkingSpotID);
-                if(parkingSpot == null)
+                ParkingSpot parkingSpot = await context.parkingSpots.Where(p => p.parkingSpotID == parkingSpotID).FirstOrDefaultAsync();
+                if (parkingSpot == null)
                 {
-                    throw new NullReferenceException();
+                    return null;
                 }
 
                 context.parkingSpots.Remove(parkingSpot);
@@ -102,14 +102,14 @@ namespace ParkingService.Managers
         /// </summary>
         /// <param name="parkingSpot"></param>
         /// <returns>ParkingSpot</returns>
-        public async Task<ParkingSpot> UpdateParkingSpot(ParkingSpot parkingSpot)
+        public async Task<ParkingSpot> UpdateParkingSpot(int id, ParkingSpot parkingSpot)
         {
             try
             {
-                ParkingSpot oldParkingSpot = await context.parkingSpots.SingleAsync(p => p.parkingSpotID == parkingSpot.parkingSpotID);
+                ParkingSpot oldParkingSpot = await context.parkingSpots.Where(p => p.parkingSpotID == id).SingleOrDefaultAsync();
                 if (oldParkingSpot == null)
                 {
-                    throw new NullReferenceException();
+                    return null;
                 }
 
                 oldParkingSpot = parkingSpot;
@@ -128,11 +128,16 @@ namespace ParkingService.Managers
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns>int</returns>
-        public async Task<int> GetAmountFreeParkingSpots(DateTime startDate, DateTime endDate)
+        public async Task<int> GetAmountFreeParkingSpots(int id, DateTime startDate, DateTime endDate)
         {
             try
             {
-                List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p => p.reservationTimeSlots).ToListAsync();
+                List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p => p.reservationTimeSlots).Where(p=>p.parkingGarageID == id).ToListAsync();
+                if(parkingSpots == null)
+                {
+                    return -1;
+                }
+
                 int count = 0;
                 bool free = true;
 

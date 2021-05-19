@@ -37,6 +37,11 @@ namespace ParkingService.Controllers
             try
             {
                 List<ParkingSpot> parkingSpots = await parkingSpotManager.GetAllParkingSpots(id);
+                if(parkingSpots == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(parkingSpots);
             }
             catch (Exception)
@@ -62,7 +67,7 @@ namespace ParkingService.Controllers
                     return NotFound();
                 }
 
-                return parkingSpot;
+                return Ok(parkingSpot);
             }
             catch (Exception)
             {
@@ -79,15 +84,15 @@ namespace ParkingService.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ParkingSpot>> PutParkingSpot(int id, [FromBody] ParkingSpot parkingSpot)
         {
-            if (id != parkingSpot.parkingSpotID)
-            {
-                return BadRequest();
-            }
             try
             {
-                await parkingSpotManager.UpdateParkingSpot(parkingSpot);
+                ParkingSpot updatedParkingSpot = await parkingSpotManager.UpdateParkingSpot(id, parkingSpot);
+                if(updatedParkingSpot == null)
+                {
+                    return NotFound();
+                }
 
-                return Ok(parkingSpot);
+                return Ok(updatedParkingSpot);
             }
             catch (NullReferenceException)
             {
@@ -157,9 +162,17 @@ namespace ParkingService.Controllers
         {
             try
             {
-                int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.startDateTime, timeSlot.endDateTime);
+                int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.parkingGarageId, timeSlot.startDateTime, timeSlot.endDateTime);
+                if(amount == -1)
+                {
+                    return NotFound();
+                }
 
                 return Ok(amount);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
             }
             catch (Exception)
             {
@@ -191,8 +204,8 @@ namespace ParkingService.Controllers
                 }
                 reservation.parkingSpotID = parkingSpot.parkingSpotID;
                 reservation.accountID = accountID;
-                await reservationTimeSlotManager.CreateReservationTimeSlot(reservation);
-                return Ok(parkingSpot);
+                ReservationTimeSlot newReservation = await reservationTimeSlotManager.CreateReservationTimeSlot(reservation);
+                return Ok(newReservation);
             }
             catch (Exception)
             {
