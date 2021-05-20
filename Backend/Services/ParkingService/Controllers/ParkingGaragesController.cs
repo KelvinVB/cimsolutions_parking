@@ -29,6 +29,8 @@ namespace ParkingService.Controllers
         /// </summary>
         /// <returns>List of ParkingGarage</returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<ParkingGarage>>> GetParkingGarages()
         {
             try
@@ -49,6 +51,11 @@ namespace ParkingService.Controllers
         /// <returns>ParkingGarage</returns>
         [HttpGet("{id}")]
         [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParkingGarage>> GetParkingGarage(int id)
         {
             try
@@ -76,6 +83,11 @@ namespace ParkingService.Controllers
         /// <returns>ParkingGarage</returns>
         [HttpPut("{id}")]
         [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParkingGarage>> PutParkingGarage(int id, [FromBody] ParkingGarage parkingGarage)
         {
             try
@@ -105,6 +117,10 @@ namespace ParkingService.Controllers
         /// <returns>ParkingGarage</returns>
         [HttpPost]
         [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<ParkingGarage>> PostParkingGarage([FromBody] ParkingGarage parkingGarage)
         {
             try
@@ -126,6 +142,11 @@ namespace ParkingService.Controllers
         /// <returns>ParkingGarage</returns>
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParkingGarage>> DeleteParkingGarage(int id)
         {
             try

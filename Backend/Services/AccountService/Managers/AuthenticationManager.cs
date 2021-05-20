@@ -88,10 +88,6 @@ namespace AccountService.Managers
 
                 return new AuthenticateResponse(user, token);
             }
-            catch (NullReferenceException)
-            {
-                throw new NullReferenceException();
-            }
             catch (Exception e)
             {
                 throw new Exception(e.Message);

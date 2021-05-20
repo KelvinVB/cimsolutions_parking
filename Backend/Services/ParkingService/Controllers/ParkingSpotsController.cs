@@ -34,6 +34,11 @@ namespace ParkingService.Controllers
         // <returns>List of ParkingSpot</returns>
         [HttpGet("all/{id}")]
         [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<ParkingSpot>>> GetParkingSpots(int id)
         {
             try
@@ -59,6 +64,11 @@ namespace ParkingService.Controllers
         /// <returns>ParkingSpot</returns>
         [HttpGet("{id}")]
         [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParkingSpot>> GetParkingSpot(int id)
         {
             try
@@ -86,6 +96,11 @@ namespace ParkingService.Controllers
         /// <returns>ParkingSpot</returns>
         [HttpPut("{id}")]
         [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParkingSpot>> PutParkingSpot(int id, [FromBody] ParkingSpot parkingSpot)
         {
             try
@@ -115,6 +130,10 @@ namespace ParkingService.Controllers
         /// <returns>ParkingSpot</returns>
         [HttpPost]
         [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<ParkingSpot>> PostParkingSpot([FromBody] ParkingSpot parkingSpot)
         {
             try
@@ -136,6 +155,11 @@ namespace ParkingService.Controllers
         /// <returns>ParkingSpot</returns>
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParkingSpot>> DeleteParkingSpot(int id)
         {
             try
@@ -164,6 +188,9 @@ namespace ParkingService.Controllers
         /// <param name="timeSlot"></param>
         /// <returns>ReservationTimeSlot</returns>
         [HttpPost("freespots")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] TimeSlot timeSlot)
         {
             try
@@ -192,6 +219,10 @@ namespace ParkingService.Controllers
         /// <param name="reservation"></param>
         /// <returns>ReservationTimeSlot</returns>
         [HttpPost("reserve")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ReservationTimeSlot>> Reserve([FromBody] ReservationTimeSlot reservation)
         {
             string accountID = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;

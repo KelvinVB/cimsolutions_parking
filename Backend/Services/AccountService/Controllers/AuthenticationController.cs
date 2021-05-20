@@ -28,6 +28,9 @@ namespace AccountService.Controllers
         /// <param name="request"></param>
         /// <returns>AuthenticateResponse with token</returns>
         [HttpPost("authenticate")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Authenticate([FromBody] Authentication request)
         {
             try
@@ -40,10 +43,6 @@ namespace AccountService.Controllers
                 }
                 
                 return Ok(response);
-            }
-            catch (NullReferenceException)
-            {
-                return Unauthorized();
             }
             catch (Exception)
             {

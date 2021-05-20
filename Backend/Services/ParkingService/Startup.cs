@@ -79,6 +79,8 @@ namespace Parking
             services.AddScoped<IParkingGarageManager, ParkingGarageManager>();
             services.AddScoped<IParkingSpotManager, ParkingSpotManager>();
             services.AddScoped<IReservationTimeSlotManager, ReservationTimeSlotManager>();
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,6 +104,13 @@ namespace Parking
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger");
             });
         }
     }

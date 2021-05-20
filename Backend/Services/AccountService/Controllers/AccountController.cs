@@ -30,6 +30,10 @@ namespace AccountService.Controllers
         /// <returns>account</returns>
         [HttpGet("get")]
         [Authorize(Roles = "user")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAccountAsync()
         {
             try
@@ -54,6 +58,9 @@ namespace AccountService.Controllers
         /// <param name="request"></param>
         /// <returns>account</returns>
         [HttpPost("create")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CreateAccountAsync([FromBody] Account request)
         {
             try
@@ -78,6 +85,11 @@ namespace AccountService.Controllers
         }
 
         [HttpPut("update")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateAccountAsync(Account request)
         {
             try
@@ -104,6 +116,10 @@ namespace AccountService.Controllers
         }
 
         [HttpDelete("delete")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteAccountAsync()
         {
             try
