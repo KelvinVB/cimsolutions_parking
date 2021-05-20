@@ -19,7 +19,7 @@ using Xunit;
 
 namespace Tests
 {
-    public class ParkingGarageControllerTests
+    public class ParkingGarageControllerTests : IDisposable
     {
         ParkingContext context;
         ParkingGaragesController controller;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -31,13 +32,20 @@ namespace AccountService.Controllers
         [Authorize(Roles = "user")]
         public async Task<IActionResult> GetAccountAsync()
         {
-            string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            Account account = await accountManager.GetAccount(accountID);
+            try
+            {
+                string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                Account account = await accountManager.GetAccount(accountID);
 
-            if (account == null)
-                return BadRequest(new { message = "Can't receive account" });
+                if (account == null)
+                    return NotFound(new { message = "Can't receive account" });
 
-            return Ok(account);
+                return Ok(account);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -48,43 +56,72 @@ namespace AccountService.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateAccountAsync([FromBody] Account request)
         {
-            Account account = await accountManager.CreateAccount(request);
-
-            if(account == null)
+            try
             {
-                return BadRequest("Could not create a new account.");
-            }
+                Account account = await accountManager.CreateAccount(request);
 
-            return Ok(account);
+                if (account == null)
+                {
+                    return BadRequest("Could not create a new account.");
+                }
+
+                return Ok(account);
+            }
+            catch (DuplicateNameException)
+            {
+                return new ConflictResult();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut("update")]
         public async Task<IActionResult> UpdateAccountAsync(Account request)
         {
-            string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            request.accountID = accountID;
-            Account account = await accountManager.UpdateAccount(request);
-
-            if (account == null)
+            try
             {
-                return BadRequest("Could not update account.");
-            }
+                string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                request.accountID = accountID;
+                Account account = await accountManager.UpdateAccount(request);
 
-            return Ok(account);
+                if (account == null)
+                {
+                    return NotFound("Could not update account.");
+                }
+
+                return Ok(account);
+            }
+            catch (DuplicateNameException)
+            {
+                return new ConflictResult();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteAccountAsync()
         {
-            string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            Account account = await accountManager.DeleteAccount(accountID);
-
-            if (account == null)
+            try
             {
-                return BadRequest("Could not delete the account.");
-            }
+                string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                Account account = await accountManager.DeleteAccount(accountID);
 
-            return Ok(account);
+                if (account == null)
+                {
+                    return NotFound("Could not delete the account.");
+                }
+
+                return Ok(account);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }
