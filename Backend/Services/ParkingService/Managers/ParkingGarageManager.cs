@@ -46,10 +46,10 @@ namespace ParkingService.Managers
         {
             try
             {
-                ParkingGarage parkingGarage = await context.ParkingGarages.SingleAsync(p => p.parkingGarageID == parkingGarageID);
+                ParkingGarage parkingGarage = await context.ParkingGarages.Where(p => p.parkingGarageID == parkingGarageID).FirstOrDefaultAsync();
                 if (parkingGarage == null)
                 {
-                    throw new NullReferenceException();
+                    return null;
                 }
 
                 context.ParkingGarages.Remove(parkingGarage);
@@ -71,8 +71,8 @@ namespace ParkingService.Managers
         {
             try
             {
-                ParkingGarage parkingGarage = await context.ParkingGarages.FindAsync(parkingGarageID);
-
+                ParkingGarage parkingGarage = await context.ParkingGarages.Where(p=> p.parkingGarageID == parkingGarageID).FirstOrDefaultAsync();
+                
                 return parkingGarage;
             }
             catch(Exception)
@@ -86,19 +86,20 @@ namespace ParkingService.Managers
         /// </summary>
         /// <param name="parkingGarage"></param>
         /// <returns>ParkingGarage</returns>
-        public async Task<ParkingGarage> UpdateParkingGarage(ParkingGarage parkingGarage)
+        public async Task<ParkingGarage> UpdateParkingGarage(int id, ParkingGarage parkingGarage)
         {
             try
             {
-                ParkingGarage oldparkingGarage = await context.ParkingGarages.SingleAsync(p => p.parkingGarageID == parkingGarage.parkingGarageID);
+                ParkingGarage oldparkingGarage = await context.ParkingGarages.Where(p => p.parkingGarageID == id).FirstOrDefaultAsync();
                 if (oldparkingGarage == null)
                 {
-                    throw new NullReferenceException();
+                    return null;
                 }
 
                 oldparkingGarage = parkingGarage;
+                context.ParkingGarages.Update(oldparkingGarage);
                 context.SaveChanges();
-                return parkingGarage;
+                return oldparkingGarage;
             }
             catch (Exception)
             {

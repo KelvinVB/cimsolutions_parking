@@ -113,6 +113,7 @@ namespace ParkingService.Managers
                 }
 
                 oldParkingSpot = parkingSpot;
+                context.parkingSpots.Update(oldParkingSpot);
                 context.SaveChanges();
                 return parkingSpot;
             }

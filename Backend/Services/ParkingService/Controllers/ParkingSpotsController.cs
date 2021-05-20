@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,12 +33,13 @@ namespace ParkingService.Controllers
         // </summary>
         // <returns>List of ParkingSpot</returns>
         [HttpGet("all/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<ParkingSpot>>> GetParkingSpots(int id)
         {
             try
             {
                 List<ParkingSpot> parkingSpots = await parkingSpotManager.GetAllParkingSpots(id);
-                if(parkingSpots == null)
+                if (parkingSpots == null)
                 {
                     return NotFound();
                 }
@@ -56,6 +58,7 @@ namespace ParkingService.Controllers
         /// <param name="id"></param>
         /// <returns>ParkingSpot</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<ParkingSpot>> GetParkingSpot(int id)
         {
             try
@@ -82,12 +85,13 @@ namespace ParkingService.Controllers
         /// <param name="parkingSpot"></param>
         /// <returns>ParkingSpot</returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<ParkingSpot>> PutParkingSpot(int id, [FromBody] ParkingSpot parkingSpot)
         {
             try
             {
                 ParkingSpot updatedParkingSpot = await parkingSpotManager.UpdateParkingSpot(id, parkingSpot);
-                if(updatedParkingSpot == null)
+                if (updatedParkingSpot == null)
                 {
                     return NotFound();
                 }
@@ -110,6 +114,7 @@ namespace ParkingService.Controllers
         /// <param name="parkingSpot"></param>
         /// <returns>ParkingSpot</returns>
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<ParkingSpot>> PostParkingSpot([FromBody] ParkingSpot parkingSpot)
         {
             try
@@ -129,6 +134,7 @@ namespace ParkingService.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ParkingSpot</returns>
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ParkingSpot>> DeleteParkingSpot(int id)
         {
@@ -163,7 +169,7 @@ namespace ParkingService.Controllers
             try
             {
                 int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.parkingGarageId, timeSlot.startDateTime, timeSlot.endDateTime);
-                if(amount == -1)
+                if (amount == -1)
                 {
                     return NotFound();
                 }

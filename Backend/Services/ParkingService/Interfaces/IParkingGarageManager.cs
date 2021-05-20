@@ -13,7 +13,7 @@ namespace ParkingService.Interfaces
         Task<ParkingGarage> CreateParkingGarage(ParkingGarage parkingGarage);
         Task<ParkingGarage> GetParkingGarage(int parkingGarageID);
         Task<List<ParkingGarage>> GetAllParkingGarages();
-        Task<ParkingGarage> UpdateParkingGarage(ParkingGarage parkingGarage);
+        Task<ParkingGarage> UpdateParkingGarage(int id, ParkingGarage parkingGarage);
         Task<ParkingGarage> DeleteParkingGarage(int parkingGarageID);
     }
 }

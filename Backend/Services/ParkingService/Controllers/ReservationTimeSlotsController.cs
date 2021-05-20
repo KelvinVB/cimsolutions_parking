@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ namespace ParkingService.Controllers
         /// <param name="id"></param>
         /// <returns>List of ReservationTimeSlot</returns>
         [HttpGet("all/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<List<ReservationTimeSlot>>> GetAllreservationTimeSlots(int id)
         {
             try
@@ -82,14 +84,9 @@ namespace ParkingService.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ReservationTimeSlot>> PutReservationTimeSlot(int id, [FromBody] ReservationTimeSlot reservationTimeSlot)
         {
-            if (id != reservationTimeSlot.reservationTimeSlotID)
-            {
-                return NotFound();
-            }
-
             try
             {
-                ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(reservationTimeSlot);
+                ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(id, reservationTimeSlot);
 
                 if (reservation == null)
                 {
@@ -125,7 +122,7 @@ namespace ParkingService.Controllers
                     return BadRequest();
                 }
 
-                return reservation;
+                return Ok(reservation);
             }
             catch (Exception)
             {

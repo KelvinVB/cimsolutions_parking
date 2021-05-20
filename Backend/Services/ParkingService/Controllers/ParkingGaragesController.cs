@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,7 @@ namespace ParkingService.Controllers
         /// <param name="id"></param>
         /// <returns>ParkingGarage</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<ParkingGarage>> GetParkingGarage(int id)
         {
             try
@@ -58,7 +60,7 @@ namespace ParkingService.Controllers
                     return NotFound();
                 }
 
-                return parkingGarage;
+                return Ok(parkingGarage);
             }
             catch (Exception)
             {
@@ -73,16 +75,16 @@ namespace ParkingService.Controllers
         /// <param name="parkingGarage"></param>
         /// <returns>ParkingGarage</returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<ParkingGarage>> PutParkingGarage(int id, [FromBody] ParkingGarage parkingGarage)
         {
-            if (id != parkingGarage.parkingGarageID)
-            {
-                return BadRequest();
-            }
-
             try
             {
-                await parkingGarageManager.UpdateParkingGarage(parkingGarage);
+                ParkingGarage updatedParkingGarage = await parkingGarageManager.UpdateParkingGarage(id, parkingGarage);
+                if(updatedParkingGarage == null)
+                {
+                    return NotFound();
+                }
 
                 return Ok(parkingGarage);
             }
@@ -102,6 +104,7 @@ namespace ParkingService.Controllers
         /// <param name="parkingGarage"></param>
         /// <returns>ParkingGarage</returns>
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<ParkingGarage>> PostParkingGarage([FromBody] ParkingGarage parkingGarage)
         {
             try
@@ -122,6 +125,7 @@ namespace ParkingService.Controllers
         /// <param name="id"></param>
         /// <returns>ParkingGarage</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<ParkingGarage>> DeleteParkingGarage(int id)
         {
             try

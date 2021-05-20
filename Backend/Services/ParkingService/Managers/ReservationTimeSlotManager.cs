@@ -45,10 +45,10 @@ namespace ParkingService.Managers
         {
             try
             {
-                ReservationTimeSlot reservation = await context.reservationTimeSlots.FindAsync(reservationTimeSlotID);
+                ReservationTimeSlot reservation = await context.reservationTimeSlots.Where(r=> r.reservationTimeSlotID == reservationTimeSlotID).FirstOrDefaultAsync();
                 if(reservation == null)
                 {
-                    throw new NullReferenceException();
+                    return null;
                 }
 
                 context.reservationTimeSlots.Remove(reservation);
@@ -71,7 +71,7 @@ namespace ParkingService.Managers
         {
             try
             {
-                ReservationTimeSlot reservation = await context.reservationTimeSlots.FindAsync(reservationTimeSlotID);
+                ReservationTimeSlot reservation = await context.reservationTimeSlots.Where(r=> r.reservationTimeSlotID == reservationTimeSlotID).FirstOrDefaultAsync();
 
                 return reservation;
             }
@@ -86,11 +86,19 @@ namespace ParkingService.Managers
         /// </summary>
         /// <param name="reservationTimeSlot"></param>
         /// <returns>ReservationTimeSlot</returns>
-        public async Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
+        public async Task<ReservationTimeSlot> UpdateReservationTimeSlot(int id, ReservationTimeSlot reservationTimeSlot)
         {
             try
             {
-                context.reservationTimeSlots.Update(reservationTimeSlot);
+                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.Where(r => r.reservationTimeSlotID == id).FirstOrDefaultAsync();
+
+                if(oldReservationTimeSlot == null)
+                {
+                    return null;
+                }
+
+                oldReservationTimeSlot = reservationTimeSlot;
+                context.reservationTimeSlots.Update(oldReservationTimeSlot);
                 await context.SaveChangesAsync();
 
                 return reservationTimeSlot;

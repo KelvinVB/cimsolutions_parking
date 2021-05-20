@@ -43,7 +43,7 @@ namespace Tests
 
             var claim = new Claim("accountID", "testID");
             var httpContext = new Mock<HttpContext>();
-            httpContext.Setup(m => m.User.IsInRole("user")).Returns(true);
+            httpContext.Setup(m => m.User.IsInRole("admin")).Returns(true);
             httpContext.Setup(m => m.User.FindFirst(ClaimTypes.NameIdentifier)).Returns(claim);
 
             var controllerContext = new ControllerContext(new ActionContext(httpContext.Object, new RouteData(), new ControllerActionDescriptor()));
@@ -177,7 +177,6 @@ namespace Tests
             // Assert
             NotFoundResult actionResult = Assert.IsType<NotFoundResult>(result.Result);
             Assert.NotNull(actionResult);
-            actionResult = (NotFoundResult)result.Result;
 
             Dispose();
         }
@@ -196,7 +195,6 @@ namespace Tests
             // Assert
             BadRequestResult actionResult = Assert.IsType<BadRequestResult>(result.Result);
             Assert.NotNull(actionResult);
-            actionResult = (BadRequestResult)result.Result;
 
             Dispose();
         }
@@ -229,12 +227,10 @@ namespace Tests
             // Assert
             NotFoundResult actionResult = Assert.IsType<NotFoundResult>(result.Result);
             Assert.NotNull(actionResult);
-            actionResult = (NotFoundResult)result.Result;
 
 
             Dispose();
         }
-
         #endregion
 
         #region freespots
@@ -287,13 +283,14 @@ namespace Tests
         public async Task Reserve_ReturnUnAuthorized()
         {
             // Act
+            controller.ControllerContext = new ControllerContext();
             ReservationTimeSlot timeSlot = new ReservationTimeSlot()
             {
                 startReservation = new DateTime(2021, 1, 1, 12, 0, 0),
                 endReservation = new DateTime(2021, 1, 1, 13, 0, 0),
                 licensePlateNumber = "AA-12-AA"
             };
-
+                        
             var result = await controller.Reserve(timeSlot);
 
             // Assert
