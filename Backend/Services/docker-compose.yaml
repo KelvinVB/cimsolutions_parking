@@ -1,85 +1,90 @@
-version: '2.1'
+version: '3.8'
 
-networks: 
+volumes:
+  kong_data: {}
+
+networks:
   kong-net:
+    external: false
+
 services:
-  #######################################
-  # Postgres: The database used by Kong
-  #######################################
   kong-database:
-    image: postgres:latest
-    container_name: kong-db
-    environment:
-      POSTGRES_DB: kong
-      POSTGRES_USER: kong
-      POSTGRES_PASSWORD: kong
-    networks:
-      - kong-net
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "kong"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    image: cassandra:3
     restart: on-failure
-
-  #######################################
-  # Kong database migration
-  #######################################
-  kong-migrations:
-    image: kong:latest
-    command: kong migrations bootstrap && kong migrations up && kong migrations finish
-    depends_on:
-      kong-database:
-        condition: service_healthy
-    environment:
-      KONG_DATABASE: postgres
-      KONG_PG_HOST: kong-db
-      KONG_PG_USER: kong
-      KONG_PG_PASSWORD: kong
-      KONG_PG_DATABASE: kong
-    networks:
-      - kong-net
-    restart: on-failure
-
-  #######################################
-  # Kong: The API Gateway
-  #######################################
-  kong:
-    image: kong:latest
-    container_name: kong-api
-    depends_on:
-      kong-database:
-        condition: service_healthy
-    environment:
-      KONG_DATABASE: postgres
-      KONG_PG_HOST: kong-db
-      KONG_PG_USER: kong
-      KONG_PG_PASSWORD: kong
-      KONG_PG_DATABASE: kong
-      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+    deploy:
+      restart_policy:
+        condition: on-failure
+    stdin_open: true
+    tty: true
     networks:
       - kong-net
     ports:
-      - "8000:8000"
-      - "8001:8001"
-    healthcheck:
-      test: ["CMD", "kong", "health"]
-      interval: 10s
-      timeout: 10s
-      retries: 10
+      - "9042:9042"
+
+  kong-migrations:
+    image: "${KONG_DOCKER_TAG:-kong:latest}"
+    command: kong migrations bootstrap
+    depends_on:
+      - kong-database
+    environment:
+      - KONG_DATABASE= cassandra
+      - KONG_CASSANDRA_CONTACT_POINTS= kong-database
+      - KONG_LICENSE_DATA= $KONG_LICENSE_DATA
+    networks:
+      - kong-net
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  kong:
+    image: kong:latest
+    container_name: kong-api
+    environment:
+      - KONG_DATABASE= cassandra
+      - KONG_CASSANDRA_CONTACT_POINTS= kong-database
+      - KONG_PROXY_ACCESS_LOG= /dev/stdout
+      - KONG_ADMIN_ACCESS_LOG= /dev/stdout
+      - KONG_PROXY_ERROR_LOG= /dev/stderr
+      - KONG_ADMIN_ERROR_LOG= /dev/stderr
+      - KONG_ADMIN_LISTEN= 0.0.0.0:8001
+      - KONG_ADMIN_GUI_LISTEN=0.0.0.0:8002
+      - KONG_ADMIN_GUI_URL=http://localhost:8002
+      - KONG_LICENSE_DATA= $KONG_LICENSE_DATA
+    networks:
+      - kong-net
+    ports:
+      - "8000:8000/tcp"
+      - "127.0.0.1:8001:8001/tcp"
+      - "8443:8443/tcp"
+      - "127.0.0.1:8444:8444/tcp"
+    depends_on:
+      - kong-database
     restart: on-failure
 
-  parkingservice:
-      container_name: parkingservice
-      build: 
-          context: ./parkingservice
-          dockerfile: dockerfile
-      ports: 
-        - "8080:8080"
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    user: root
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Root_123
+    volumes:
+      - ./data:/var/opt/mssql/data
+    
   accountservice:
-      container_name: accountservice
-      build: 
-          context: ./accountservice
-          dockerfile: dockerfile
-      ports: 
-        - "8090:8090"
+    container_name: accountservice
+    build:
+      context: ./accountservice
+      dockerfile: Dockerfile
+    ports: 
+       - "5000:80"
+
+  parkingservice:
+    container_name: parkingservice
+    build:
+      context: ./parkingservice
+      dockerfile: Dockerfile
+    ports: 
+       - "5100:80"

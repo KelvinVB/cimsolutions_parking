@@ -1,0 +1,15 @@
+_format_version: "2.1"
+
+services:
+	-name: accountservice
+	url: http://host.docker.internal:8090
+	routes:
+		-name: account
+		paths:
+			- /account
+	-name: parkingservice
+	url: http://host.docker.internal:8080
+	routes:
+		-name: parking
+		paths:
+			- /parking
