@@ -53,29 +53,41 @@ namespace AccountService.Managers
         /// <returns>AuthenticateResponse</returns>
         AuthenticateResponse IAuthenticationManager.Authenticate(Authentication request)
         {
-            Authentication auth = accountCredentials.Find(x => x.username == request.username).SingleOrDefault();
-            bool validPassword = BCrypt.Net.BCrypt.Verify(request.password, auth.password);
-            if (!validPassword)
+            try
             {
-                return null;
+                Authentication auth = accountCredentials.Find(x => x.username == request.username).SingleOrDefault();
+                
+                bool validPassword = BCrypt.Net.BCrypt.Verify(request.password, auth.password);
+                if (!validPassword)
+                {
+                    return null;
+                }
+
+                Account user = accounts.Find(x => x.accountID == auth.accountID).SingleOrDefault();
+
+                // return null if user not found
+                if (user == null) return null;
+
+                //add accountId and role claim
+                Claim[] claims = new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier,user.accountID),
+                    new Claim(ClaimTypes.Role, user.role)
+                };
+
+                // authentication successful so generate jwt token
+                string token = generateJwtToken(auth, claims, DateTime.Now);
+
+                return new AuthenticateResponse(user, token);
             }
-
-            Account user = accounts.Find(x => x.accountID == auth.accountID).SingleOrDefault();
-
-            // return null if user not found
-            if (user == null) return null;
-
-            //add accountId and role claim
-            Claim[] claims = new[]
+            catch (NullReferenceException)
             {
-            new Claim(ClaimTypes.NameIdentifier,user.accountID),
-            new Claim(ClaimTypes.Role, user.role)
-            };
-
-            // authentication successful so generate jwt token
-            string token = generateJwtToken(auth, claims, DateTime.Now);
-
-            return new AuthenticateResponse(user, token);
+                throw new NullReferenceException();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         /// <summary>

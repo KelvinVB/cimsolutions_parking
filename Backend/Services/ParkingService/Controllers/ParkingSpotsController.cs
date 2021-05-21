@@ -31,11 +31,11 @@ namespace ParkingService.Controllers
         /// Get all parking spots
         /// </summary>
         /// <returns>List of ParkingSpot</returns>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ParkingSpot>>> GetParkingSpots()
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<ParkingSpot>>> GetParkingSpots()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// Get parking spot information with id
@@ -106,7 +106,7 @@ namespace ParkingService.Controllers
             return parkingSpot;
         }
 
-        [HttpGet("freespots")]
+        [HttpPost("freespots")]
         public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] TimeSlot timeSlot)
         {
             int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.startDateTime, timeSlot.endDateTime);
@@ -119,6 +119,10 @@ namespace ParkingService.Controllers
         {
             string accountID = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             ParkingSpot parkingSpot = await parkingSpotManager.GetFreeParkingSpot(reservation.startReservation, reservation.endReservation);
+            if(accountID == null)
+            {
+                return Unauthorized();
+            }
             if (parkingSpot == null)
             {
                 return BadRequest("No parking spots available");
@@ -126,6 +130,7 @@ namespace ParkingService.Controllers
             else
             {
                 reservation.parkingSpotID = parkingSpot.parkingSpotID;
+                reservation.accountID = accountID;
                 await reservationTimeSlotManager.CreateReservationTimeSlot(reservation);
                 return Ok(parkingSpot);
             }

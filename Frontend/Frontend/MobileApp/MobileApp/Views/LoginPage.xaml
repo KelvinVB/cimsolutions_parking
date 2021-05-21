@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MobileApp.Views.LoginPage">
+    
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Login" Style="{StaticResource LabelH1}" />
+
+            <Entry x:Name="EntryUsername" Placeholder="Username" />
+            <Entry x:Name="EntryPassword" Placeholder="Password" />
+
+            <Button x:Name="ButtonLogin"  Text="Login" Clicked="OnButtonLoginClicked" Style="{StaticResource ButtonStyle}"/>
+            <Button x:Name="ButtonRegister"  Text="Register" Clicked="OnButtonRegisterClicked" Style="{StaticResource ButtonStyle}"/>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

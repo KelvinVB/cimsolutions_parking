@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MobileApp.App">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--Global Styles-->
+            <Color x:Key="NavigationPrimary">#5d9228</Color>
+            <Style x:Key="DefaultPageStyle" TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="#ebf5ee"/>
+            </Style>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="#5d9228" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="BorderRadius" Value="15" />
+                <Setter Property="BackgroundColor" Value="#6ca439"/>
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="20" />
+            </Style>
+            <Style x:Key="LabelH1" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="LabelH2" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
+            <Style x:Key="LabelH3" TargetType="Label">
+                <Setter Property="TextColor" Value="Gray"/>
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+            <Style x:Key="DatePicker" TargetType="DatePicker">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+            <Style x:Key="TimePicker" TargetType="TimePicker">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+            
+            <!--Change default styles-->
+            <OnPlatform x:Key="FontFamilyName" x:TypeArguments="x:String" 
+                        iOS="Roboto" 
+                        Android="Roboto" 
+                        WinPhone="Roboto" />
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource FontFamilyName}" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="{DynamicResource FontFamilyName}" />
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="FontFamily" Value="{DynamicResource FontFamilyName}" />
+            </Style>
+            <Style TargetType="DatePicker">
+                <Setter Property="FontFamily" Value="{DynamicResource FontFamilyName}" />
+            </Style>
+            <Style TargetType="TimePicker">
+                <Setter Property="FontFamily" Value="{DynamicResource FontFamilyName}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+    
+</Application>

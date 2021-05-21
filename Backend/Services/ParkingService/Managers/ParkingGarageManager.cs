@@ -40,7 +40,7 @@ namespace ParkingService.Managers
 
                 return parkingGarage;
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return null;
             }
