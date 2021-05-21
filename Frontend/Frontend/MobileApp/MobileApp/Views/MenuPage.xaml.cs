@@ -21,10 +21,10 @@ namespace MobileApp.Views
             menuItems = new List<HomeMenuItem>
             {
                 new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" },
-                new HomeMenuItem {Id = MenuItemType.Account, Title="Account" },
-                new HomeMenuItem {Id = MenuItemType.Reservations, Title="Reservations" },
-                new HomeMenuItem {Id = MenuItemType.Payments, Title="Payments" }
+                new HomeMenuItem {Id = MenuItemType.Reservate, Title="Reservate" },
+                new HomeMenuItem {Id = MenuItemType.Account, Title="My Account" },
+                new HomeMenuItem {Id = MenuItemType.Reservations, Title="My Reservations" },
+                new HomeMenuItem {Id = MenuItemType.Payments, Title="My Payments" }
             };
 
             ListViewMenu.ItemsSource = menuItems;

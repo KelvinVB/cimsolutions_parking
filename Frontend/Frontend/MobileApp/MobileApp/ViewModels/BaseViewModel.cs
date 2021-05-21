@@ -15,6 +15,7 @@ namespace MobileApp.ViewModels
         public IAccountService accountService => DependencyService.Get<IAccountService>() ?? new AccountService();
         public IAuthenticationService authenticationService => DependencyService.Get<IAuthenticationService>() ?? new AuthenticationService();
         public IParkingSpotService parkingSpotService => DependencyService.Get<IParkingSpotService>() ?? new ParkingSpotService();
+        public ITimeSlotService timeSlotService => DependencyService.Get<ITimeSlotService>() ?? new TimeSlotService();
 
         bool isBusy = false;
         public bool IsBusy
