@@ -1,4 +1,5 @@
-﻿using ParkingService.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using ParkingService.Context;
 using ParkingService.Interfaces;
 using ParkingService.Models;
 using System;
@@ -17,14 +18,48 @@ namespace ParkingService.Managers
             this.context = context;
         }
 
-        public Task<ParkingGarage> CreateParkingGarage(ParkingGarage parkingGarage)
+        /// <summary>
+        /// creates new parking garage
+        /// </summary>
+        /// <param name="parkingGarage"></param>
+        /// <returns>ParkingGarage</returns>
+        public async Task<ParkingGarage> CreateParkingGarage(ParkingGarage parkingGarage)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await context.ParkingGarages.AddAsync(parkingGarage);
+                context.SaveChanges();
+                return parkingGarage;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
-        public Task<ParkingGarage> DeleteParkingGarage(int parkingGarageID)
+        /// <summary>
+        /// deletes parking garage
+        /// </summary>
+        /// <param name="parkingGarageID"></param>
+        /// <returns>ParkingGarage</returns>
+        public async Task<ParkingGarage> DeleteParkingGarage(int parkingGarageID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ParkingGarage parkingGarage = await context.ParkingGarages.Where(p => p.parkingGarageID == parkingGarageID).FirstOrDefaultAsync();
+                if (parkingGarage == null)
+                {
+                    return null;
+                }
+
+                context.ParkingGarages.Remove(parkingGarage);
+                context.SaveChanges();
+                return parkingGarage;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
         /// <summary>
@@ -36,19 +71,53 @@ namespace ParkingService.Managers
         {
             try
             {
-                ParkingGarage parkingGarage = await context.ParkingGarages.FindAsync(parkingGarageID);
-
+                ParkingGarage parkingGarage = await context.ParkingGarages.Where(p=> p.parkingGarageID == parkingGarageID).FirstOrDefaultAsync();
+                
                 return parkingGarage;
             }
             catch(Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
 
-        public Task<ParkingGarage> UpdateParkingGarage(ParkingGarage parkingGarage)
+        /// <summary>
+        /// Updates parking garage
+        /// </summary>
+        /// <param name="parkingGarage"></param>
+        /// <returns>ParkingGarage</returns>
+        public async Task<ParkingGarage> UpdateParkingGarage(int id, ParkingGarage parkingGarage)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ParkingGarage oldparkingGarage = await context.ParkingGarages.Where(p => p.parkingGarageID == id).FirstOrDefaultAsync();
+                if (oldparkingGarage == null)
+                {
+                    return null;
+                }
+
+                oldparkingGarage = parkingGarage;
+                context.ParkingGarages.Update(oldparkingGarage);
+                context.SaveChanges();
+                return oldparkingGarage;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+
+        public async Task<List<ParkingGarage>> GetAllParkingGarages()
+        {
+            try
+            {
+                List<ParkingGarage> parkingGarage = await context.ParkingGarages.ToListAsync();
+                return parkingGarage;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
     }
 }

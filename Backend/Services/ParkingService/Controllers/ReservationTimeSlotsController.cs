@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,17 +29,30 @@ namespace ParkingService.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>List of ReservationTimeSlot</returns>
-        [HttpGet("getall/{id}")]
+        [HttpGet("all/{id}")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<ReservationTimeSlot>>> GetAllreservationTimeSlots(int id)
         {
-            List<ReservationTimeSlot> reservationTimeSlot = await reservationTimeSlotManager.GetAllReservationTimeSlots(id);
-
-            if(reservationTimeSlot == null)
+            try
             {
-                return NotFound();
-            }
+                List<ReservationTimeSlot> reservationTimeSlot = await reservationTimeSlotManager.GetAllReservationTimeSlots(id);
 
-            return reservationTimeSlot;
+                if (reservationTimeSlot == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(reservationTimeSlot);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -47,16 +61,27 @@ namespace ParkingService.Controllers
         /// <param name="id"></param>
         /// <returns>ReservationTimeSlot</returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ReservationTimeSlot>> GetReservationTimeSlot(int id)
         {
-            var reservationTimeSlot = await reservationTimeSlotManager.GetReservationTimeSlot(id);
-
-            if (reservationTimeSlot == null)
+            try
             {
-                return NotFound();
-            }
+                var reservationTimeSlot = await reservationTimeSlotManager.GetReservationTimeSlot(id);
 
-            return reservationTimeSlot;
+                if (reservationTimeSlot == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(reservationTimeSlot);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -66,21 +91,31 @@ namespace ParkingService.Controllers
         /// <param name="reservationTimeSlot"></param>
         /// <returns>ReservationTimeSlot</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ReservationTimeSlot>> PutReservationTimeSlot(int id, ReservationTimeSlot reservationTimeSlot)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ReservationTimeSlot>> PutReservationTimeSlot(int id, [FromBody] ReservationTimeSlot reservationTimeSlot)
         {
-            if (id != reservationTimeSlot.reservationTimeSlotID)
+            try
+            {
+                ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(id, reservationTimeSlot);
+
+                if (reservation == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(reservation);
+            }
+            catch (NullReferenceException)
             {
                 return NotFound();
             }
-
-            ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(reservationTimeSlot);
-            
-            if (reservation == null)
+            catch (Exception)
             {
                 return BadRequest();
             }
-
-            return reservation;
         }
 
         /// <summary>
@@ -89,16 +124,26 @@ namespace ParkingService.Controllers
         /// <param name="reservationTimeSlot"></param>
         /// <returns>ReservationTimeSLot</returns>
         [HttpPost]
-        public async Task<ActionResult<ReservationTimeSlot>> PostReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<ReservationTimeSlot>> PostReservationTimeSlot([FromBody] ReservationTimeSlot reservationTimeSlot)
         {
-            ReservationTimeSlot reservation = await reservationTimeSlotManager.CreateReservationTimeSlot(reservationTimeSlot);
+            try
+            {
+                ReservationTimeSlot reservation = await reservationTimeSlotManager.CreateReservationTimeSlot(reservationTimeSlot);
 
-            if (reservation == null)
+                if (reservation == null)
+                {
+                    return BadRequest();
+                }
+
+                return Ok(reservation);
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
-
-            return reservation;
         }
 
         /// <summary>
@@ -107,16 +152,31 @@ namespace ParkingService.Controllers
         /// <param name="id"></param>
         /// <returns>ReservationTimeSlot</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ReservationTimeSlot>> DeleteReservationTimeSlot(int id)
         {
             ReservationTimeSlot reservation = await reservationTimeSlotManager.DeleteReservationTimeSlot(id);
 
-            if(reservation == null)
+            try
+            {
+                if (reservation == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(reservation);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
-
-            return reservation;
         }
     }
 }

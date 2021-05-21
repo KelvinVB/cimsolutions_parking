@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		kong.yml = kong.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{A0246C38-4EE1-4B51-B05D-27CBF0814BE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{DD354F4F-252A-446D-BA98-3A4374F47B1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD354F4F-252A-446D-BA98-3A4374F47B1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD354F4F-252A-446D-BA98-3A4374F47B1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0246C38-4EE1-4B51-B05D-27CBF0814BE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0246C38-4EE1-4B51-B05D-27CBF0814BE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0246C38-4EE1-4B51-B05D-27CBF0814BE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0246C38-4EE1-4B51-B05D-27CBF0814BE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

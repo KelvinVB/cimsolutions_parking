@@ -32,7 +32,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
 
@@ -45,7 +45,12 @@ namespace ParkingService.Managers
         {
             try
             {
-                ReservationTimeSlot reservation = await context.reservationTimeSlots.FindAsync(reservationTimeSlotID);
+                ReservationTimeSlot reservation = await context.reservationTimeSlots.Where(r=> r.reservationTimeSlotID == reservationTimeSlotID).FirstOrDefaultAsync();
+                if(reservation == null)
+                {
+                    return null;
+                }
+
                 context.reservationTimeSlots.Remove(reservation);
                 await context.SaveChangesAsync();
 
@@ -53,7 +58,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
 
@@ -66,31 +71,49 @@ namespace ParkingService.Managers
         {
             try
             {
-                ReservationTimeSlot reservation = await context.reservationTimeSlots.FindAsync(reservationTimeSlotID);
+                ReservationTimeSlot reservation = await context.reservationTimeSlots.Where(r=> r.reservationTimeSlotID == reservationTimeSlotID).FirstOrDefaultAsync();
 
                 return reservation;
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
 
-        public async Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
+        /// <summary>
+        /// update timeslot
+        /// </summary>
+        /// <param name="reservationTimeSlot"></param>
+        /// <returns>ReservationTimeSlot</returns>
+        public async Task<ReservationTimeSlot> UpdateReservationTimeSlot(int id, ReservationTimeSlot reservationTimeSlot)
         {
             try
             {
-                context.reservationTimeSlots.Update(reservationTimeSlot);
+                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.Where(r => r.reservationTimeSlotID == id).FirstOrDefaultAsync();
+
+                if(oldReservationTimeSlot == null)
+                {
+                    return null;
+                }
+
+                oldReservationTimeSlot = reservationTimeSlot;
+                context.reservationTimeSlots.Update(oldReservationTimeSlot);
                 await context.SaveChangesAsync();
 
                 return reservationTimeSlot;
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
 
+        /// <summary>
+        /// Gets all timeslots
+        /// </summary>
+        /// <param name="parkingSpotID"></param>
+        /// <returns>List of ReservationTimeSlot</returns>
         public async Task<List<ReservationTimeSlot>> GetAllReservationTimeSlots(int parkingSpotID)
         {
             try
@@ -101,7 +124,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
         }
     }

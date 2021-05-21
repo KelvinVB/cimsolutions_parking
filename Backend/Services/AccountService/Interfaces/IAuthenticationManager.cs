@@ -8,7 +8,7 @@ namespace AccountService.Interfaces
 {
     public interface IAuthenticationManager
     {
-        AuthenticateResponse Authenticate(Authentication authenticationModel);
+        Task<AuthenticateResponse> Authenticate(Authentication authenticationModel);
         IEnumerable<Account> GetAll();
         Account GetById(string id);
     }

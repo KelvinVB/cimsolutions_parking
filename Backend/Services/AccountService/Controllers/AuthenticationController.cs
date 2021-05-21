@@ -28,22 +28,23 @@ namespace AccountService.Controllers
         /// <param name="request"></param>
         /// <returns>AuthenticateResponse with token</returns>
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] Authentication request)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Authenticate([FromBody] Authentication request)
         {
             try
             {
-                AuthenticateResponse response = authenticationManager.Authenticate(request);
+                AuthenticateResponse response = await authenticationManager.Authenticate(request);
 
                 if (response == null)
-                    return BadRequest(new { message = "Username or password is incorrect" });
-
+                {
+                    return NotFound(new { message = "Username or password is incorrect" });
+                }
+                
                 return Ok(response);
             }
-            catch (NullReferenceException)
-            {
-                return Unauthorized();
-            }
-            catch(Exception)
+            catch (Exception)
             {
                 return BadRequest();
             }

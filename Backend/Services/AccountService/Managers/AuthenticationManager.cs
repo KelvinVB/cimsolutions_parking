@@ -51,23 +51,31 @@ namespace AccountService.Managers
         /// </summary>
         /// <param name="request"></param>
         /// <returns>AuthenticateResponse</returns>
-        AuthenticateResponse IAuthenticationManager.Authenticate(Authentication request)
+        public async Task<AuthenticateResponse> Authenticate(Authentication request)
         {
             try
             {
-                Authentication auth = accountCredentials.Find(x => x.username == request.username).SingleOrDefault();
-                
+                Authentication auth = await accountCredentials.Find(x => x.username.Equals(request.username)).SingleOrDefaultAsync();
+
+                if (auth == null)
+                {
+                    return null;
+                }
+
                 bool validPassword = BCrypt.Net.BCrypt.Verify(request.password, auth.password);
                 if (!validPassword)
                 {
                     return null;
                 }
 
-                Account user = accounts.Find(x => x.accountID == auth.accountID).SingleOrDefault();
+                Account user = await accounts.Find(x => x.accountID.Equals(auth.accountID)).SingleOrDefaultAsync();
 
                 // return null if user not found
-                if (user == null) return null;
-
+                if (user == null)
+                {
+                    return null;
+                }
+                
                 //add accountId and role claim
                 Claim[] claims = new[]
                 {
@@ -79,10 +87,6 @@ namespace AccountService.Managers
                 string token = generateJwtToken(auth, claims, DateTime.Now);
 
                 return new AuthenticateResponse(user, token);
-            }
-            catch (NullReferenceException)
-            {
-                throw new NullReferenceException();
             }
             catch (Exception e)
             {
