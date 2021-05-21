@@ -37,7 +37,7 @@ namespace MobileApp.Views
 
             try
             {
-                timeSlots = await timeSlotViewModel.GetListTimeSlots();
+                
 
             }
             catch (TimeoutException)

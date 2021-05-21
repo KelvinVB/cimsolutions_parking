@@ -2,6 +2,7 @@
 using MobileApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,12 +10,12 @@ namespace MobileApp.ViewModels
 {
     public class TimeSlotViewModel : BaseViewModel
     {
-        List<TimeSlot> userTimeSlots { get; set; }
-        List<TimeSlot> timeSlots { get { return userTimeSlots; } set { userTimeSlots = value; OnPropertyChanged(); } }
+        ObservableCollection<TimeSlot> userTimeSlots { get; set; }
+        public ObservableCollection<TimeSlot> timeSlots { get { return userTimeSlots; } set { userTimeSlots = value; OnPropertyChanged(); } }
 
         public TimeSlotViewModel()
         {
-            timeSlots = new List<TimeSlot>();
+            timeSlots = new ObservableCollection<TimeSlot>();
             Initialize();
         }
 
@@ -22,7 +23,7 @@ namespace MobileApp.ViewModels
         {
             try
             {
-                await GetListTimeSlots();
+                timeSlots = await timeSlotService.GetListTimeSlots();
                 OnPropertyChanged("userTimeSlots");
             }
             catch (Exception)
@@ -31,12 +32,11 @@ namespace MobileApp.ViewModels
             }
         }
 
-        public async Task<List<TimeSlot>> GetListTimeSlots()
+        public async Task GetListTimeSlots()
         {
             try
             {
                 timeSlots = await timeSlotService.GetListTimeSlots();
-                return timeSlots;
             }
             catch (Exception)
             {

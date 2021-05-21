@@ -3,6 +3,7 @@ using MobileApp.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -28,7 +29,7 @@ namespace MobileApp.Services
             path = "https://10.0.2.2:5001/api/reservationtimeslots/";
         }
 
-        public async Task<List<TimeSlot>> GetListTimeSlots()
+        public async Task<ObservableCollection<TimeSlot>> GetListTimeSlots()
         {
             string token = await SecureStorage.GetAsync("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -41,7 +42,8 @@ namespace MobileApp.Services
 
                 if (result.IsSuccessStatusCode)
                 {
-                    return timeSlots;
+                    ObservableCollection<TimeSlot> timeSlotCollection = new ObservableCollection<TimeSlot>(timeSlots);
+                    return timeSlotCollection;
                 }
                 else if ((int)result.StatusCode == 400)
                 {
