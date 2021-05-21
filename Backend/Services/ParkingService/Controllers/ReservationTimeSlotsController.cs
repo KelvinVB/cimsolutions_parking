@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -91,6 +92,7 @@ namespace ParkingService.Controllers
         /// <param name="reservationTimeSlot"></param>
         /// <returns>ReservationTimeSlot</returns>
         [HttpPut("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -152,6 +154,7 @@ namespace ParkingService.Controllers
         /// <param name="id"></param>
         /// <returns>ReservationTimeSlot</returns>
         [HttpDelete("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -172,6 +175,37 @@ namespace ParkingService.Controllers
             catch (NullReferenceException)
             {
                 return NotFound();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        /// <summary>
+        /// Gets all reservation for an user
+        /// </summary>
+        /// <returns>List of ReservationTimeSlot</returns>
+        [HttpGet("list")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<ReservationTimeSlot>>> GetUserReservationTimeSlots()
+        {
+            try
+            {
+                string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                List<ReservationTimeSlot> reservationTimeSlot = await reservationTimeSlotManager.GetUserReservationTimeSlots(accountID);
+
+                if (reservationTimeSlot == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(reservationTimeSlot);
             }
             catch (Exception)
             {

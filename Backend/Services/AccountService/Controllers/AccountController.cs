@@ -29,7 +29,7 @@ namespace AccountService.Controllers
         /// </summary>
         /// <returns>account</returns>
         [HttpGet("get")]
-        [Authorize(Roles = "user")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -85,6 +85,7 @@ namespace AccountService.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -116,6 +117,7 @@ namespace AccountService.Controllers
         }
 
         [HttpDelete("delete")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

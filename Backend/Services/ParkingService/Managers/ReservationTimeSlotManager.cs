@@ -127,5 +127,24 @@ namespace ParkingService.Managers
                 throw new Exception();
             }
         }
+
+        /// <summary>
+        /// gets all timeslots for account
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns>ReservationTimeSlots</returns>
+        public async Task<List<ReservationTimeSlot>> GetUserReservationTimeSlots(string accountID)
+        {
+            try
+            {
+                List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.accountID.Equals(accountID)).ToListAsync();
+
+                return reservations;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
     }
 }
