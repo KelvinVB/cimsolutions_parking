@@ -8,21 +8,20 @@
              x:Class="MobileApp.Views.ReservationPage"
              Style="{StaticResource DefaultPageStyle}">
     <ContentPage.Content>
-        <StackLayout Spacing="20">
+        <StackLayout VerticalOptions="FillAndExpand" Spacing="20">
             <StackLayout VerticalOptions="Start">
                 <Label Text="Plan your reservation" Style="{StaticResource LabelH1}"/>
             </StackLayout>
-            
-            <StackLayout VerticalOptions="StartAndExpand">
+            <StackLayout VerticalOptions="StartAndExpand" Padding="15, 0">
                 <Label Text="Starting Time:" Style="{StaticResource LabelH2}"/>
-                <StackLayout Orientation="Horizontal" Padding="15,0">
+                <StackLayout Orientation="Horizontal">
 
                     <DatePicker x:Name="DatePickerStart" Date="{x:Static system:DateTime.Today}" Style="{StaticResource DatePicker}"/>
                     <TimePicker x:Name="TimePickerStart" Time="{x:Static system:DateTime.Today}" Style="{StaticResource TimePicker}"/>
                 </StackLayout>
 
                 <Label Text="Ending Time:" Style="{StaticResource LabelH2}"/>
-                <StackLayout Orientation="Horizontal" Padding="15,0">
+                <StackLayout Orientation="Horizontal">
 
                     <DatePicker x:Name="DatePickerEnd" Date="{x:Static system:DateTime.Today}" Style="{StaticResource DatePicker}"/>
                     <TimePicker x:Name="TimePickerEnd" Time="{x:Static system:DateTime.Today}" Style="{StaticResource TimePicker}"/>
@@ -31,7 +30,7 @@
                 <Entry Text="{Binding account.firstName}" Placeholder="First name" Style="{StaticResource Entry}"/>
                 <Entry Text="{Binding account.lastName}" Placeholder="Last name" Style="{StaticResource Entry}"/>
 
-                <Grid RowSpacing="0" Padding="15">
+                <Grid RowSpacing="0">
                     <Label Grid.Row="0" Grid.Column="0" Text="License plate:" Style="{StaticResource LabelH2}" VerticalTextAlignment="End"/>
                     <Image Grid.Row="1" Grid.Column="0" Source="LicensePlateBlank.png" HorizontalOptions="FillAndExpand" 
                        VerticalOptions="FillAndExpand" />
@@ -44,7 +43,6 @@
             <StackLayout VerticalOptions="End" Padding="15">
                 <Button x:Name="ButtonReservation" Text="Reserve" Clicked="OnButtonClicked" Style="{StaticResource ButtonStyle}" VerticalOptions="End"/>
             </StackLayout>
-
         </StackLayout>
     </ContentPage.Content>
 

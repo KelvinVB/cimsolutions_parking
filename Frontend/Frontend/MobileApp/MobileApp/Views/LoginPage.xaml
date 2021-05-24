@@ -4,18 +4,24 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="MobileApp.Views.LoginPage">
-    
+             x:Class="MobileApp.Views.LoginPage"
+             Style="{StaticResource DefaultPageStyle}">
+
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Login" Style="{StaticResource LabelH1}" />
+        <StackLayout Spacing="20">
+            <StackLayout>
+                <Label Text="Login" Style="{StaticResource LabelH1}" />
+            </StackLayout>
 
-            <Entry x:Name="EntryUsername" Placeholder="Username" />
-            <Entry x:Name="EntryPassword" Placeholder="Password" />
-
-            <Button x:Name="ButtonLogin"  Text="Login" Clicked="OnButtonLoginClicked" Style="{StaticResource ButtonStyle}"/>
-            <Button x:Name="ButtonRegister"  Text="Register" Clicked="OnButtonRegisterClicked" Style="{StaticResource ButtonStyle}"/>
-
+            <StackLayout VerticalOptions="StartAndExpand" Padding="15,0">
+                <Entry x:Name="EntryUsername" Placeholder="Username" />
+                <Entry x:Name="EntryPassword" Placeholder="Password" />
+            </StackLayout>
+            
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Padding="15" >
+                <Button x:Name="ButtonLogin" Text="Login" Clicked="OnButtonLoginClicked" Style="{StaticResource ButtonStyle}"/>
+                <Button x:Name="ButtonRegister" Text="Register" Clicked="OnButtonRegisterClicked" Style="{StaticResource ButtonStyle}"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

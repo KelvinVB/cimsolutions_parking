@@ -4,29 +4,33 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="MobileApp.Views.RegisterPage">
+             x:Class="MobileApp.Views.RegisterPage"
+             Style="{StaticResource DefaultPageStyle}">
     <ContentPage.Content>
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-            <StackLayout Spacing="20" Padding="15">
-
-                <Label Text="Register" Style="{StaticResource LabelH1}"/>
-                <Label Text="First name: " Style="{StaticResource LabelH2}"/>
-                <Entry x:Name="EntryFirstName" Text="First name" FontSize="Medium"/>
-                <Label Text="Last name: " Style="{StaticResource LabelH2}"/>
-                <Entry x:Name="EntryLastName" Text="Last name" FontSize="Medium"/>
-                <Label Text="Email: " Style="{StaticResource LabelH2}"/>
-                <Entry x:Name="EntryEmail" Text="Email" FontSize="Medium"/>
-                <Label Text="Username: " Style="{StaticResource LabelH2}"/>
-                <Entry x:Name="EntryUsername" Text="Username" FontSize="Medium"/>
-                <Label Text="Date of birth: " Style="{StaticResource LabelH2}"/>
-                <DatePicker x:Name="DatePickerDateOfBirth" Date="{Binding account.dateOfBirth}" FontSize="Medium"/>
-                <Label Text="Password" Style="{StaticResource LabelH2}"/>
-                <Entry x:Name="EntryPassword" Text="Password" FontSize="Medium" IsPassword="True"/>
-                <Label Text="Confirm Password" Style="{StaticResource LabelH2}"/>
-                <Entry x:Name="EntryConfirmPassword" Text="Password" FontSize="Medium" IsPassword="True"/>
-
-                <Button Text="Register" x:Name="ButtonRegister" Clicked="OnButtonRegisterClicked" Style="{StaticResource ButtonStyle}"/>
-
+            <StackLayout VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="Start">
+                    <Label Text="Register" Style="{StaticResource LabelH1}"/>
+                </StackLayout>
+                <StackLayout VerticalOptions="StartAndExpand" Padding="15">
+                    <Label Text="First name: " Style="{StaticResource LabelH2}"/>
+                    <Entry x:Name="EntryFirstName" Text="First name" FontSize="Medium"/>
+                    <Label Text="Last name: " Style="{StaticResource LabelH2}"/>
+                    <Entry x:Name="EntryLastName" Text="Last name" FontSize="Medium"/>
+                    <Label Text="Email: " Style="{StaticResource LabelH2}"/>
+                    <Entry x:Name="EntryEmail" Text="Email" FontSize="Medium"/>
+                    <Label Text="Username: " Style="{StaticResource LabelH2}"/>
+                    <Entry x:Name="EntryUsername" Text="Username" FontSize="Medium"/>
+                    <Label Text="Date of birth: " Style="{StaticResource LabelH2}"/>
+                    <DatePicker x:Name="DatePickerDateOfBirth" Date="{Binding account.dateOfBirth}" FontSize="Medium"/>
+                    <Label Text="Password" Style="{StaticResource LabelH2}"/>
+                    <Entry x:Name="EntryPassword" Text="Password" FontSize="Medium" IsPassword="True"/>
+                    <Label Text="Confirm Password" Style="{StaticResource LabelH2}"/>
+                    <Entry x:Name="EntryConfirmPassword" Text="Password" FontSize="Medium" IsPassword="True"/>
+                </StackLayout>
+                <StackLayout VerticalOptions="End" Padding="15">
+                    <Button Text="Register" x:Name="ButtonRegister" Clicked="OnButtonRegisterClicked" Style="{StaticResource ButtonStyle}"/>
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

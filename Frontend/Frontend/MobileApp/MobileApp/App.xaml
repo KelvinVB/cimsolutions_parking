@@ -21,7 +21,7 @@
 
             <!--button-->
             <Style x:Key="ButtonStyle" TargetType="Button">
-                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="VerticalOptions" Value="End" />
                 <Setter Property="BorderRadius" Value="15" />
                 <Setter Property="BackgroundColor" Value="#6ca439"/>
@@ -29,7 +29,7 @@
                 <Setter Property="FontSize" Value="20" />
             </Style>
             <Style x:Key="RemoveButton" TargetType="Button">
-                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="VerticalOptions" Value="End" />
                 <Setter Property="BorderRadius" Value="15" />
                 <Setter Property="BackgroundColor" Value="#ad251c"/>
@@ -42,7 +42,6 @@
                 <Setter Property="TextColor" Value="Black"/>
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="HorizontalTextAlignment" Value="Start"/>
-                <Setter Property="Margin" Value="15,0"/>
             </Style>
             
             <!--label-->
@@ -56,12 +55,10 @@
             <Style x:Key="LabelH2" TargetType="Label">
                 <Setter Property="TextColor" Value="Black"/>
                 <Setter Property="FontSize" Value="20"/>
-                <Setter Property="Padding" Value="15, 0"/>
             </Style>
             <Style x:Key="LabelH3" TargetType="Label">
                 <Setter Property="TextColor" Value="Gray"/>
                 <Setter Property="FontSize" Value="16"/>
-                <Setter Property="Padding" Value="15, 0"/>
             </Style>
 
             <!--DatePicker-->
@@ -96,6 +93,8 @@
             <Style TargetType="TimePicker">
                 <Setter Property="FontFamily" Value="{DynamicResource FontFamilyName}" />
             </Style>
+            
+            
         </ResourceDictionary>
     </Application.Resources>
     

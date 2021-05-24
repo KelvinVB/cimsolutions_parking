@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
              mc:Ignorable="d"
-             x:Class="MobileApp.Views.UserReservationsPage">
+             x:Class="MobileApp.Views.UserReservationsPage"
+             Style="{StaticResource DefaultPageStyle}">
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="TimeSlotsListView"
