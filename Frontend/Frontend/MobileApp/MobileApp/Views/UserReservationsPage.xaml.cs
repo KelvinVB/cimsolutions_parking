@@ -49,5 +49,11 @@ namespace MobileApp.Views
                 message = "Could not find any reservations.";
             }
         }
+
+        public async void ItemClicked(object sender, ItemTappedEventArgs e)
+        {
+            timeSlotViewModel.timeSlot = (TimeSlot)TimeSlotsListView.SelectedItem;
+            await Navigation.PushAsync(new UpdateReservationPage());
+        }
     }
 }

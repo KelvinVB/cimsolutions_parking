@@ -63,5 +63,75 @@ namespace MobileApp.Services
                 throw;
             }
         }
+
+        public async Task<TimeSlot> GetTimeSlot(int id)
+        {
+            string token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            try
+            {
+                var result = await client.GetAsync(path + id);
+                var jsonString = await result.Content.ReadAsStringAsync();
+                TimeSlot timeSlot = JsonConvert.DeserializeObject<TimeSlot>(jsonString);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return timeSlot;
+                }
+                else if ((int)result.StatusCode == 400)
+                {
+                    throw new HttpRequestException(result.Content.ToString());
+                }
+                else if ((int)result.StatusCode == 401)
+                {
+                    throw new UnauthorizedAccessException(result.Content.ToString());
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<TimeSlot> UpdateTimeSlot(TimeSlot timeSlot)
+        {
+            string token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var jsonObject = JsonConvert.SerializeObject(timeSlot);
+            var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
+
+            try
+            {
+                var result = await client.PutAsync(path + timeSlot.reservationTimeSlotID, content);
+                var jsonString = await result.Content.ReadAsStringAsync();
+                TimeSlot newTimeSlot = JsonConvert.DeserializeObject<TimeSlot>(jsonString);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return newTimeSlot;
+                }
+                else if ((int)result.StatusCode == 400)
+                {
+                    throw new HttpRequestException(result.Content.ToString());
+                }
+                else if ((int)result.StatusCode == 401)
+                {
+                    throw new UnauthorizedAccessException(result.Content.ToString());
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

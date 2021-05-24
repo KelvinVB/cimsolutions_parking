@@ -10,7 +10,9 @@ namespace MobileApp.ViewModels
 {
     public class TimeSlotViewModel : BaseViewModel
     {
-        ObservableCollection<TimeSlot> userTimeSlots { get; set; }
+        private TimeSlot updatedTimeSlot { get; set; }
+        public TimeSlot timeSlot { get { return updatedTimeSlot; } set { updatedTimeSlot = value; OnPropertyChanged(); } }
+        private ObservableCollection<TimeSlot> userTimeSlots { get; set; }
         public ObservableCollection<TimeSlot> timeSlots { get { return userTimeSlots; } set { userTimeSlots = value; OnPropertyChanged(); } }
 
         public TimeSlotViewModel()
@@ -37,6 +39,30 @@ namespace MobileApp.ViewModels
             try
             {
                 timeSlots = await timeSlotService.GetListTimeSlots();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task GetTimeSlot(int id)
+        {
+            try
+            {
+                timeSlot = await timeSlotService.GetTimeSlot(id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task UpdateTimeSlot(TimeSlot newTimeSlot)
+        {
+            try
+            {
+                timeSlot = await timeSlotService.UpdateTimeSlot(newTimeSlot);
             }
             catch (Exception)
             {

@@ -10,5 +10,7 @@ namespace MobileApp.Interfaces
     public interface ITimeSlotService
     {
         Task<ObservableCollection<TimeSlot>> GetListTimeSlots();
+        Task<TimeSlot> GetTimeSlot(int id);
+        Task<TimeSlot> UpdateTimeSlot(TimeSlot timeSlot);
     }
 }
