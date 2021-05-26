@@ -22,7 +22,7 @@
                 <Label Text="{Binding account.email}" Style="{StaticResource LabelH2}"/>
 
                 <Label Text="Date of birth: " Style="{StaticResource LabelH2}"/>
-                <Label Text="{Binding account.dateOfBirth}" Style="{StaticResource LabelH2}"/>
+                <Label Text="{Binding account.dateOfBirth, StringFormat='{0:MMMM dd, yyyy}'}" Style="{StaticResource LabelH2}"/>
 
                 <Label Text="License plate: " Style="{StaticResource LabelH2}"/>
                 <Label Text="{Binding account.licensePlateNumber}" Style="{StaticResource LabelH2}"/>
