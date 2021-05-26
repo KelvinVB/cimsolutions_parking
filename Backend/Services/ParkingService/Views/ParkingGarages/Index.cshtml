@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ParkingService.Models.ParkingGarage>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.city)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.postcode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.totalParkingSpots)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.freeParkingSpots)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.city)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.postcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.totalParkingSpots)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.freeParkingSpots)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.parkingGarageID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.parkingGarageID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.parkingGarageID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
