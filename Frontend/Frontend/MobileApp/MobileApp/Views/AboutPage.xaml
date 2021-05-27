@@ -7,11 +7,11 @@
              x:Class="MobileApp.Views.AboutPage"
              xmlns:vm="clr-namespace:MobileApp.ViewModels"
              Title="{Binding Title}">
-    
+
     <ContentPage.BindingContext>
         <vm:AboutViewModel />
     </ContentPage.BindingContext>
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#2196F3</Color>
@@ -20,62 +20,36 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid>
+    <Grid BackgroundColor="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height=".1*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".1*"/>
         </Grid.RowDefinitions>
-        <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
-                    <Image Source="xamarin_logo.png" VerticalOptions="Center" HeightRequest="64" />
-                </ContentView>
-            </StackLayout>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0" Grid.Row="0">
+            <Label Text="Welcome to CIMSOLUTIONS Parking" Style="{StaticResource LabelH3}"/>
         </StackLayout>
-        <ScrollView Grid.Row="1">
-            <StackLayout Orientation="Vertical" Padding="16,40,16,40" Spacing="10">
-                <Label FontSize="22">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="AppName" FontAttributes="Bold" FontSize="22" />
-                                <Span Text=" " />
-                                <Span Text="1.0" ForegroundColor="{StaticResource LightTextColor}" />
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="This app is written in C# and native APIs using the" />
-                                <Span Text=" " />
-                                <Span Text="Xamarin Platform" FontAttributes="Bold" />
-                                <Span Text="." />
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="It shares code with its" />
-                                <Span Text=" " />
-                                <Span Text="iOS, Android, and Windows" FontAttributes="Bold" />
-                                <Span Text=" " />
-                                <Span Text="versions." />
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Button Margin="0,10,0,0" Text="Learn more"
-                        Command="{Binding OpenWebCommand}"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White" />
-            </StackLayout>
-        </ScrollView>
+        <Image Grid.Row="1" Source="cimsolutions_logo_transparant.png" HeightRequest="120"/>
+
+        <Grid RowSpacing="20" Grid.Row="2" Margin="20,0,20,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".5*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Entry Grid.Row="1" Placeholder="Username" Style="{StaticResource Entry}"/>
+            <Entry Grid.Row="2" Placeholder="Password" Style="{StaticResource Entry}"/>
+
+            <Button Text="LogIn" VerticalOptions="Start" Grid.Row="3" Style="{StaticResource ButtonStyle}"/>
+           
+        </Grid>
+        <StackLayout Grid.Row="3" BackgroundColor="#ffffff">
+            <Label Style="{StaticResource Line}"/>
+            <Label Text="Dont'Have Account? SignUp" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>
+        </StackLayout>
     </Grid>
-    
+
 </ContentPage>

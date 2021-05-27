@@ -32,7 +32,7 @@
 
                 <Grid RowSpacing="0">
                     <Label Grid.Row="0" Grid.Column="0" Text="License plate:" Style="{StaticResource LabelH2}" VerticalTextAlignment="End"/>
-                    <Image Grid.Row="1" Grid.Column="0" Source="LicensePlateBlank.png" HorizontalOptions="FillAndExpand" 
+                    <Image Grid.Row="1" Grid.Column="0" Source="licensePlateBlank.png" HorizontalOptions="FillAndExpand" 
                        VerticalOptions="FillAndExpand" />
                     <Label x:Name="labelLicensePlate" Grid.Row="1" Grid.Column="0" Text="{Binding account.licensePlateNumber}" 
                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Center"

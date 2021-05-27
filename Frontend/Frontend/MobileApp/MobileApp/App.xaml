@@ -60,6 +60,10 @@
                 <Setter Property="TextColor" Value="Gray"/>
                 <Setter Property="FontSize" Value="16"/>
             </Style>
+            <Style x:Key="Line" TargetType="Label">
+                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="BackgroundColor" Value="#c2c2c2"/>
+            </Style>
 
             <!--DatePicker-->
             <Style x:Key="DatePicker" TargetType="DatePicker">
