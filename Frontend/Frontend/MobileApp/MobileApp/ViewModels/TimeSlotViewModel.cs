@@ -69,5 +69,17 @@ namespace MobileApp.ViewModels
                 throw;
             }
         }
+
+        public async Task DeleteTimeSlot(int id)
+        {
+            try
+            {
+                timeSlot = await timeSlotService.DeleteTimeSlot(id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

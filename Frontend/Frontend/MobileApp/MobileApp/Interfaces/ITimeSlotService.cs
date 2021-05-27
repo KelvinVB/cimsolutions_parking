@@ -12,5 +12,6 @@ namespace MobileApp.Interfaces
         Task<ObservableCollection<TimeSlot>> GetListTimeSlots();
         Task<TimeSlot> GetTimeSlot(int id);
         Task<TimeSlot> UpdateTimeSlot(TimeSlot timeSlot);
+        Task<TimeSlot> DeleteTimeSlot(int id);
     }
 }

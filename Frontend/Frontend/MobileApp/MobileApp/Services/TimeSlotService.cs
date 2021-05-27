@@ -133,5 +133,39 @@ namespace MobileApp.Services
                 throw;
             }
         }
+
+        public async Task<TimeSlot> DeleteTimeSlot(int id)
+        {
+            string token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            try
+            {
+                var result = await client.DeleteAsync(path + id);
+                var jsonString = await result.Content.ReadAsStringAsync();
+                TimeSlot removedTimeSlot = JsonConvert.DeserializeObject<TimeSlot>(jsonString);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return removedTimeSlot;
+                }
+                else if ((int)result.StatusCode == 400)
+                {
+                    throw new HttpRequestException(result.Content.ToString());
+                }
+                else if ((int)result.StatusCode == 401)
+                {
+                    throw new UnauthorizedAccessException(result.Content.ToString());
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

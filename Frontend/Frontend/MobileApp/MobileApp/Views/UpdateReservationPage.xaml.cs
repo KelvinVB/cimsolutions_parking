@@ -36,7 +36,7 @@ namespace MobileApp.Views
             updatedTimeSlot.startReservation = DatePickerStart.Date + TimePickerStart.Time;
             updatedTimeSlot.endReservation = DatePickerEnd.Date + TimePickerEnd.Time;
 
-            if (updatedTimeSlot.endReservation < DateTime.Now || updatedTimeSlot.endReservation < updatedTimeSlot.startReservation)
+            if (updatedTimeSlot.endReservation < DateTime.Now || updatedTimeSlot.startReservation < DateTime.Now || updatedTimeSlot.endReservation < updatedTimeSlot.startReservation)
             {
                 await DisplayAlert("Error", "Invalid time input", "Ok");
             }
@@ -44,6 +44,7 @@ namespace MobileApp.Views
             try
             {
                 await timeSlotViewModel.UpdateTimeSlot(updatedTimeSlot);
+                await Navigation.PopToRootAsync();
             }
             catch (HttpRequestException)
             {
@@ -62,7 +63,19 @@ namespace MobileApp.Views
 
         public async void OnButtonDeleteTimeSlot(object sender, EventArgs args)
         {
-            return;
+            bool answer = await DisplayAlert("Canceling reservation", "Are you sure you want to cancel the reservation? You can't undo this action.", "Yes", "No");
+            if (answer)
+            {
+                try
+                {
+                    await timeSlotViewModel.DeleteTimeSlot(timeSlotViewModel.timeSlot.reservationTimeSlotID);
+                    await Navigation.PopToRootAsync();
+                }
+                catch (Exception)
+                {
+                    await DisplayAlert("Error", "Something went wrong, please try again later", "Ok");
+                }
+            }
         }
     }
 }

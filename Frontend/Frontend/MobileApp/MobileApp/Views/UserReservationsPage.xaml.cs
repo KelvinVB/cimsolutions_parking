@@ -52,8 +52,8 @@ namespace MobileApp.Views
 
         public async void ItemClicked(object sender, ItemTappedEventArgs e)
         {
-            timeSlotViewModel.timeSlot = (TimeSlot)TimeSlotsListView.SelectedItem;
-            await Navigation.PushAsync(new UpdateReservationPage());
+            timeSlotViewModel.timeSlot = e.Item as TimeSlot;
+            await Navigation.PushAsync(new UpdateReservationPage(timeSlotViewModel));
         }
     }
 }

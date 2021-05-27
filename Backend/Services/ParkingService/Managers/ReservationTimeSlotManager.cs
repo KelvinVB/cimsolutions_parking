@@ -90,7 +90,7 @@ namespace ParkingService.Managers
         {
             try
             {
-                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.Where(r => r.reservationTimeSlotID == id).FirstOrDefaultAsync();
+                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.Where(r => r.reservationTimeSlotID == id).AsNoTracking().FirstOrDefaultAsync();
 
                 if(oldReservationTimeSlot == null)
                 {
@@ -103,9 +103,9 @@ namespace ParkingService.Managers
 
                 return reservationTimeSlot;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new Exception();
+                throw new Exception(e.Message);
             }
         }
 
