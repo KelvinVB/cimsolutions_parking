@@ -7,7 +7,7 @@ namespace MobileApp.Models
     public enum MenuItemType
     {
         Browse,
-        About,
+        Reservate,
         Account,
         Reservations,
         Payments

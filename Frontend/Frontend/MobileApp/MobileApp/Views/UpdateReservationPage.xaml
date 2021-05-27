@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MobileApp.Views.UpdateReservationPage"
+             Style="{StaticResource DefaultPageStyle}">
+    <ContentPage.Content>
+        <StackLayout Spacing="20" VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="Start">
+                <Label Text="Reservation" Style="{StaticResource LabelH1}"/>
+            </StackLayout>
+
+            <StackLayout Padding="15,0">
+                <Label Text="Starting Time:" Style="{StaticResource LabelH2}"/>
+                <StackLayout Orientation="Horizontal">
+
+                    <DatePicker x:Name="DatePickerStart" Date="{Binding timeSlot.startReservation.Date, Mode=TwoWay}" Style="{StaticResource DatePicker}"/>
+                    <TimePicker x:Name="TimePickerStart" Time="{Binding timeSlot.startReservation.Time, Mode=TwoWay}" Style="{StaticResource TimePicker}"/>
+                </StackLayout>
+
+                <Label Text="Ending Time:" Style="{StaticResource LabelH2}"/>
+                <StackLayout Orientation="Horizontal">
+
+                    <DatePicker x:Name="DatePickerEnd" Date="{Binding timeSlot.endReservation.Date, Mode=TwoWay}" Style="{StaticResource DatePicker}"/>
+                    <TimePicker x:Name="TimePickerEnd" Time="{Binding timeSlot.endReservation.Time, Mode=TwoWay}" Style="{StaticResource TimePicker}"/>
+                </StackLayout>
+            </StackLayout>
+            
+            <StackLayout VerticalOptions="EndAndExpand" Orientation="Horizontal" Padding="15">
+                <Button Text="Update" x:Name="ButtonLogOut"
+                    Clicked="OnButtonUpdateTimeSlot" Style="{StaticResource ButtonStyle}"/>
+                <Button Text="Cancel" x:Name="ButtonDelete"
+                    Clicked="OnButtonDeleteTimeSlot" Style="{StaticResource RemoveButton}"/>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

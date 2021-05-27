@@ -5,16 +5,34 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
              mc:Ignorable="d"
-             x:Class="MobileApp.Views.AccountPage">
+             x:Class="MobileApp.Views.AccountPage"
+             Style="{StaticResource DefaultPageStyle}">
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
+        <StackLayout VerticalOptions="FillAndExpand"  Spacing="20">
             <Label Text="Account" Style="{StaticResource LabelH1}"/>
-            <Label Text="Name: " Style="{StaticResource LabelH2}"/>
-            <Label Text="{Binding account.firstName}" Style="{StaticResource LabelH2}"/>
-            <Label Text="{Binding account.lastName}" Style="{StaticResource LabelH2}"/>
-            <Button Text="Change account information" x:Name="ButtonUpdate" FontSize="Medium" Clicked="OnButtonUpdateClicked" Style="{StaticResource ButtonStyle}"/>
-            <Button Text="Log out" x:Name="ButtonLogOut" FontSize="Medium" Clicked="OnButtonLogOutClicked" Style="{StaticResource ButtonStyle}"/>
-            <Button Text="Delete account" x:Name="ButtonDelete" FontSize="Medium" Clicked="OnButtonDeleteClicked" Style="{StaticResource ButtonStyle}"/>
+
+            <StackLayout VerticalOptions="Start" Padding="15,0">
+                <Label Text="First name: " Style="{StaticResource LabelH2}"/>
+                <Label Text="{Binding account.firstName}" Style="{StaticResource LabelH2}"/>
+
+                <Label Text="Last name: " Style="{StaticResource LabelH2}"/>
+                <Label Text="{Binding account.lastName}" Style="{StaticResource LabelH2}"/>
+
+                <Label Text="Email: " Style="{StaticResource LabelH2}"/>
+                <Label Text="{Binding account.email}" Style="{StaticResource LabelH2}"/>
+
+                <Label Text="Date of birth: " Style="{StaticResource LabelH2}"/>
+                <Label Text="{Binding account.dateOfBirth, StringFormat='{0:MMMM dd, yyyy}'}" Style="{StaticResource LabelH2}"/>
+
+                <Label Text="License plate: " Style="{StaticResource LabelH2}"/>
+                <Label Text="{Binding account.licensePlateNumber}" Style="{StaticResource LabelH2}"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" Padding="15">
+                <Button Text="Change account" x:Name="ButtonUpdate" Clicked="OnButtonUpdateClicked" Style="{StaticResource ButtonStyle}"/>
+                <Button Text="Log out" x:Name="ButtonLogOut" Clicked="OnButtonLogOutClicked" Style="{StaticResource ButtonStyle}"/>
+                <Button Text="Remove" x:Name="ButtonDelete" Clicked="OnButtonDeleteClicked" Style="{StaticResource RemoveButton}"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

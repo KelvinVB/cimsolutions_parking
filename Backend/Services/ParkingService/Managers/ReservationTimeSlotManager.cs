@@ -90,7 +90,7 @@ namespace ParkingService.Managers
         {
             try
             {
-                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.Where(r => r.reservationTimeSlotID == id).FirstOrDefaultAsync();
+                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.Where(r => r.reservationTimeSlotID == id).AsNoTracking().FirstOrDefaultAsync();
 
                 if(oldReservationTimeSlot == null)
                 {
@@ -103,9 +103,9 @@ namespace ParkingService.Managers
 
                 return reservationTimeSlot;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new Exception();
+                throw new Exception(e.Message);
             }
         }
 
@@ -119,6 +119,25 @@ namespace ParkingService.Managers
             try
             {
                 List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.parkingSpotID == parkingSpotID).ToListAsync();
+
+                return reservations;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+
+        /// <summary>
+        /// gets all timeslots for account
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns>ReservationTimeSlots</returns>
+        public async Task<List<ReservationTimeSlot>> GetUserReservationTimeSlots(string accountID)
+        {
+            try
+            {
+                List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.accountID.Equals(accountID)).ToListAsync();
 
                 return reservations;
             }

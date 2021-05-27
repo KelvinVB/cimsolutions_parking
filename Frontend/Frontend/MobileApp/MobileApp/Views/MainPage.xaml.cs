@@ -31,16 +31,16 @@ namespace MobileApp.Views
                 switch (id)
                 {
                     case (int)MenuItemType.Browse:
-                        MenuPages.Add(id, new NavigationPage(new ItemsPage()));
+                        MenuPages.Add(id, new NavigationPage(new ReservationPage()));
                         break;
-                    case (int)MenuItemType.About:
-                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                    case (int)MenuItemType.Reservate:
+                        MenuPages.Add(id, new NavigationPage(new ReservationPage()));
                         break;
                     case (int)MenuItemType.Account:
                         MenuPages.Add(id, new NavigationPage(new AccountPage()));
                         break;
                     case (int)MenuItemType.Reservations:
-                        MenuPages.Add(id, new NavigationPage(new ReservationPage()));
+                        MenuPages.Add(id, new NavigationPage(new UserReservationsPage()));
                         break;
                     case (int)MenuItemType.Payments:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));

@@ -8,12 +8,11 @@
              x:Class="MobileApp.Views.ReservationPage"
              Style="{StaticResource DefaultPageStyle}">
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
+        <StackLayout VerticalOptions="FillAndExpand" Spacing="20">
             <StackLayout VerticalOptions="Start">
                 <Label Text="Plan your reservation" Style="{StaticResource LabelH1}"/>
             </StackLayout>
-            
-            <StackLayout VerticalOptions="StartAndExpand">
+            <StackLayout VerticalOptions="StartAndExpand" Padding="15, 0">
                 <Label Text="Starting Time:" Style="{StaticResource LabelH2}"/>
                 <StackLayout Orientation="Horizontal">
 
@@ -28,8 +27,8 @@
                     <TimePicker x:Name="TimePickerEnd" Time="{x:Static system:DateTime.Today}" Style="{StaticResource TimePicker}"/>
                 </StackLayout>
 
-                <Entry Text="{Binding account.firstName}" Placeholder="First name"/>
-                <Entry Text="{Binding account.lastName}" Placeholder="Last name"/>
+                <Entry Text="{Binding account.firstName}" Placeholder="First name" Style="{StaticResource Entry}"/>
+                <Entry Text="{Binding account.lastName}" Placeholder="Last name" Style="{StaticResource Entry}"/>
 
                 <Grid RowSpacing="0">
                     <Label Grid.Row="0" Grid.Column="0" Text="License plate:" Style="{StaticResource LabelH2}" VerticalTextAlignment="End"/>
@@ -41,10 +40,9 @@
                     <Button Grid.Row="2" x:Name="ButtonChange" Text="Change license plate" Clicked="OnButtonChangeClicked" HorizontalOptions="Fill" VerticalOptions="Start"/>
                 </Grid>
             </StackLayout>
-            <StackLayout VerticalOptions="End">
+            <StackLayout VerticalOptions="End" Padding="15">
                 <Button x:Name="ButtonReservation" Text="Reserve" Clicked="OnButtonClicked" Style="{StaticResource ButtonStyle}" VerticalOptions="End"/>
             </StackLayout>
-
         </StackLayout>
     </ContentPage.Content>
 
