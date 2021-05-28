@@ -12,7 +12,7 @@
             <!--navigation-->
             <Color x:Key="NavigationPrimary">#5d9228</Color>
             <Style x:Key="DefaultPageStyle" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="#ebf5ee"/>
+                <Setter Property="BackgroundColor" Value="#fffcf0"/>
             </Style>
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="#5d9228" />
@@ -36,12 +36,20 @@
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="FontSize" Value="20" />
             </Style>
-            
+
             <!--entry-->
             <Style x:Key="Entry" TargetType="Entry">
                 <Setter Property="TextColor" Value="Black"/>
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="HorizontalTextAlignment" Value="Start"/>
+            </Style>
+
+            <!--frame-->
+            <Style x:Key="LabelFrame" TargetType="Frame">
+                <Setter Property="BorderColor" Value="#6ca439"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="BackgroundColor" Value="#fffcf0"/>
+                <Setter Property="Padding" Value="10"/>
             </Style>
             
             <!--label-->
@@ -76,7 +84,7 @@
                 <Setter Property="FontSize" Value="16"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
             </Style>
-            
+
             <!--Change default styles-->
             <OnPlatform x:Key="FontFamilyName" x:TypeArguments="x:String" 
                         iOS="Roboto" 
@@ -97,9 +105,9 @@
             <Style TargetType="TimePicker">
                 <Setter Property="FontFamily" Value="{DynamicResource FontFamilyName}" />
             </Style>
-            
-            
+
+
         </ResourceDictionary>
     </Application.Resources>
-    
+
 </Application>

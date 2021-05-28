@@ -6,9 +6,8 @@
              mc:Ignorable="d"
              x:Class="MobileApp.Views.LoginPage"
              Style="{StaticResource DefaultPageStyle}">
-
     <ContentPage.Content>
-        <Grid BackgroundColor="White">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height=".1*"/>
                 <RowDefinition Height="auto"/>
@@ -34,11 +33,11 @@
                 <Button x:Name="ButtonLogin" Text="Login" Clicked="OnButtonLoginClicked" VerticalOptions="Start" Grid.Row="3" Style="{StaticResource ButtonStyle}"/>
 
             </Grid>
-            <StackLayout Grid.Row="3" BackgroundColor="#ffffff">
+            <StackLayout Grid.Row="3">
                 <Label Style="{StaticResource Line}"/>
-                <StackLayout Orientation="Horizontal" Spacing="0" HorizontalOptions="CenterAndExpand">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                     <Label Text="Dont'Have Account?" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>
-                    <Button x:Name="ButtonRegister" Text="Sign Up" Clicked="OnButtonRegisterClicked" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" BackgroundColor="Transparent"/>
+                    <Button x:Name="ButtonRegister" Text="SIGN UP" Clicked="OnButtonRegisterClicked" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" BackgroundColor="Transparent"/>
                 </StackLayout>
             </StackLayout>
         </Grid>
