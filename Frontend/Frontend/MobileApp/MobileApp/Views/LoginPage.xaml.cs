@@ -53,7 +53,9 @@ namespace MobileApp.Views
         }
         async void OnButtonRegisterClicked(object sender, EventArgs args)
         {
+            var previousPage = Navigation.NavigationStack.LastOrDefault();
             await Navigation.PushAsync(new RegisterPage());
+            Navigation.RemovePage(previousPage);
         }
     }
 }

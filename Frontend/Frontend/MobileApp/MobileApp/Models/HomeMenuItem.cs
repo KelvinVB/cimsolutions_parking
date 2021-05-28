@@ -17,5 +17,7 @@ namespace MobileApp.Models
         public MenuItemType Id { get; set; }
 
         public string Title { get; set; }
+
+        public string Icon { get;set; }
     }
 }

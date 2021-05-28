@@ -7,31 +7,75 @@
              x:Class="MobileApp.Views.RegisterPage"
              Style="{StaticResource DefaultPageStyle}">
     <ContentPage.Content>
-        <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-            <StackLayout VerticalOptions="FillAndExpand">
-                <StackLayout VerticalOptions="Start">
-                    <Label Text="Register" Style="{StaticResource LabelH1}"/>
-                </StackLayout>
-                <StackLayout VerticalOptions="StartAndExpand" Padding="15">
-                    <Label Text="First name: " Style="{StaticResource LabelH2}"/>
-                    <Entry x:Name="EntryFirstName" Text="First name" FontSize="Medium"/>
-                    <Label Text="Last name: " Style="{StaticResource LabelH2}"/>
-                    <Entry x:Name="EntryLastName" Text="Last name" FontSize="Medium"/>
-                    <Label Text="Email: " Style="{StaticResource LabelH2}"/>
-                    <Entry x:Name="EntryEmail" Text="Email" FontSize="Medium"/>
-                    <Label Text="Username: " Style="{StaticResource LabelH2}"/>
-                    <Entry x:Name="EntryUsername" Text="Username" FontSize="Medium"/>
-                    <Label Text="Date of birth: " Style="{StaticResource LabelH2}"/>
-                    <DatePicker x:Name="DatePickerDateOfBirth" Date="{Binding account.dateOfBirth}" FontSize="Medium"/>
-                    <Label Text="Password" Style="{StaticResource LabelH2}"/>
-                    <Entry x:Name="EntryPassword" Text="Password" FontSize="Medium" IsPassword="True"/>
-                    <Label Text="Confirm Password" Style="{StaticResource LabelH2}"/>
-                    <Entry x:Name="EntryConfirmPassword" Text="Password" FontSize="Medium" IsPassword="True"/>
-                </StackLayout>
-                <StackLayout VerticalOptions="End" Padding="15">
-                    <Button Text="Register" x:Name="ButtonRegister" Clicked="OnButtonRegisterClicked" Style="{StaticResource ButtonStyle}"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Text="Sign Up" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Style="{StaticResource LabelH1}"/>
+
+            <Grid Grid.Row="1" VerticalOptions="CenterAndExpand" RowSpacing="20" Margin="20,0,20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Frame Grid.Row="1" Style="{StaticResource EntryFrame}" HeightRequest="50" >
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="Black"/>
+                            </Image.Source>
+                        </Image>
+                        <Entry x:Name="EntryUsername" d:Placeholder="username" Placeholder="{Binding account.username}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="2" Style="{StaticResource EntryFrame}" HeightRequest="50">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="Black"/>
+                            </Image.Source>
+                        </Image>
+                        <Entry x:Name="EntryEmail" d:Placeholder="email" Placeholder="{Binding account.email}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="3" Style="{StaticResource EntryFrame}" HeightRequest="50">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="Black"/>
+                            </Image.Source>
+                        </Image>
+                        <Entry x:Name="EntryPassword" Placeholder="password" Style="{StaticResource Entry}" IsPassword="True" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="4" Style="{StaticResource EntryFrame}" HeightRequest="50">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="Black"/>
+                            </Image.Source>
+                        </Image>
+                        <Entry x:Name="EntryConfirmPassword" Placeholder="confirm password" Style="{StaticResource Entry}" IsPassword="True" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </Frame>
+                <Button Grid.Row="5" Text="SIGN UP" Clicked="OnButtonRegisterClicked" Margin="20" VerticalOptions="Start" Style="{StaticResource ButtonStyle}"/>
+            </Grid>
+
+            <StackLayout Grid.Row="2" VerticalOptions="EndAndExpand">
+                <Label Style="{StaticResource Line}"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                    <Label Text="Aleady Have An Account?" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>
+                    <Button x:Name="ButtonLogin" Text="SIGN IN" Clicked="OnButtonLoginClicked" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" BackgroundColor="Transparent"/>
                 </StackLayout>
             </StackLayout>
-        </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

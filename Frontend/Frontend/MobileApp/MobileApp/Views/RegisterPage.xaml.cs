@@ -31,7 +31,7 @@ namespace MobileApp.Views
 
         public async void OnButtonRegisterClicked(object sender, EventArgs args)
         {
-            if(EntryPassword.Text != EntryConfirmPassword.Text)
+            if (EntryPassword.Text != EntryConfirmPassword.Text)
             {
                 await DisplayAlert("Error", "Confirmation password does not match", "Ok");
                 return;
@@ -39,11 +39,8 @@ namespace MobileApp.Views
 
             Account account = new Account
             {
-                firstName = EntryFirstName.Text,
-                lastName = EntryLastName.Text,
                 email = EntryEmail.Text,
                 username = EntryUsername.Text,
-                dateOfBirth = DatePickerDateOfBirth.Date,
                 password = EntryPassword.Text
             };
 
@@ -54,7 +51,7 @@ namespace MobileApp.Views
                 {
                     await DisplayAlert("Account created", "Your account has been successfully created", "Ok");
                     await Navigation.PopAsync();
-                    await Navigation.PushAsync(new AccountPage());
+                    await Navigation.PushAsync(new AccountPage(accountViewModel));
                 }
                 else
                 {
@@ -65,6 +62,13 @@ namespace MobileApp.Views
             {
                 await DisplayAlert("Error", "Could not create account", "Ok");
             }
+        }
+
+        public async void OnButtonLoginClicked(object sender, EventArgs args)
+        {
+            var previousPage = Navigation.NavigationStack.LastOrDefault();
+            await Navigation.PushAsync(new LoginPage());
+            Navigation.RemovePage(previousPage);
         }
     }
 }

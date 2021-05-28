@@ -9,10 +9,14 @@
     <Application.Resources>
         <ResourceDictionary>
             <!--Global Styles-->
+            <Color x:Key="BackGround">#fffcf0</Color>
+            <Color x:Key="CIMGreen">#6ca439</Color>
+            <Color x:Key="Remove">#ad251c</Color>
+
             <!--navigation-->
             <Color x:Key="NavigationPrimary">#5d9228</Color>
             <Style x:Key="DefaultPageStyle" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="#fffcf0"/>
+                <Setter Property="BackgroundColor" Value="{x:DynamicResource BackGround}"/>
             </Style>
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="#5d9228" />
@@ -24,7 +28,7 @@
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="VerticalOptions" Value="End" />
                 <Setter Property="BorderRadius" Value="15" />
-                <Setter Property="BackgroundColor" Value="#6ca439"/>
+                <Setter Property="BackgroundColor" Value="{x:DynamicResource CIMGreen}"/>
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="FontSize" Value="20" />
             </Style>
@@ -32,7 +36,7 @@
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="VerticalOptions" Value="End" />
                 <Setter Property="BorderRadius" Value="15" />
-                <Setter Property="BackgroundColor" Value="#ad251c"/>
+                <Setter Property="BackgroundColor" Value="{x:DynamicResource Remove}"/>
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="FontSize" Value="20" />
             </Style>
@@ -45,11 +49,23 @@
             </Style>
 
             <!--frame-->
+            <Style x:Key="EntryFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{x:DynamicResource BackGround}"/>
+                <Setter Property="Padding" Value="10"/>
+            </Style>
             <Style x:Key="LabelFrame" TargetType="Frame">
                 <Setter Property="BorderColor" Value="#6ca439"/>
                 <Setter Property="CornerRadius" Value="20"/>
-                <Setter Property="BackgroundColor" Value="#fffcf0"/>
+                <Setter Property="BackgroundColor" Value="{x:DynamicResource BackGround}"/>
                 <Setter Property="Padding" Value="10"/>
+            </Style>
+            <Style x:Key="ContainerFrame" TargetType="Frame">
+                <Setter Property="BorderColor" Value="#e8e8e8"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="BackgroundColor" Value="{x:DynamicResource BackGround}"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="HasShadow" Value="True"/>
             </Style>
             
             <!--label-->
@@ -57,8 +73,6 @@
                 <Setter Property="TextColor" Value="Black"/>
                 <Setter Property="FontSize" Value="30"/>
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                <Setter Property="BackgroundColor" Value="#93b376"/>
-                <Setter Property="Padding" Value="15"/>
             </Style>
             <Style x:Key="LabelH2" TargetType="Label">
                 <Setter Property="TextColor" Value="Black"/>

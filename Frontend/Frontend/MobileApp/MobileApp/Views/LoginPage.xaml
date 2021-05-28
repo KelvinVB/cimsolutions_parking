@@ -9,15 +9,19 @@
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height=".1*"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height=".1*"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0" Grid.Row="0">
                 <Label Text="Welcome to CIMSOLUTIONS Parking" Style="{StaticResource LabelH3}"/>
             </StackLayout>
-            <Image Grid.Row="1" Source="cimsolutions_logo_transparant.png" HeightRequest="120"/>
+
+            <StackLayout Grid.Row="1" Orientation="Vertical">
+                <Image  Source="cimsolutions_logo_transparant.png" HeightRequest="120"/>
+                <Label Text="Sign In" Style="{StaticResource LabelH1}"/>
+            </StackLayout>
 
             <Grid RowSpacing="20" Grid.Row="2" Margin="20,0,20,0">
                 <Grid.RowDefinitions>
@@ -36,7 +40,7 @@
             <StackLayout Grid.Row="3">
                 <Label Style="{StaticResource Line}"/>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Label Text="Dont'Have Account?" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>
+                    <Label Text="Don't Have An Account?" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>
                     <Button x:Name="ButtonRegister" Text="SIGN UP" Clicked="OnButtonRegisterClicked" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" BackgroundColor="Transparent"/>
                 </StackLayout>
             </StackLayout>
