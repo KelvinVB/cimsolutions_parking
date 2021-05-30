@@ -9,14 +9,14 @@
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Text="Please fill in your information." VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Style="{StaticResource LabelH1}"/>
+            <Label Grid.Row="1" Text="Please fill in your information." VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Style="{StaticResource LabelH1}"/>
 
-            <ScrollView Grid.Row="1" VerticalOptions="Center">
+            <ScrollView Grid.Row="2" VerticalOptions="Center">
                 <StackLayout Margin="20,0,20,0">
                     <Frame Style="{StaticResource EntryFrame}" HeightRequest="50">
                         <StackLayout Orientation="Horizontal">
@@ -86,12 +86,12 @@
                 </StackLayout>
             </ScrollView>
 
-            <Button Grid.Row="2" Text="UPDATE" x:Name="ButtonUpdate" Clicked="OnButtonUpdateClicked" Margin="20" VerticalOptions="End" Style="{StaticResource ButtonStyle}"/>
+            <Button Grid.Row="3" Text="UPDATE" x:Name="ButtonUpdate" Clicked="OnButtonUpdateClicked" Margin="20" VerticalOptions="End" Style="{StaticResource ButtonStyle}"/>
 
-            <StackLayout Grid.Row="3">
+            <!--<StackLayout Grid.Row="4">
                 <Label Style="{StaticResource Line}"/>
                 <Label Text="CIMSOLUTIONS Parking" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>
-            </StackLayout>
+            </StackLayout>-->
         </Grid>
     </ContentPage.Content>
 </ContentPage>
