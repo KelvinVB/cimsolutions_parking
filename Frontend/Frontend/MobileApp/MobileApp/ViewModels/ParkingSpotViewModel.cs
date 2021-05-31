@@ -9,7 +9,6 @@ namespace MobileApp.ViewModels
     public class ParkingSpotViewModel : BaseViewModel
     {
         private ParkingSpot parkingSpot { get; set; }
-        private TimeSlot timeSlot { get; set; }
 
         public ParkingSpotViewModel()
         {

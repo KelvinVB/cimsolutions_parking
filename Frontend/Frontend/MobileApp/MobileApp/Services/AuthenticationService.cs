@@ -12,7 +12,7 @@ namespace MobileApp.Services
     public class AuthenticationService : IAuthenticationService
     {
         private static HttpClient client;
-        private string path;
+        private readonly string path;
         public AuthenticationService()
         {
             var httpClientHandler = new HttpClientHandler();

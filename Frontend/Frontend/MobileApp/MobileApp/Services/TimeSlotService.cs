@@ -15,7 +15,7 @@ namespace MobileApp.Services
     public class TimeSlotService : ITimeSlotService
     {
         private static HttpClient client;
-        private string path;
+        private readonly string path;
 
         public TimeSlotService()
         {
@@ -55,7 +55,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return null;
                 }
             }
             catch (Exception)
@@ -89,7 +89,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return null;
                 }
             }
             catch (Exception)
@@ -125,7 +125,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return null;
                 }
             }
             catch (Exception)
@@ -159,7 +159,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return null;
                 }
             }
             catch (Exception)

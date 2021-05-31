@@ -14,7 +14,7 @@ namespace MobileApp.Services
     public class AccountService : IAccountService
     {
         private static HttpClient client;
-        private string path;
+        private readonly string path;
         public AccountService()
         {
             var httpClientHandler = new HttpClientHandler();
@@ -42,7 +42,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return null;
                 }
             }
             catch (Exception)
@@ -66,7 +66,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return null;
                 }
             }
             catch (Exception)
@@ -91,7 +91,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return null;
                 }
             }
             catch (Exception)
@@ -114,7 +114,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return false;
                 }
             }
             catch (Exception)

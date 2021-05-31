@@ -44,8 +44,16 @@ namespace MobileApp.Views
 
             try
             {
-                await timeSlotViewModel.UpdateTimeSlot(updatedTimeSlot);
-                await Navigation.PopToRootAsync();
+                TimeSlot slot = await timeSlotViewModel.UpdateTimeSlot(updatedTimeSlot);
+                if (slot != null)
+                {
+                    await DisplayAlert("Success", "Successfully updated time slot.", "Ok");
+                    await Navigation.PopToRootAsync();
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Something went wrong, please try again later", "Ok");
+                }
             }
             catch (HttpRequestException)
             {
@@ -69,8 +77,15 @@ namespace MobileApp.Views
             {
                 try
                 {
-                    await timeSlotViewModel.DeleteTimeSlot(timeSlotViewModel.timeSlot.reservationTimeSlotID);
-                    await Navigation.PopToRootAsync();
+                    TimeSlot slot = await timeSlotViewModel.DeleteTimeSlot(timeSlotViewModel.timeSlot.reservationTimeSlotID);
+                    if (slot != null)
+                    {
+                        await Navigation.PopToRootAsync();
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "Something went wrong, please try again later", "Ok");
+                    }
                 }
                 catch (Exception)
                 {

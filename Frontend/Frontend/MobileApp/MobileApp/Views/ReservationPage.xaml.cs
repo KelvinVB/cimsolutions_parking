@@ -16,8 +16,6 @@ namespace MobileApp.Views
     {
         ParkingSpotViewModel parkingSpotViewModel;
         AccountViewModel accountViewModel;
-        bool isBusy = false;
-        public bool IsBusy { get { return isBusy; } set{ isBusy = value; OnPropertyChanged(); }}
 
         public ReservationPage(ParkingSpotViewModel viewModel, AccountViewModel accountViewModel)
         {
@@ -53,9 +51,7 @@ namespace MobileApp.Views
 
                 if (confirm)
                 {
-                    IsBusy = true;
                     timeSlot = await parkingSpotViewModel.ReserveWithAccount(timeSlot);
-                    IsBusy = false;
                     await DisplayAlert("Success", "Reservation planned on: " + timeSlot.startReservation.ToString() + " untill: " + timeSlot.endReservation.ToString(), "Ok");
                 }
             }

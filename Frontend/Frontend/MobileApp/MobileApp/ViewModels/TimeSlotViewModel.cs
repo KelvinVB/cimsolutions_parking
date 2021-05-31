@@ -21,7 +21,7 @@ namespace MobileApp.ViewModels
             Initialize();
         }
 
-        async void Initialize()
+        async Task Initialize()
         {
             try
             {
@@ -30,7 +30,7 @@ namespace MobileApp.ViewModels
             }
             catch (Exception)
             {
-                return;
+                timeSlots = null;
             }
         }
 
@@ -46,11 +46,12 @@ namespace MobileApp.ViewModels
             }
         }
 
-        public async Task GetTimeSlot(int id)
+        public async Task<TimeSlot> GetTimeSlot(int id)
         {
             try
             {
                 timeSlot = await timeSlotService.GetTimeSlot(id);
+                return timeSlot;
             }
             catch (Exception)
             {
@@ -58,11 +59,12 @@ namespace MobileApp.ViewModels
             }
         }
 
-        public async Task UpdateTimeSlot(TimeSlot newTimeSlot)
+        public async Task<TimeSlot> UpdateTimeSlot(TimeSlot newTimeSlot)
         {
             try
             {
                 timeSlot = await timeSlotService.UpdateTimeSlot(newTimeSlot);
+                return timeSlot;
             }
             catch (Exception)
             {
@@ -70,11 +72,12 @@ namespace MobileApp.ViewModels
             }
         }
 
-        public async Task DeleteTimeSlot(int id)
+        public async Task<TimeSlot> DeleteTimeSlot(int id)
         {
             try
             {
                 timeSlot = await timeSlotService.DeleteTimeSlot(id);
+                return timeSlot;
             }
             catch (Exception)
             {

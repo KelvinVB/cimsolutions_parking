@@ -9,11 +9,6 @@
              x:Class="MobileApp.Views.ReservationPage"
              Style="{StaticResource DefaultPageStyle}"
              Title="Reservation">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:InverseBoolConverter x:Key="inverter"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

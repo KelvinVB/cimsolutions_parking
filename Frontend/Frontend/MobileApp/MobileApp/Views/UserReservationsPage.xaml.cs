@@ -32,25 +32,6 @@ namespace MobileApp.Views
             BindingContext = this.timeSlotViewModel;
         }
 
-        public async void GetTimeSlots()
-        {
-            List<TimeSlot> timeSlots = new List<TimeSlot>();
-
-            try
-            {
-                
-
-            }
-            catch (TimeoutException)
-            {
-                await DisplayAlert("Connection error", "Please check your network settings.", "Ok");
-            }
-            catch (Exception)
-            {
-                
-            }
-        }
-
         public async void ItemClicked(object sender, ItemTappedEventArgs e)
         {
             timeSlotViewModel.timeSlot = e.Item as TimeSlot;
