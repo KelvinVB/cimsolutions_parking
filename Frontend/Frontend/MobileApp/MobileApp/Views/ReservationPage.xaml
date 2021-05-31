@@ -3,11 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:MobileApp.Helper"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.ReservationPage"
              Style="{StaticResource DefaultPageStyle}"
              Title="Reservation">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="inverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -16,7 +22,6 @@
                 <RowDefinition Height="80*"/>
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
-
             <Label Grid.Row="1" VerticalOptions="Center" Text="Plan your reservation" Style="{StaticResource LabelH1}"/>
 
             <StackLayout Grid.Row="2" VerticalOptions="End" Margin="20,0,20,0">
@@ -74,6 +79,7 @@
             </StackLayout>
             <StackLayout Grid.Row="3" VerticalOptions="End" Padding="15">
                 <Button x:Name="ButtonReservation" Text="Reserve" Clicked="OnButtonClicked" Style="{StaticResource ButtonStyle}" VerticalOptions="End"/>
+                
             </StackLayout>
         </Grid>
     </ContentPage.Content>

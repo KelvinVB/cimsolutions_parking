@@ -6,11 +6,13 @@ namespace MobileApp.Models
 {
     public enum MenuItemType
     {
-        Browse,
+        Home,
         Reservate,
         Account,
         Reservations,
-        Payments
+        Payments,
+        Logout,
+        Login
     }
     public class HomeMenuItem
     {

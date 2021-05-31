@@ -16,6 +16,8 @@ namespace MobileApp.Views
     public partial class UserReservationsPage : ContentPage
     {
         TimeSlotViewModel timeSlotViewModel;
+        public bool IsEmpty { get { return timeSlotViewModel.timeSlots.Count <= 0; } }
+        public bool IsNotEmpty { get { return !IsEmpty; } }
 
         public UserReservationsPage(TimeSlotViewModel timeSlotViewModel)
         {
@@ -33,7 +35,6 @@ namespace MobileApp.Views
         public async void GetTimeSlots()
         {
             List<TimeSlot> timeSlots = new List<TimeSlot>();
-            string message;
 
             try
             {
@@ -46,7 +47,7 @@ namespace MobileApp.Views
             }
             catch (Exception)
             {
-                message = "Could not find any reservations.";
+                
             }
         }
 
@@ -54,6 +55,11 @@ namespace MobileApp.Views
         {
             timeSlotViewModel.timeSlot = e.Item as TimeSlot;
             await Navigation.PushAsync(new UpdateReservationPage(timeSlotViewModel));
+        }
+
+        public async void OnButtonCreateClicked(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new ReservationPage());
         }
     }
 }

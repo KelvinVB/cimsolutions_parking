@@ -11,12 +11,13 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Text="Sign Up" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Style="{StaticResource LabelH1}"/>
+            <Label Grid.Row="1" Text="Sign Up" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Style="{StaticResource LabelH1}"/>
 
-            <Grid Grid.Row="1" VerticalOptions="CenterAndExpand" RowSpacing="20" Margin="20,0,20,0">
+            <Grid Grid.Row="2" VerticalOptions="CenterAndExpand" RowSpacing="20" Margin="20,0,20,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
@@ -70,7 +71,7 @@
                 <Button Grid.Row="5" Text="SIGN UP" Clicked="OnButtonRegisterClicked" Margin="20" VerticalOptions="Start" Style="{StaticResource ButtonStyle}"/>
             </Grid>
 
-            <StackLayout Grid.Row="2" VerticalOptions="EndAndExpand">
+            <StackLayout Grid.Row="3" VerticalOptions="EndAndExpand">
                 <Label Style="{StaticResource Line}"/>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                     <Label Text="Aleady Have An Account?" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>

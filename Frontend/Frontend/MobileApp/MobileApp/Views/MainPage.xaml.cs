@@ -21,7 +21,7 @@ namespace MobileApp.Views
 
             MasterBehavior = MasterBehavior.Popover;
 
-            MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
+            MenuPages.Add((int)MenuItemType.Home, (NavigationPage)Detail);
         }
 
         public async Task NavigateFromMenu(int id)
@@ -30,7 +30,7 @@ namespace MobileApp.Views
             {
                 switch (id)
                 {
-                    case (int)MenuItemType.Browse:
+                    case (int)MenuItemType.Home:
                         MenuPages.Add(id, new NavigationPage(new ReservationPage()));
                         break;
                     case (int)MenuItemType.Reservate:
@@ -44,6 +44,12 @@ namespace MobileApp.Views
                         break;
                     case (int)MenuItemType.Payments:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                        break;
+                    case (int)MenuItemType.Logout:
+                        MenuPages.Add(id, new NavigationPage(new LoginPage()));
+                        break;
+                    case (int)MenuItemType.Login:
+                        MenuPages.Add(id, new NavigationPage(new LoginPage()));
                         break;
                 }
             }
