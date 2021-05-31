@@ -11,7 +11,8 @@
             <!--Global Styles-->
             <Color x:Key="BackGround">#fffbe6</Color>
             <Color x:Key="Primary">#6ca439</Color>
-            <Color x:Key="Secondary">#c5da99</Color>
+            <Color x:Key="Dark">#3c7501</Color>
+            <Color x:Key="Secondary">#9dd668</Color>
             <Color x:Key="Remove">#ad251c</Color>
 
             <!--navigation-->

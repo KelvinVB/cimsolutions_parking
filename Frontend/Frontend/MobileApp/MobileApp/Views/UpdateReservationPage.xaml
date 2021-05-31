@@ -7,12 +7,17 @@
              x:Class="MobileApp.Views.UpdateReservationPage"
              Style="{StaticResource DefaultPageStyle}">
     <ContentPage.Content>
-        <StackLayout Spacing="20" VerticalOptions="FillAndExpand">
-            <StackLayout VerticalOptions="Start">
-                <Label Text="Reservation" Style="{StaticResource LabelH1}"/>
-            </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <StackLayout Padding="15,0">
+            <Label Grid.Row="0" VerticalOptions="CenterAndExpand" Text="Reservation" Style="{StaticResource LabelH1}"/>
+
+            <StackLayout Grid.Row="2" VerticalOptions="Center" Padding="15,0">
                 <Label Text="Starting Time:" Style="{StaticResource LabelH2}"/>
                 <StackLayout Orientation="Horizontal">
 
@@ -27,14 +32,29 @@
                     <TimePicker x:Name="TimePickerEnd" Time="{Binding timeSlot.endReservation.Time, Mode=TwoWay}" Style="{StaticResource TimePicker}"/>
                 </StackLayout>
             </StackLayout>
-            
-            <StackLayout VerticalOptions="EndAndExpand" Orientation="Horizontal" Padding="15">
+
+            <Grid Grid.Row="3" Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Text="License plate:" Style="{StaticResource LabelH2}" VerticalTextAlignment="End"/>
+                <Image Grid.Row="1" Source="LicensePlate.png" HorizontalOptions="FillAndExpand" 
+                       VerticalOptions="FillAndExpand" />
+                <Label Grid.Row="1" x:Name="labelLicensePlate" Text="{Binding timeSlot.licensePlateNumber}" 
+                       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" TextColor="Black" FontSize="40"/>
+                <Button Grid.Row="2" x:Name="ButtonChange" Text="Change license plate" Margin="10" CornerRadius="5" BackgroundColor="{DynamicResource Secondary}" Clicked="OnButtonChangeClicked" HorizontalOptions="Fill" VerticalOptions="Start"/>
+            </Grid>
+
+            <StackLayout Grid.Row="4" VerticalOptions="EndAndExpand" Orientation="Horizontal" Padding="15">
                 <Button Text="Update" x:Name="ButtonLogOut"
                     Clicked="OnButtonUpdateTimeSlot" Style="{StaticResource ButtonStyle}"/>
                 <Button Text="Cancel" x:Name="ButtonDelete"
                     Clicked="OnButtonDeleteTimeSlot" Style="{StaticResource RemoveButton}"/>
             </StackLayout>
 
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

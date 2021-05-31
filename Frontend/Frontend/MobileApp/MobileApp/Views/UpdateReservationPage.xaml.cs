@@ -35,6 +35,7 @@ namespace MobileApp.Views
             TimeSlot updatedTimeSlot = timeSlot;
             updatedTimeSlot.startReservation = DatePickerStart.Date + TimePickerStart.Time;
             updatedTimeSlot.endReservation = DatePickerEnd.Date + TimePickerEnd.Time;
+            updatedTimeSlot.licensePlateNumber = labelLicensePlate.Text;
 
             if (updatedTimeSlot.endReservation < DateTime.Now || updatedTimeSlot.startReservation < DateTime.Now || updatedTimeSlot.endReservation < updatedTimeSlot.startReservation)
             {
@@ -76,6 +77,23 @@ namespace MobileApp.Views
                     await DisplayAlert("Error", "Something went wrong, please try again later", "Ok");
                 }
             }
+        }
+
+        public async void OnButtonChangeClicked(object sender, EventArgs args)
+        {
+            string result = await DisplayPromptAsync("License plate number", "Please fill in your license plate number.", maxLength: 8, keyboard: Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+            if (result == null)
+            {
+                return;
+            }
+
+            if (result.Length < 6)
+            {
+                await DisplayAlert("Error", "Please fill in a correct license plate number", "Ok");
+                return;
+            }
+            result.ToUpper();
+            labelLicensePlate.Text = result;
         }
     }
 }

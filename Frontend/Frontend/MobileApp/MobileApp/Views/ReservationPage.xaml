@@ -45,8 +45,8 @@
                     <Label Text=": " FontSize="Large" HorizontalOptions="Fill" VerticalOptions="Center"/>
                     <Entry x:Name="EntryDurationMinutes" Keyboard="Numeric" Text="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="EntryTimeEvent" Style="{StaticResource Entry}"/>
                     <Label x:Name="LabelMinutes" Text="minutes" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Style="{StaticResource LabelH2}"/>
-                    </StackLayout>
-                
+                </StackLayout>
+
                 <StackLayout Orientation="Horizontal">
                     <Image>
                         <Image.Source>
@@ -55,7 +55,7 @@
                     </Image>
                     <Entry Text="{Binding account.email}" Placeholder="email" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Style="{StaticResource Entry}"/>
                 </StackLayout>
-                
+
                 <Grid RowSpacing="0" VerticalOptions="StartAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
