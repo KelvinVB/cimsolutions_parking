@@ -21,7 +21,7 @@ namespace MobileApp.Views
     public partial class ItemsPage : ContentPage
     {
         ItemsViewModel viewModel;
-
+        MainPage RootPage { get => Application.Current.MainPage as MainPage; }
 
         public ItemsPage()
         {
@@ -51,7 +51,8 @@ namespace MobileApp.Views
             }
             else
             {
-                await Navigation.PushAsync(new AccountPage());
+                var id = (int)MenuItemType.Account;
+                await RootPage.NavigateFromMenu(id);
             }
 
         }
