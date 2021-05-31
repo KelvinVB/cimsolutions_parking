@@ -17,7 +17,7 @@ namespace AccountService.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        IAccountManager accountManager;
+        private readonly IAccountManager accountManager;
 
         public AccountController(IAccountManager accountManager)
         {

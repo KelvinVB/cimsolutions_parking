@@ -56,7 +56,7 @@ namespace AccountService.Managers
                 {
                     throw new DuplicateNameException();
                 }
-                throw new Exception();
+                throw;
             }
         }
 
@@ -74,26 +74,26 @@ namespace AccountService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
-        public async Task<Account> UpdateAccount(Account request)
+        public async Task<Account> UpdateAccount(Account account)
         {
             try
             {
-                Account account = accounts.Find(a => a.accountID == request.accountID).FirstOrDefault();
-                if (request.dateOfBirth != null)
-                    account.dateOfBirth = request.dateOfBirth;
-                if (request.email != null)
-                    account.email = request.email;
-                if (request.firstName != null)
-                    account.firstName = request.firstName;
-                if (request.lastName != null)
-                    account.lastName = request.lastName;
+                Account oldAccount = accounts.Find(a => a.accountID == account.accountID).FirstOrDefault();
+                if (account.dateOfBirth != DateTime.MinValue)
+                    oldAccount.dateOfBirth = account.dateOfBirth;
+                if (account.email != null)
+                    oldAccount.email = account.email;
+                if (account.firstName != null)
+                    oldAccount.firstName = account.firstName;
+                if (account.lastName != null)
+                    oldAccount.lastName = account.lastName;
 
-                await accounts.ReplaceOneAsync(a => a.accountID.Equals(account.accountID), account);
-                return account;
+                await accounts.ReplaceOneAsync(a => a.accountID.Equals(oldAccount.accountID), oldAccount);
+                return oldAccount;
             }
             catch (Exception ex)
             {
@@ -101,7 +101,7 @@ namespace AccountService.Managers
                 {
                     throw new DuplicateNameException();
                 }
-                throw new Exception();
+                throw;
             }
         }
 
@@ -122,7 +122,7 @@ namespace AccountService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
 
         }

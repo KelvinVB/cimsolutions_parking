@@ -16,7 +16,7 @@ namespace ParkingService.Controllers
     [Route("api/[controller]")]
     public class ParkingGaragesController : ControllerBase
     {
-        private IParkingGarageManager parkingGarageManager;
+        private readonly IParkingGarageManager parkingGarageManager;
 
         public ParkingGaragesController(IParkingGarageManager parkingGarageManager, ParkingContext context)
         {

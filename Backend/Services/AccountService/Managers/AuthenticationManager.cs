@@ -49,20 +49,20 @@ namespace AccountService.Managers
         /// <summary>
         /// Authenticates using credentials
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="authentication"></param>
         /// <returns>AuthenticateResponse</returns>
-        public async Task<AuthenticateResponse> Authenticate(Authentication request)
+        public async Task<AuthenticateResponse> Authenticate(Authentication authentication)
         {
             try
             {
-                Authentication auth = await accountCredentials.Find(x => x.username.Equals(request.username)).SingleOrDefaultAsync();
+                Authentication auth = await accountCredentials.Find(x => x.username.Equals(authentication.username)).SingleOrDefaultAsync();
 
                 if (auth == null)
                 {
                     return null;
                 }
 
-                bool validPassword = BCrypt.Net.BCrypt.Verify(request.password, auth.password);
+                bool validPassword = BCrypt.Net.BCrypt.Verify(authentication.password, auth.password);
                 if (!validPassword)
                 {
                     return null;
@@ -84,13 +84,13 @@ namespace AccountService.Managers
                 };
 
                 // authentication successful so generate jwt token
-                string token = generateJwtToken(auth, claims, DateTime.Now);
+                string token = generateJwtToken(claims, DateTime.Now);
 
                 return new AuthenticateResponse(user, token);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                throw;
             }
         }
 
@@ -101,7 +101,7 @@ namespace AccountService.Managers
         /// <param name="claims"></param>
         /// <param name="currentDateTime"></param>
         /// <returns>string token</returns>
-        private string generateJwtToken(Authentication user, Claim[] claims, DateTime currentDateTime)
+        private string generateJwtToken(Claim[] claims, DateTime currentDateTime)
         {
             JwtSecurityToken jwtToken = new JwtSecurityToken(
                 jwtTokenConfig.Issuer,

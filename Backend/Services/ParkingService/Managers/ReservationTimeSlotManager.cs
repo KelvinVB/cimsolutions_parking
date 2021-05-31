@@ -32,7 +32,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -58,7 +58,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -77,7 +77,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -103,9 +103,9 @@ namespace ParkingService.Managers
 
                 return reservationTimeSlot;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                throw;
             }
         }
 
@@ -124,7 +124,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -143,7 +143,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
     }

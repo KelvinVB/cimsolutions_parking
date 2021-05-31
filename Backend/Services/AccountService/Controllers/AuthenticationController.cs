@@ -15,7 +15,7 @@ namespace AccountService.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private IAuthenticationManager authenticationManager;
+        private readonly IAuthenticationManager authenticationManager;
 
         public AuthenticationController(IAuthenticationManager authenticationManager)
         {

@@ -17,7 +17,7 @@ namespace ParkingService.Controllers
     [ApiController]
     public class ReservationTimeSlotsController : ControllerBase
     {
-        private IReservationTimeSlotManager reservationTimeSlotManager;
+        private readonly IReservationTimeSlotManager reservationTimeSlotManager;
 
         public ReservationTimeSlotsController(IReservationTimeSlotManager reservationTimeSlotManager, ParkingContext context)
         {

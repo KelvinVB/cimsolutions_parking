@@ -32,7 +32,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -57,7 +57,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -75,7 +75,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -93,7 +93,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -119,7 +119,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -164,7 +164,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
@@ -201,7 +201,7 @@ namespace ParkingService.Managers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
     }

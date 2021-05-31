@@ -63,7 +63,7 @@ namespace ParkingService.Context
                     postcode = "5684 PH",
                     totalParkingSpots = 150
                 }
-            ); ;
+            );
 
             //ParkingSpot data
             modelBuilder.Entity<ParkingSpot>().HasData(
