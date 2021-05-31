@@ -6,7 +6,8 @@
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.AccountPage"
-             Style="{StaticResource DefaultPageStyle}">
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Account">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -82,7 +83,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Button Text="CHANGE" VerticalOptions="Start" Grid.Row="6" Style="{StaticResource ButtonStyle}"/>
+                <Button Text="CHANGE" VerticalOptions="Start" Grid.Row="6" Style="{StaticResource ButtonStyle}" Clicked="OnButtonUpdateClicked"/>
 
             </Grid>
             <StackLayout Grid.Row="3">

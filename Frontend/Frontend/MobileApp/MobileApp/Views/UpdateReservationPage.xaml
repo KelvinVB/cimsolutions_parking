@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.UpdateReservationPage"
-             Style="{StaticResource DefaultPageStyle}">
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Update Reservation">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

@@ -6,7 +6,8 @@
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.UserReservationsPage"
-             Style="{StaticResource DefaultPageStyle}">
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Reservations">
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="TimeSlotsListView"

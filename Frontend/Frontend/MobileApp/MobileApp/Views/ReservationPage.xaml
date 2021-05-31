@@ -6,7 +6,8 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.ReservationPage"
-             Style="{StaticResource DefaultPageStyle}">
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Reservation">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

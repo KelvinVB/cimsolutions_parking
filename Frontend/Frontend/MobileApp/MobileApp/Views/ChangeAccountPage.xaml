@@ -5,7 +5,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.ChangeAccountPage"
-             Style="{StaticResource DefaultPageStyle}">
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Change Account">
+         
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

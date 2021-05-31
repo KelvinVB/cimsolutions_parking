@@ -9,7 +9,12 @@
              x:Name="BrowseItemsPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Account" Clicked="Account_Clicked" />
+        <ToolbarItem Clicked="Account_Clicked">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="White"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+
     </ContentPage.ToolbarItems>
 
     <StackLayout>
