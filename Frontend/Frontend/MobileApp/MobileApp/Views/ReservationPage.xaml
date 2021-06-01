@@ -14,38 +14,36 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="10*"/>
-                <RowDefinition Height="80*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="1" VerticalOptions="Center" Text="Plan your reservation" Style="{StaticResource LabelH1}"/>
+            <Label Grid.Row="1" VerticalOptions="CenterAndExpand" Text="Plan your reservation" Style="{StaticResource LabelH1}"/>
 
             <StackLayout Grid.Row="2" VerticalOptions="End" Margin="20,0,20,0">
 
-                <Label Text="Starting Time:" Style="{StaticResource LabelH2}"/>
                 <StackLayout Orientation="Horizontal">
-
+                    <Label Text="Start:" Style="{StaticResource LabelH2}"/>
                     <DatePicker x:Name="DatePickerStart" Date="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
                     <TimePicker x:Name="TimePickerStart" Time="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
                 </StackLayout>
 
-                <Label Text="Ending Time:" Style="{StaticResource LabelH2}"/>
                 <StackLayout Orientation="Horizontal">
-
-                    <DatePicker x:Name="DatePickerEnd" Date="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
-                    <TimePicker x:Name="TimePickerEnd" Time="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
+                    <Label Grid.Column="0" Text="End:  " Style="{StaticResource LabelH2}"/>
+                    <DatePicker Grid.Column="2" x:Name="DatePickerEnd" Date="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
+                    <TimePicker Grid.Column="3" x:Name="TimePickerEnd" Time="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal">
                     <Image>
                         <Image.Source>
-                            <FontImageSource Glyph="&#xf254;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            <FontImageSource Glyph="&#xf017;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                         </Image.Source>
                     </Image>
-                    <Entry x:Name="EntryDurationHours" Keyboard="Numeric" Text="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="EntryTimeEvent" Style="{StaticResource Entry}"/>
-                    <Label x:Name="LabelHours" Text="hours" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Style="{StaticResource LabelH2}"/>
-                    <Label Text=": " FontSize="Large" HorizontalOptions="Fill" VerticalOptions="Center"/>
-                    <Entry x:Name="EntryDurationMinutes" Keyboard="Numeric" Text="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="EntryTimeEvent" Style="{StaticResource Entry}"/>
-                    <Label x:Name="LabelMinutes" Text="minutes" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Style="{StaticResource LabelH2}"/>
+                    <Entry x:Name="EntryDurationHours" Keyboard="Numeric" HorizontalTextAlignment="Center" Placeholder="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="EntryTimeEvent" Style="{StaticResource Entry}"/>
+                    <Label x:Name="LabelHours" Text=":H" VerticalOptions="Center" HorizontalOptions="Fill" Style="{StaticResource LabelH2}"/>
+                    
+                    <Entry x:Name="EntryDurationMinutes" Keyboard="Numeric" HorizontalTextAlignment="Center" Placeholder="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="EntryTimeEvent" Style="{StaticResource Entry}"/>
+                    <Label x:Name="LabelMinutes" Text=":M" VerticalOptions="Center" HorizontalOptions="Fill" Style="{StaticResource LabelH2}"/>
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal">
@@ -69,12 +67,12 @@
                     <Label Grid.Row="1" x:Name="labelLicensePlate" Text="{Binding account.licensePlateNumber}" 
                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center" TextColor="Black" FontSize="40"/>
-                    <Button Grid.Row="2" x:Name="ButtonChange" Text="Change license plate" Margin="10" CornerRadius="5" BackgroundColor="{DynamicResource Secondary}" Clicked="OnButtonChangeClicked" HorizontalOptions="Fill" VerticalOptions="Start"/>
+                    <Button Grid.Row="2" x:Name="ButtonChange" Text="Change license plate" Margin="10" CornerRadius="5" Clicked="OnButtonChangeClicked" HorizontalOptions="Fill" VerticalOptions="Start"/>
                 </Grid>
             </StackLayout>
             <StackLayout Grid.Row="3" VerticalOptions="End" Padding="15">
                 <Button x:Name="ButtonReservation" Text="Reserve" Clicked="OnButtonClicked" Style="{StaticResource ButtonStyle}" VerticalOptions="End"/>
-                
+
             </StackLayout>
         </Grid>
     </ContentPage.Content>

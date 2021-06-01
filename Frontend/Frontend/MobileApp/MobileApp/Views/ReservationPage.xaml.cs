@@ -103,22 +103,18 @@ namespace MobileApp.Views
                 if (hours == 1)
                 {
                     EntryDurationHours.Text = hours.ToString();
-                    LabelHours.Text = "hour";
                 }
                 else
                 {
                     EntryDurationHours.Text = hours.ToString();
-                    LabelHours.Text = "hours";
                 }
                 if (minutes == 1)
                 {
                     EntryDurationMinutes.Text = minutes.ToString();
-                    LabelMinutes.Text = "minute";
                 }
                 else
                 {
                     EntryDurationMinutes.Text = minutes.ToString();
-                    LabelMinutes.Text = "minutes";
                 }
             }
 
