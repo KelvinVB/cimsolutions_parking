@@ -32,7 +32,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="Black"/>
+                                <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                             </Image.Source>
                         </Image>
                         <Entry x:Name="EntryUsername" d:Placeholder="username" Placeholder="{Binding account.username}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
@@ -42,7 +42,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="Black"/>
+                                <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                             </Image.Source>
                         </Image>
                         <Entry x:Name="EntryEmail" d:Placeholder="email" Placeholder="{Binding account.email}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
@@ -52,7 +52,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="Black"/>
+                                <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                             </Image.Source>
                         </Image>
                         <Entry x:Name="EntryPassword" Placeholder="password" Style="{StaticResource Entry}" IsPassword="True" HorizontalOptions="FillAndExpand"/>
@@ -62,7 +62,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="Black"/>
+                                <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                             </Image.Source>
                         </Image>
                         <Entry x:Name="EntryConfirmPassword" Placeholder="confirm password" Style="{StaticResource Entry}" IsPassword="True" HorizontalOptions="FillAndExpand"/>

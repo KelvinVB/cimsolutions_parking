@@ -30,6 +30,11 @@ namespace MobileApp.Views
             BindingContext = this.accountViewModel;
         }
 
+        protected async override void OnAppearing()
+        {
+            await accountViewModel.InitializeAccount();
+        }
+
         public async void OnButtonLogOutClicked(object sender, EventArgs args)
         {
             SecureStorage.Remove("token");

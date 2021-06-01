@@ -22,7 +22,7 @@ namespace MobileApp.Views
 
             menuItems = new List<HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon= "\uf007"},
+                new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon= "\uf015"},
                 new HomeMenuItem {Id = MenuItemType.Reservate, Title="Reservate", Icon= "\uf073"},
                 new HomeMenuItem {Id = MenuItemType.Account, Title="My Account", Icon= "\uf007"},
                 new HomeMenuItem {Id = MenuItemType.Reservations, Title="My Reservations", Icon = "\uf46d"},
@@ -52,7 +52,8 @@ namespace MobileApp.Views
 
                 if (token == null)
                 {
-                    await Navigation.PushAsync(new LoginPage());
+                    var id = (int)(MenuItemType.Login);
+                    await RootPage.NavigateFromMenu(id);
                 }
                 else
                 {

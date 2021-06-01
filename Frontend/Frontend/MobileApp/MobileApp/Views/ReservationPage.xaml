@@ -38,7 +38,7 @@
                 <StackLayout Orientation="Horizontal">
                     <Image>
                         <Image.Source>
-                            <FontImageSource Glyph="&#xf254;" FontFamily="FASolid" Color="Black"/>
+                            <FontImageSource Glyph="&#xf254;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                         </Image.Source>
                     </Image>
                     <Entry x:Name="EntryDurationHours" Keyboard="Numeric" Text="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="EntryTimeEvent" Style="{StaticResource Entry}"/>
@@ -51,7 +51,7 @@
                 <StackLayout Orientation="Horizontal">
                     <Image>
                         <Image.Source>
-                            <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="Black"/>
+                            <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                         </Image.Source>
                     </Image>
                     <Entry Text="{Binding account.email}" Placeholder="email" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Style="{StaticResource Entry}"/>

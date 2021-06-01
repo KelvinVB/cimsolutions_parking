@@ -24,7 +24,7 @@
                         <StackLayout Orientation="Horizontal">
                             <Image>
                                 <Image.Source>
-                                    <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="Black"/>
+                                    <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                                 </Image.Source>
                             </Image>
                             <Entry x:Name="EntryUsername" d:Placeholder="username" Placeholder="{Binding account.username}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
@@ -34,7 +34,7 @@
                         <StackLayout Orientation="Horizontal">
                             <Image>
                                 <Image.Source>
-                                    <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="Black"/>
+                                    <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                                 </Image.Source>
                             </Image>
                             <Entry x:Name="EntryFirstName" d:Placeholder="firstname" Placeholder="{Binding account.firstName}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
@@ -44,7 +44,7 @@
                         <StackLayout Orientation="Horizontal">
                             <Image>
                                 <Image.Source>
-                                    <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="Black"/>
+                                    <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                                 </Image.Source>
                             </Image>
                             <Entry x:Name="EntryLastName" d:Placeholder="lastname" Placeholder="{Binding account.lastName}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
@@ -54,7 +54,7 @@
                         <StackLayout Orientation="Horizontal">
                             <Image>
                                 <Image.Source>
-                                    <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="Black"/>
+                                    <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                                 </Image.Source>
                             </Image>
                             <Entry x:Name="EntryEmail" d:Placeholder="email" Placeholder="{Binding account.email}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
@@ -64,7 +64,7 @@
                         <StackLayout Orientation="Horizontal">
                             <Image>
                                 <Image.Source>
-                                    <FontImageSource Glyph="&#xf073;" FontFamily="FASolid" Color="Black"/>
+                                    <FontImageSource Glyph="&#xf073;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                                 </Image.Source>
                             </Image>
                             <DatePicker x:Name="DatePickerDateOfBirth" Date="{Binding account.dateOfBirth.Date}" Style="{StaticResource LabelH2}" HorizontalOptions="FillAndExpand"/>
@@ -74,7 +74,7 @@
                         <StackLayout Orientation="Horizontal">
                             <Image>
                                 <Image.Source>
-                                    <FontImageSource Glyph="&#xf1b9;" FontFamily="FASolid" Color="Black"/>
+                                    <FontImageSource Glyph="&#xf1b9;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                                 </Image.Source>
                             </Image>
                             <Entry x:Name="EntryLicensePlate" d:Placeholder="license plate" Placeholder="{Binding account.licensePlateNumber}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>

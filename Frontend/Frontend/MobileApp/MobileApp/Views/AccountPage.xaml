@@ -36,7 +36,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="Black"/>
+                                <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                             </Image.Source>
                         </Image>
                         <Label d:Text="username" Text="{Binding account.username}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
@@ -46,7 +46,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="Black"/>
+                                <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                             </Image.Source>
                         </Image>
                         <Label d:Text="name" Text="{Binding account.firstName} + {Binding account.lastName}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
@@ -56,7 +56,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="Black"/>
+                                <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                             </Image.Source>
                         </Image>
                         <Label d:Text="email" Text="{Binding account.email}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
@@ -66,7 +66,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="&#xf073;" FontFamily="FASolid" Color="Black"/>
+                                <FontImageSource Glyph="&#xf073;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                             </Image.Source>
                         </Image>
                         <Label d:Text="dateOfBirth" Text="{Binding account.dateOfBirth , StringFormat='{0:MMMM dd, yyyy}'}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
@@ -76,7 +76,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="&#xf1b9;" FontFamily="FASolid" Color="Black"/>
+                                <FontImageSource Glyph="&#xf1b9;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                             </Image.Source>
                         </Image>
                         <Label d:Text="licenseplate" Text="{Binding account.licensePlateNumber}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>

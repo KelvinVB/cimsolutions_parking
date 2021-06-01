@@ -14,6 +14,7 @@ namespace MobileApp.ViewModels
         public TimeSlot timeSlot { get { return updatedTimeSlot; } set { updatedTimeSlot = value; OnPropertyChanged(); } }
         private ObservableCollection<TimeSlot> userTimeSlots { get; set; }
         public ObservableCollection<TimeSlot> timeSlots { get { return userTimeSlots; } set { userTimeSlots = value; OnPropertyChanged(); } }
+        public bool isEmpty { get { return timeSlots.Count <= 0; } set { OnPropertyChanged(); } }
 
         public TimeSlotViewModel()
         {
@@ -21,12 +22,13 @@ namespace MobileApp.ViewModels
             Initialize();
         }
 
-        async Task Initialize()
+        public async Task Initialize()
         {
             try
             {
                 timeSlots = await timeSlotService.GetListTimeSlots();
                 OnPropertyChanged("userTimeSlots");
+                OnPropertyChanged("isEmpty");
             }
             catch (Exception)
             {

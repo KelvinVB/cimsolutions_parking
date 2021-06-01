@@ -19,7 +19,7 @@
             </Grid.RowDefinitions>
             <Label Grid.Row="1" Text="Reservations" HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource LabelH1}"/>
             <Label Grid.Row="2" Text="No Reservations" Style="{StaticResource LabelH2}" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding isEmpty}" />
-            <ListView Grid.Row="2" x:Name="TimeSlotsListView" IsVisible="{Binding isNotEmpty}"
+            <ListView Grid.Row="2" x:Name="TimeSlotsListView"
                 ItemsSource="{Binding timeSlots}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
@@ -48,7 +48,7 @@
                                 d:Text="{Binding .}"
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
+                                FontSize="16"/>
                                     <Label Text="{Binding startReservation}" 
                                 d:Text="starting time"
                                 LineBreakMode="NoWrap"
@@ -62,7 +62,7 @@
                                 </StackLayout>
                                 <Image HorizontalOptions="EndAndExpand" Margin="20">
                                     <Image.Source>
-                                        <FontImageSource Glyph="&#xf054;" FontFamily="FASolid" Color="Black"/>
+                                        <FontImageSource Glyph="&#xf054;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                                     </Image.Source>
                                 </Image>
                             </StackLayout>

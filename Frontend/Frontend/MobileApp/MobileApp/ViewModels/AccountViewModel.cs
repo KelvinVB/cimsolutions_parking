@@ -19,7 +19,7 @@ namespace MobileApp.ViewModels
             InitializeAccount();
         }
 
-        async Task InitializeAccount()
+        public async Task InitializeAccount()
         {
             try
             {

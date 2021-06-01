@@ -16,8 +16,6 @@ namespace MobileApp.Views
     public partial class UserReservationsPage : ContentPage
     {
         TimeSlotViewModel timeSlotViewModel;
-        public bool IsEmpty { get { return timeSlotViewModel.timeSlots.Count <= 0; } }
-        public bool IsNotEmpty { get { return !IsEmpty; } }
 
         public UserReservationsPage(TimeSlotViewModel timeSlotViewModel)
         {
@@ -30,6 +28,11 @@ namespace MobileApp.Views
             InitializeComponent();
             this.timeSlotViewModel = new TimeSlotViewModel();
             BindingContext = this.timeSlotViewModel;
+        }
+
+        protected async override void OnAppearing()
+        {
+            await timeSlotViewModel.Initialize();
         }
 
         public async void ItemClicked(object sender, ItemTappedEventArgs e)

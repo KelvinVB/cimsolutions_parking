@@ -33,7 +33,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Entry Grid.Row="1" x:Name="EntryUsername" Placeholder="Username" Style="{StaticResource Entry}"/>
-                <Entry Grid.Row="2" x:Name="EntryPassword" Placeholder="Password" Style="{StaticResource Entry}"/>
+                <Entry Grid.Row="2" x:Name="EntryPassword" Placeholder="Password" IsPassword="True" Style="{StaticResource Entry}"/>
 
                 <Button x:Name="ButtonLogin" Text="Login" Clicked="OnButtonLoginClicked" VerticalOptions="Start" Grid.Row="3" Style="{StaticResource ButtonStyle}"/>
 
