@@ -4,10 +4,16 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
+             xmlns:local="clr-namespace:MobileApp.Helper"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.UserReservationsPage"
              Style="{StaticResource DefaultPageStyle}"
              Title="Reservations">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:VisibilityConverter x:Key="visibilityConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
 
         <Grid>
@@ -18,7 +24,7 @@
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="1" Text="Reservations" HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource LabelH1}"/>
-            <Label Grid.Row="2" Text="No Reservations" Style="{StaticResource LabelH2}" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding isEmpty}" />
+            <Label Grid.Row="2" Text="No Reservations" Style="{StaticResource LabelH2}" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsVisible}" />
             <ListView Grid.Row="2" x:Name="TimeSlotsListView"
                 ItemsSource="{Binding timeSlots}"
                 VerticalOptions="FillAndExpand"
@@ -26,7 +32,8 @@
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 CachingStrategy="RecycleElement"
-                ItemTapped="ItemClicked">
+                ItemTapped="ItemClicked"
+                IsVisible="{Binding Path=IsVisible, Converter={StaticResource visibilityConverter}}">
                 <d:ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>First Item</x:String>

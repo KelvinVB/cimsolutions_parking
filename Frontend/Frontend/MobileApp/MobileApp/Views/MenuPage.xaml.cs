@@ -31,7 +31,7 @@ namespace MobileApp.Views
 
             GetToken();
 
-            if(token == null)
+            if (token == null)
             {
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Log in", Icon = "\uf2f6" });
             }
@@ -48,17 +48,20 @@ namespace MobileApp.Views
                 if (e.SelectedItem == null)
                     return;
 
-                GetToken();
-
-                if (token == null)
-                {
-                    var id = (int)(MenuItemType.Login);
-                    await RootPage.NavigateFromMenu(id);
-                }
                 else
                 {
                     var id = (int)((HomeMenuItem)e.SelectedItem).Id;
-                    await RootPage.NavigateFromMenu(id);
+
+                    if ((id == (int)MenuItemType.Account || id == (int)MenuItemType.Reservations || id == (int)MenuItemType.Payments) && token == null)
+                    {
+                        id = (int)(MenuItemType.Login);
+                        await RootPage.NavigateFromMenu(id);
+                    }
+                    else
+                    {
+                        await RootPage.NavigateFromMenu(id);
+                    }
+
                 }
             };
         }

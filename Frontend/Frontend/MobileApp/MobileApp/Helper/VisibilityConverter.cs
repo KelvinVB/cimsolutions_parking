@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace MobileApp.Helper
 {
-    class InverseBoolConverter : IValueConverter
+    class VisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -20,7 +20,7 @@ namespace MobileApp.Helper
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return !(bool)value;
+            return value;
         }
     }
 }

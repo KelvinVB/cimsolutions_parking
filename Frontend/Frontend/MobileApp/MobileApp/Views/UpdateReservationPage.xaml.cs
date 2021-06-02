@@ -110,5 +110,38 @@ namespace MobileApp.Views
             result.ToUpper();
             labelLicensePlate.Text = result;
         }
+
+        private void DateSelectedEvent(object sender, EventArgs args)
+        {
+            DateTime startDate = DatePickerStart.Date + TimePickerStart.Time;
+            DateTime endDate = DatePickerEnd.Date + TimePickerEnd.Time;
+
+            TimeSpan span = (endDate - startDate);
+
+            int days = span.Days;
+            int hours = span.Hours;
+            int minutes = span.Minutes;
+            hours = hours + (days * 24);
+
+            if (hours >= 0 && minutes >= 0)
+            {
+                EntryDurationHours.Text = hours.ToString();
+                EntryDurationMinutes.Text = minutes.ToString();
+            }
+        }
+        private void EntryTimeEvent(object sender, EventArgs args)
+        {
+            DateTime startDate = DatePickerStart.Date + TimePickerStart.Time;
+
+            int hours = Int32.Parse(EntryDurationHours.Text);
+            int minutes = Int32.Parse(EntryDurationMinutes.Text);
+
+            DateTime endDate = startDate;
+            endDate = endDate.AddHours(hours);
+            endDate = endDate.AddMinutes(minutes);
+
+            DatePickerEnd.Date = endDate.Date;
+            TimePickerEnd.Time = new TimeSpan(endDate.Hour, endDate.Minute, 0);
+        }
     }
 }

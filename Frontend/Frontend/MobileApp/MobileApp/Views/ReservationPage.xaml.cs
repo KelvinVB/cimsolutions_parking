@@ -100,24 +100,9 @@ namespace MobileApp.Views
 
             if (hours >= 0 && minutes >= 0)
             {
-                if (hours == 1)
-                {
-                    EntryDurationHours.Text = hours.ToString();
-                }
-                else
-                {
-                    EntryDurationHours.Text = hours.ToString();
-                }
-                if (minutes == 1)
-                {
-                    EntryDurationMinutes.Text = minutes.ToString();
-                }
-                else
-                {
-                    EntryDurationMinutes.Text = minutes.ToString();
-                }
+                EntryDurationHours.Text = hours.ToString();
+                EntryDurationMinutes.Text = minutes.ToString();
             }
-
         }
 
         private void EntryTimeEvent(object sender, EventArgs args)
