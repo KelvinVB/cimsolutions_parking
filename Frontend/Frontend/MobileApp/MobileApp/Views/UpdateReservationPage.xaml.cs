@@ -40,6 +40,7 @@ namespace MobileApp.Views
             if (updatedTimeSlot.endReservation < DateTime.Now || updatedTimeSlot.startReservation < DateTime.Now || updatedTimeSlot.endReservation < updatedTimeSlot.startReservation)
             {
                 await DisplayAlert("Error", "Invalid time input", "Ok");
+                return;
             }
 
             try

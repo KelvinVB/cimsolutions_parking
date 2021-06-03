@@ -22,14 +22,14 @@
             <StackLayout Grid.Row="2" VerticalOptions="Center" Margin="20,0,20,0">
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Start:" Style="{StaticResource LabelH2}"/>
-                    <DatePicker x:Name="DatePickerStart" Date="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
-                    <TimePicker x:Name="TimePickerStart" Time="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
+                    <DatePicker x:Name="DatePickerStart" Date="{Binding timeSlot.startReservation.Date}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
+                    <TimePicker x:Name="TimePickerStart" Time="{Binding timeSlot.startReservation.Time}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal">
                     <Label Grid.Column="0" Text="End:  " Style="{StaticResource LabelH2}"/>
-                    <DatePicker Grid.Column="2" x:Name="DatePickerEnd" Date="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
-                    <TimePicker Grid.Column="3" x:Name="TimePickerEnd" Time="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
+                    <DatePicker Grid.Column="2" x:Name="DatePickerEnd" Date="{Binding timeSlot.endReservation.Date}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
+                    <TimePicker Grid.Column="3" x:Name="TimePickerEnd" Time="{Binding timeSlot.endReservation.Time}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
                 </StackLayout>
 
                 <StackLayout  Orientation="Horizontal">
