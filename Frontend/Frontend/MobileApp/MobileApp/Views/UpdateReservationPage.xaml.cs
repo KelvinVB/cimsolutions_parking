@@ -16,6 +16,7 @@ namespace MobileApp.Views
     public partial class UpdateReservationPage : ContentPage
     {
         TimeSlotViewModel timeSlotViewModel;
+
         public UpdateReservationPage()
         {
             InitializeComponent();

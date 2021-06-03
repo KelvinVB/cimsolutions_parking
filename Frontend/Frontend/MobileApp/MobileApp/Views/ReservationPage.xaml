@@ -24,13 +24,13 @@
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Start:" Style="{StaticResource LabelH2}"/>
                     <DatePicker x:Name="DatePickerStart" Date="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
-                    <TimePicker x:Name="TimePickerStart" Time="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
+                    <TimePicker x:Name="TimePickerStart" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal">
                     <Label Grid.Column="0" Text="End:  " Style="{StaticResource LabelH2}"/>
                     <DatePicker Grid.Column="2" x:Name="DatePickerEnd" Date="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
-                    <TimePicker Grid.Column="3" x:Name="TimePickerEnd" Time="{x:Static system:DateTime.Today}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
+                    <TimePicker Grid.Column="3" x:Name="TimePickerEnd" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal">

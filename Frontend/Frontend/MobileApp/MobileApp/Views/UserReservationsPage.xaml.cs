@@ -38,6 +38,7 @@ namespace MobileApp.Views
         public async void ItemClicked(object sender, ItemTappedEventArgs e)
         {
             timeSlotViewModel.timeSlot = e.Item as TimeSlot;
+            timeSlotViewModel.SetTimeStamps();
             await Navigation.PushAsync(new UpdateReservationPage(timeSlotViewModel));
         }
 

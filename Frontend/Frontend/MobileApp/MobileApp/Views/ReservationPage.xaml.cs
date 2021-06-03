@@ -23,6 +23,8 @@ namespace MobileApp.Views
             this.parkingSpotViewModel = viewModel;
             this.accountViewModel = accountViewModel;
             BindingContext = accountViewModel;
+            TimePickerStart.Time = DateTime.Now.TimeOfDay;
+            TimePickerEnd.Time = DateTime.Now.TimeOfDay;
         }
         public ReservationPage()
         {
@@ -30,6 +32,8 @@ namespace MobileApp.Views
             this.parkingSpotViewModel = new ParkingSpotViewModel();
             this.accountViewModel = new AccountViewModel();
             BindingContext = this.accountViewModel;
+            TimePickerStart.Time = DateTime.Now.TimeOfDay;
+            TimePickerEnd.Time = DateTime.Now.TimeOfDay;
         }
 
         public async void OnButtonClicked(object sender, EventArgs args)
