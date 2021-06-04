@@ -16,6 +16,7 @@ namespace MobileApp.Views
     public partial class UpdateReservationPage : ContentPage
     {
         TimeSlotViewModel timeSlotViewModel;
+
         public UpdateReservationPage()
         {
             InitializeComponent();
@@ -35,16 +36,26 @@ namespace MobileApp.Views
             TimeSlot updatedTimeSlot = timeSlot;
             updatedTimeSlot.startReservation = DatePickerStart.Date + TimePickerStart.Time;
             updatedTimeSlot.endReservation = DatePickerEnd.Date + TimePickerEnd.Time;
+            updatedTimeSlot.licensePlateNumber = labelLicensePlate.Text;
 
             if (updatedTimeSlot.endReservation < DateTime.Now || updatedTimeSlot.startReservation < DateTime.Now || updatedTimeSlot.endReservation < updatedTimeSlot.startReservation)
             {
                 await DisplayAlert("Error", "Invalid time input", "Ok");
+                return;
             }
 
             try
             {
-                await timeSlotViewModel.UpdateTimeSlot(updatedTimeSlot);
-                await Navigation.PopToRootAsync();
+                TimeSlot slot = await timeSlotViewModel.UpdateTimeSlot(updatedTimeSlot);
+                if (slot != null)
+                {
+                    await DisplayAlert("Success", "Successfully updated time slot.", "Ok");
+                    await Navigation.PopToRootAsync();
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Something went wrong, please try again later", "Ok");
+                }
             }
             catch (HttpRequestException)
             {
@@ -68,14 +79,71 @@ namespace MobileApp.Views
             {
                 try
                 {
-                    await timeSlotViewModel.DeleteTimeSlot(timeSlotViewModel.timeSlot.reservationTimeSlotID);
-                    await Navigation.PopToRootAsync();
+                    TimeSlot slot = await timeSlotViewModel.DeleteTimeSlot(timeSlotViewModel.timeSlot.reservationTimeSlotID);
+                    if (slot != null)
+                    {
+                        await Navigation.PopToRootAsync();
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "Something went wrong, please try again later", "Ok");
+                    }
                 }
                 catch (Exception)
                 {
                     await DisplayAlert("Error", "Something went wrong, please try again later", "Ok");
                 }
             }
+        }
+
+        public async void OnButtonChangeClicked(object sender, EventArgs args)
+        {
+            string result = await DisplayPromptAsync("License plate number", "Please fill in your license plate number.", maxLength: 8, keyboard: Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+            if (result == null)
+            {
+                return;
+            }
+
+            if (result.Length < 6)
+            {
+                await DisplayAlert("Error", "Please fill in a correct license plate number", "Ok");
+                return;
+            }
+            result.ToUpper();
+            labelLicensePlate.Text = result;
+        }
+
+        private void DateSelectedEvent(object sender, EventArgs args)
+        {
+            DateTime startDate = DatePickerStart.Date + TimePickerStart.Time;
+            DateTime endDate = DatePickerEnd.Date + TimePickerEnd.Time;
+
+            TimeSpan span = (endDate - startDate);
+
+            int days = span.Days;
+            int hours = span.Hours;
+            int minutes = span.Minutes;
+            hours = hours + (days * 24);
+
+            if (hours >= 0 && minutes >= 0)
+            {
+                EntryDurationHours.Text = hours.ToString();
+                EntryDurationMinutes.Text = minutes.ToString();
+            }
+        }
+        private void EntryTimeEvent(object sender, EventArgs args)
+        {
+            DateTime startDate = DatePickerStart.Date + TimePickerStart.Time;
+
+            int hours = Int32.Parse(EntryDurationHours.Text);
+            int minutes = Int32.Parse(EntryDurationMinutes.Text);
+
+            DateTime endDate = startDate;
+            endDate = endDate.AddHours(hours);
+            endDate = endDate.AddMinutes(minutes);
+
+            DatePickerEnd.Date = endDate.Date;
+            TimePickerEnd.Time = new TimeSpan(endDate.Hour, endDate.Minute, 0);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace MobileApp.ViewModels
 
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
             {
-                var newItem = item as Item;
+                var newItem = item;
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });

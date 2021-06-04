@@ -15,7 +15,7 @@ namespace MobileApp.Services
     public class ParkingSpotService : IParkingSpotService
     {
         private static HttpClient client;
-        private string path;
+        private readonly string path;
 
         public ParkingSpotService()
         {
@@ -49,7 +49,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return 0;
                 }
             }
             catch (Exception)
@@ -82,7 +82,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return null;
                 }
             }
             catch (Exception)

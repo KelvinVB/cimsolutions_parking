@@ -19,25 +19,32 @@ namespace MobileApp.ViewModels
             InitializeAccount();
         }
 
-        async void InitializeAccount()
+        public async Task InitializeAccount()
         {
             try
             {
                 account = await accountService.GetAccount();
                 OnPropertyChanged("CurrentAccount");
             }
-            catch(Exception)
+            catch (Exception)
             {
-                return;
+                account = null;
             }
         }
         public async Task<bool> PostAccount(Account account)
         {
             try
             {
-                await accountService.PostAccount(account);
-                this.account = account;
-                return true;
+                Account newAccount = await accountService.PostAccount(account);
+                if (newAccount != null)
+                {
+                    this.account = account;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {
@@ -49,9 +56,16 @@ namespace MobileApp.ViewModels
         {
             try
             {
-                await accountService.PutAccount(account);
-                this.account = account;
-                return true;
+                Account updatedAccount = await accountService.PutAccount(account);
+                if (updatedAccount != null)
+                {
+                    this.account = account;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {
@@ -63,8 +77,7 @@ namespace MobileApp.ViewModels
         {
             try
             {
-                await accountService.DeleteAccount();
-                return true;
+                return await accountService.DeleteAccount();
             }
             catch (Exception)
             {

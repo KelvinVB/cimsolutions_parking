@@ -37,7 +37,8 @@ namespace MobileApp.Views
                 lastName = EntryLastName.Text,
                 email = EntryEmail.Text,
                 username = EntryUsername.Text,
-                dateOfBirth = DatePickerDateOfBirth.Date
+                dateOfBirth = DatePickerDateOfBirth.Date,
+                licensePlateNumber = EntryLicensePlate.Text
             };
 
             try
@@ -52,9 +53,27 @@ namespace MobileApp.Views
                     await DisplayAlert("Error", "Could not update account information", "Ok");
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 await DisplayAlert("Error", "Could not update account information", "Ok");
+            }
+        }
+
+        public async void OnButtonDeleteClicked(object sender, EventArgs args)
+        {
+            try
+            {
+                bool answer = await DisplayAlert("Remove account", "Are you sure you want to remove your account? You can't undo this action.", "Yes", "No");
+                if (answer)
+                {
+                    await accountViewModel.DeleteAccount();
+                    await Navigation.PushAsync(new MainPage());
+                }
+
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Error", "Could not delete account", "Ok");
             }
         }
     }

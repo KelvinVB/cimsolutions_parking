@@ -39,7 +39,9 @@ namespace MobileApp.Views
                 bool success = await loginViewModel.Login(credentials);
                 if (success)
                 {
-                    await Navigation.PopAsync();
+                    var previousPage = Navigation.NavigationStack.LastOrDefault();
+                    await Navigation.PushAsync(new AccountPage());
+                    Navigation.RemovePage(previousPage);
                 }
             }
             catch (UnauthorizedAccessException)
@@ -53,7 +55,9 @@ namespace MobileApp.Views
         }
         async void OnButtonRegisterClicked(object sender, EventArgs args)
         {
+            var previousPage = Navigation.NavigationStack.LastOrDefault();
             await Navigation.PushAsync(new RegisterPage());
+            Navigation.RemovePage(previousPage);
         }
     }
 }

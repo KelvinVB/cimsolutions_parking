@@ -10,10 +10,16 @@ namespace MobileApp.ViewModels
 {
     public class TimeSlotViewModel : BaseViewModel
     {
+        private TimeSpan timeSpanStart;
+        private TimeSpan timeSpanEnd;
+        public TimeSpan timeStampStart { get { return timeSpanStart; } set { timeSpanStart = value; OnPropertyChanged(); } }
+        public TimeSpan timeStampEnd { get { return timeSpanEnd; } set { timeSpanEnd = value; OnPropertyChanged(); } }
         private TimeSlot updatedTimeSlot { get; set; }
         public TimeSlot timeSlot { get { return updatedTimeSlot; } set { updatedTimeSlot = value; OnPropertyChanged(); } }
         private ObservableCollection<TimeSlot> userTimeSlots { get; set; }
         public ObservableCollection<TimeSlot> timeSlots { get { return userTimeSlots; } set { userTimeSlots = value; OnPropertyChanged(); } }
+        private bool listEmpty;
+        public bool isVisible { get { return listEmpty; } set { listEmpty = value; OnPropertyChanged(); } }
 
         public TimeSlotViewModel()
         {
@@ -21,16 +27,17 @@ namespace MobileApp.ViewModels
             Initialize();
         }
 
-        async void Initialize()
+        public async Task Initialize()
         {
             try
             {
-                timeSlots = await timeSlotService.GetListTimeSlots();
+                await GetListTimeSlots();
                 OnPropertyChanged("userTimeSlots");
+                OnPropertyChanged("isVisible");
             }
             catch (Exception)
             {
-                return;
+                timeSlots = null;
             }
         }
 
@@ -39,6 +46,14 @@ namespace MobileApp.ViewModels
             try
             {
                 timeSlots = await timeSlotService.GetListTimeSlots();
+                if (timeSlots.Count <= 0)
+                {
+                    isVisible = true;
+                }
+                else
+                {
+                    isVisible = false;
+                }
             }
             catch (Exception)
             {
@@ -46,11 +61,14 @@ namespace MobileApp.ViewModels
             }
         }
 
-        public async Task GetTimeSlot(int id)
+        public async Task<TimeSlot> GetTimeSlot(int id)
         {
             try
             {
                 timeSlot = await timeSlotService.GetTimeSlot(id);
+                timeStampStart = timeSlot.startReservation.TimeOfDay;
+                timeStampEnd = timeSlot.endReservation.TimeOfDay;
+                return timeSlot;
             }
             catch (Exception)
             {
@@ -58,11 +76,18 @@ namespace MobileApp.ViewModels
             }
         }
 
-        public async Task UpdateTimeSlot(TimeSlot newTimeSlot)
+        public void SetTimeStamps()
+        {
+            timeStampStart = timeSlot.startReservation.TimeOfDay;
+            timeStampEnd = timeSlot.endReservation.TimeOfDay;
+        }
+
+        public async Task<TimeSlot> UpdateTimeSlot(TimeSlot newTimeSlot)
         {
             try
             {
                 timeSlot = await timeSlotService.UpdateTimeSlot(newTimeSlot);
+                return timeSlot;
             }
             catch (Exception)
             {
@@ -70,11 +95,12 @@ namespace MobileApp.ViewModels
             }
         }
 
-        public async Task DeleteTimeSlot(int id)
+        public async Task<TimeSlot> DeleteTimeSlot(int id)
         {
             try
             {
                 timeSlot = await timeSlotService.DeleteTimeSlot(id);
+                return timeSlot;
             }
             catch (Exception)
             {

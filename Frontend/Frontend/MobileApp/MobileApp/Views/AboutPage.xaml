@@ -6,76 +6,95 @@
              mc:Ignorable="d"
              x:Class="MobileApp.Views.AboutPage"
              xmlns:vm="clr-namespace:MobileApp.ViewModels"
-             Title="{Binding Title}">
-    
+             Title="{Binding Title}"
+             Style="{StaticResource DefaultPageStyle}">
+
     <ContentPage.BindingContext>
         <vm:AboutViewModel />
     </ContentPage.BindingContext>
-    
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Color x:Key="Primary">#2196F3</Color>
-            <Color x:Key="Accent">#96d1ff</Color>
-            <Color x:Key="LightTextColor">#999999</Color>
-        </ResourceDictionary>
-    </ContentPage.Resources>
+
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height=".1*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".1*"/>
         </Grid.RowDefinitions>
-        <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
-                    <Image Source="xamarin_logo.png" VerticalOptions="Center" HeightRequest="64" />
-                </ContentView>
-            </StackLayout>
+        <Image Grid.Row="1" HeightRequest="120">
+            <Image.Source>
+                <FontImageSource Glyph="&#xf2bd;" FontFamily="FASolid" Color="Black"/>
+            </Image.Source>
+        </Image>
+
+        <Grid RowSpacing="20" Grid.Row="2" Margin="20,0,20,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".5*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="1" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                <StackLayout Orientation="Horizontal">
+                    <Image>
+                        <Image.Source>
+                            <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="Black"/>
+                        </Image.Source>
+                    </Image>
+                    <Label d:Text="username" Text="{Binding account.username}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Row="2" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                <StackLayout Orientation="Horizontal">
+                    <Image HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="Black"/>
+                        </Image.Source>
+                    </Image>
+                    <Label d:Text="name" Text="{Binding account.firstName} + {Binding account.lastName}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Row="3" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                <StackLayout Orientation="Horizontal">
+                    <Image HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="Black"/>
+                        </Image.Source>
+                    </Image>
+                    <Label d:Text="email" Text="{Binding account.email}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Row="4" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                <StackLayout Orientation="Horizontal">
+                    <Image HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource Glyph="&#xf073;" FontFamily="FASolid" Color="Black"/>
+                        </Image.Source>
+                    </Image>
+                    <Label d:Text="dateOfBirth" Text="{Binding account.dateOfBirth , StringFormat='{0:MMMM dd, yyyy}'}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Row="5" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                <StackLayout Orientation="Horizontal">
+                    <Image HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource Glyph="&#xf1b9;" FontFamily="FASolid" Color="Black"/>
+                        </Image.Source>
+                    </Image>
+                    <Label d:Text="licenseplate" Text="{Binding account.licensePlateNumber}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                </StackLayout>
+            </Frame>
+
+            <Button Text="CHANGE" VerticalOptions="Start" Grid.Row="6" Style="{StaticResource ButtonStyle}"/>
+
+        </Grid>
+        <StackLayout Grid.Row="3">
+            <Label Style="{StaticResource Line}"/>
+            <Label Text="CIMSOLUTIONS Parking" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>
         </StackLayout>
-        <ScrollView Grid.Row="1">
-            <StackLayout Orientation="Vertical" Padding="16,40,16,40" Spacing="10">
-                <Label FontSize="22">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="AppName" FontAttributes="Bold" FontSize="22" />
-                                <Span Text=" " />
-                                <Span Text="1.0" ForegroundColor="{StaticResource LightTextColor}" />
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="This app is written in C# and native APIs using the" />
-                                <Span Text=" " />
-                                <Span Text="Xamarin Platform" FontAttributes="Bold" />
-                                <Span Text="." />
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="It shares code with its" />
-                                <Span Text=" " />
-                                <Span Text="iOS, Android, and Windows" FontAttributes="Bold" />
-                                <Span Text=" " />
-                                <Span Text="versions." />
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Button Margin="0,10,0,0" Text="Learn more"
-                        Command="{Binding OpenWebCommand}"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White" />
-            </StackLayout>
-        </ScrollView>
     </Grid>
-    
+
 </ContentPage>

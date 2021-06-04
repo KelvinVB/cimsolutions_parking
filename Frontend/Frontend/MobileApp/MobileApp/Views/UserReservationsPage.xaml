@@ -4,43 +4,83 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
+             xmlns:local="clr-namespace:MobileApp.Helper"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.UserReservationsPage"
-             Style="{StaticResource DefaultPageStyle}">
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Reservations">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:VisibilityConverter x:Key="visibilityConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <ListView x:Name="TimeSlotsListView"
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="1" Text="Reservations" HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource LabelH1}"/>
+            <Label Grid.Row="2" Text="No Reservations" Style="{StaticResource LabelH2}" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsVisible}" />
+            <ListView Grid.Row="2" x:Name="TimeSlotsListView"
                 ItemsSource="{Binding timeSlots}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 CachingStrategy="RecycleElement"
-                ItemTapped="ItemClicked">
+                ItemTapped="ItemClicked"
+                IsVisible="{Binding Path=IsVisible, Converter={StaticResource visibilityConverter}}">
+                <d:ListView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>First Item</x:String>
+                        <x:String>Second Item</x:String>
+                        <x:String>Third Item</x:String>
+                        <x:String>Fourth Item</x:String>
+                        <x:String>Fifth Item</x:String>
+                        <x:String>Sixth Item</x:String>
+                        <x:String>Seventh Item</x:String>
+                        <x:String>Eight Item</x:String>
+                    </x:Array>
+                </d:ListView.ItemsSource>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="20">
-                                <Label Text="{Binding reservationTimeSlotID}" 
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout Padding="20">
+                                    <Label Text="{Binding reservationTimeSlotID}" 
                                 d:Text="{Binding .}"
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
-                                <Label Text="{Binding startReservation}" 
+                                FontSize="16"/>
+                                    <Label Text="{Binding startReservation}" 
                                 d:Text="starting time"
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="13" />
-                                <Label Text="{Binding endReservation}" 
+                                    <Label Text="{Binding endReservation}" 
                                 d:Text="ending time"
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="13" />
+                                </StackLayout>
+                                <Image HorizontalOptions="EndAndExpand" Margin="20">
+                                    <Image.Source>
+                                        <FontImageSource Glyph="&#xf054;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                                    </Image.Source>
+                                </Image>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
+            <StackLayout Grid.Row="3" VerticalOptions="Center">
+                <Label Style="{StaticResource Line}" />
+                <Button x:Name="ButtonLogin" Text="Create a new reservation" Clicked="OnButtonCreateClicked" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" BackgroundColor="Transparent"/>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

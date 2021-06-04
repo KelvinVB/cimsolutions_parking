@@ -4,37 +4,79 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              x:Class="MobileApp.Views.UpdateReservationPage"
-             Style="{StaticResource DefaultPageStyle}">
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Update Reservation">
     <ContentPage.Content>
-        <StackLayout Spacing="20" VerticalOptions="FillAndExpand">
-            <StackLayout VerticalOptions="Start">
-                <Label Text="Reservation" Style="{StaticResource LabelH1}"/>
-            </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <StackLayout Padding="15,0">
-                <Label Text="Starting Time:" Style="{StaticResource LabelH2}"/>
+            <Label Grid.Row="0" VerticalOptions="CenterAndExpand" Text="Reservation" Style="{StaticResource LabelH1}"/>
+
+            <StackLayout Grid.Row="2" VerticalOptions="Center" Margin="20,0,20,0">
                 <StackLayout Orientation="Horizontal">
-
-                    <DatePicker x:Name="DatePickerStart" Date="{Binding timeSlot.startReservation.Date, Mode=TwoWay}" Style="{StaticResource DatePicker}"/>
-                    <TimePicker x:Name="TimePickerStart" Time="{Binding timeSlot.startReservation.Time, Mode=TwoWay}" Style="{StaticResource TimePicker}"/>
+                    <Label Text="Start:" Style="{StaticResource LabelH2}"/>
+                    <DatePicker x:Name="DatePickerStart" Date="{Binding timeSlot.startReservation.Date}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
+                    <TimePicker x:Name="TimePickerStart" Time="{Binding timeStampStart}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
                 </StackLayout>
 
-                <Label Text="Ending Time:" Style="{StaticResource LabelH2}"/>
                 <StackLayout Orientation="Horizontal">
+                    <Label Grid.Column="0" Text="End:  " Style="{StaticResource LabelH2}"/>
+                    <DatePicker Grid.Column="2" x:Name="DatePickerEnd" Date="{Binding timeSlot.endReservation.Date}" PropertyChanged="DateSelectedEvent" Style="{StaticResource DatePicker}"/>
+                    <TimePicker Grid.Column="3" x:Name="TimePickerEnd" Time="{Binding timeStampEnd}" PropertyChanged="DateSelectedEvent" Style="{StaticResource TimePicker}"/>
+                </StackLayout>
 
-                    <DatePicker x:Name="DatePickerEnd" Date="{Binding timeSlot.endReservation.Date, Mode=TwoWay}" Style="{StaticResource DatePicker}"/>
-                    <TimePicker x:Name="TimePickerEnd" Time="{Binding timeSlot.endReservation.Time, Mode=TwoWay}" Style="{StaticResource TimePicker}"/>
+                <StackLayout  Orientation="Horizontal">
+                    <Image>
+                        <Image.Source>
+                            <FontImageSource Glyph="&#xf017;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                        </Image.Source>
+                    </Image>
+                    <Entry x:Name="EntryDurationHours" Keyboard="Numeric" HorizontalTextAlignment="Center" Placeholder="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="EntryTimeEvent" Style="{StaticResource Entry}"/>
+                    <Label x:Name="LabelHours" Text=":H" VerticalOptions="Center" HorizontalOptions="Fill" Style="{StaticResource LabelH2}"/>
+
+                    <Entry x:Name="EntryDurationMinutes" Keyboard="Numeric" HorizontalTextAlignment="Center" Placeholder="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Completed="EntryTimeEvent" Style="{StaticResource Entry}"/>
+                    <Label x:Name="LabelMinutes" Text=":M" VerticalOptions="Center" HorizontalOptions="Fill" Style="{StaticResource LabelH2}"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <Image>
+                        <Image.Source>
+                            <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                        </Image.Source>
+                    </Image>
+                    <Entry Text="{Binding account.email}" Placeholder="email" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Style="{StaticResource Entry}"/>
                 </StackLayout>
             </StackLayout>
-            
-            <StackLayout VerticalOptions="EndAndExpand" Orientation="Horizontal" Padding="15">
+
+            <Grid Grid.Row="3" Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Text="License plate:" Style="{StaticResource LabelH2}" VerticalTextAlignment="End"/>
+                <Image Grid.Row="1" Source="LicensePlate.png" HorizontalOptions="FillAndExpand" 
+                       VerticalOptions="FillAndExpand" />
+                <Label Grid.Row="1" x:Name="labelLicensePlate" Text="{Binding timeSlot.licensePlateNumber}" 
+                       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" TextColor="Black" FontSize="40"/>
+                <Button Grid.Row="2" x:Name="ButtonChange" Text="Change license plate" Margin="10" CornerRadius="5" Clicked="OnButtonChangeClicked" HorizontalOptions="Fill" VerticalOptions="Start"/>
+            </Grid>
+
+            <StackLayout Grid.Row="4" VerticalOptions="EndAndExpand" Orientation="Horizontal" Padding="15">
                 <Button Text="Update" x:Name="ButtonLogOut"
                     Clicked="OnButtonUpdateTimeSlot" Style="{StaticResource ButtonStyle}"/>
                 <Button Text="Cancel" x:Name="ButtonDelete"
                     Clicked="OnButtonDeleteTimeSlot" Style="{StaticResource RemoveButton}"/>
             </StackLayout>
 
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

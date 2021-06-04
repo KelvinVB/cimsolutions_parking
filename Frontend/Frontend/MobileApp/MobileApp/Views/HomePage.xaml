@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MobileApp.Views.HomePage"
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Home">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30*"/>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Text="CIMSOLUTIONS Parking" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Style="{StaticResource LabelH1}"/>
+            <Grid Grid.Row="1" ColumnSpacing="20" RowSpacing="20" Margin="20">
+                <Button Grid.Row="0" Grid.Column="0" Text="Account" Clicked="AccountButtonClicked" Style="{StaticResource HomeButton}">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="White"/>
+                    </Button.ImageSource>
+                </Button>
+                <Button Grid.Row="0" Grid.Column="1" Text="Reservate" Clicked="ReservateButtonClicked" Style="{StaticResource HomeButton}">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xf073;" FontFamily="FASolid" Color="White"/>
+                    </Button.ImageSource>
+                </Button>
+                <Button Grid.Row="1" Grid.Column="0" Text="Reservations" Clicked="ReservationsButtonClicked" Style="{StaticResource HomeButton}">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xf46d;" FontFamily="FASolid" Color="White"/>
+                    </Button.ImageSource>
+                </Button>
+                <Button Grid.Row="1" Grid.Column="1" Text="About" Clicked="AboutButtonClicked" Style="{StaticResource HomeButton}">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xf129;" FontFamily="FASolid" Color="White"/>
+                    </Button.ImageSource>
+                </Button>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

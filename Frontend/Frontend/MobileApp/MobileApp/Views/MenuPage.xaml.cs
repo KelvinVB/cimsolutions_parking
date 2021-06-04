@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,18 +15,30 @@ namespace MobileApp.Views
     {
         MainPage RootPage { get => Application.Current.MainPage as MainPage; }
         List<HomeMenuItem> menuItems;
+        string token;
         public MenuPage()
         {
             InitializeComponent();
 
             menuItems = new List<HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.Reservate, Title="Reservate" },
-                new HomeMenuItem {Id = MenuItemType.Account, Title="My Account" },
-                new HomeMenuItem {Id = MenuItemType.Reservations, Title="My Reservations" },
-                new HomeMenuItem {Id = MenuItemType.Payments, Title="My Payments" }
+                new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon= "\uf015"},
+                new HomeMenuItem {Id = MenuItemType.Reservate, Title="Reservate", Icon= "\uf073"},
+                new HomeMenuItem {Id = MenuItemType.Account, Title="My Account", Icon= "\uf007"},
+                new HomeMenuItem {Id = MenuItemType.Reservations, Title="My Reservations", Icon = "\uf46d"},
+                new HomeMenuItem {Id = MenuItemType.Payments, Title="My Payments",  Icon = "\uf09d" }
             };
+
+            GetToken();
+
+            if (token == null)
+            {
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Log in", Icon = "\uf2f6" });
+            }
+            else
+            {
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Log Out", Icon = "\uf2f5" });
+            }
 
             ListViewMenu.ItemsSource = menuItems;
 
@@ -35,9 +48,27 @@ namespace MobileApp.Views
                 if (e.SelectedItem == null)
                     return;
 
-                var id = (int)((HomeMenuItem)e.SelectedItem).Id;
-                await RootPage.NavigateFromMenu(id);
+                else
+                {
+                    var id = (int)((HomeMenuItem)e.SelectedItem).Id;
+
+                    if ((id == (int)MenuItemType.Account || id == (int)MenuItemType.Reservations || id == (int)MenuItemType.Payments) && token == null)
+                    {
+                        id = (int)(MenuItemType.Login);
+                        await RootPage.NavigateFromMenu(id);
+                    }
+                    else
+                    {
+                        await RootPage.NavigateFromMenu(id);
+                    }
+
+                }
             };
+        }
+
+        public async void GetToken()
+        {
+            token = await SecureStorage.GetAsync("token");
         }
     }
 }

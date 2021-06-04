@@ -30,30 +30,21 @@ namespace MobileApp.Views
             BindingContext = this.timeSlotViewModel;
         }
 
-        public async void GetTimeSlots()
+        protected async override void OnAppearing()
         {
-            List<TimeSlot> timeSlots = new List<TimeSlot>();
-            string message;
-
-            try
-            {
-                
-
-            }
-            catch (TimeoutException)
-            {
-                await DisplayAlert("Connection error", "Please check your network settings.", "Ok");
-            }
-            catch (Exception)
-            {
-                message = "Could not find any reservations.";
-            }
+            await timeSlotViewModel.Initialize();
         }
 
         public async void ItemClicked(object sender, ItemTappedEventArgs e)
         {
             timeSlotViewModel.timeSlot = e.Item as TimeSlot;
+            timeSlotViewModel.SetTimeStamps();
             await Navigation.PushAsync(new UpdateReservationPage(timeSlotViewModel));
+        }
+
+        public async void OnButtonCreateClicked(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new ReservationPage());
         }
     }
 }

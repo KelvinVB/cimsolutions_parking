@@ -30,6 +30,11 @@ namespace MobileApp.Views
             BindingContext = this.accountViewModel;
         }
 
+        protected async override void OnAppearing()
+        {
+            await accountViewModel.InitializeAccount();
+        }
+
         public async void OnButtonLogOutClicked(object sender, EventArgs args)
         {
             SecureStorage.Remove("token");
@@ -39,20 +44,7 @@ namespace MobileApp.Views
 
         public async void OnButtonUpdateClicked(object sender, EventArgs args)
         {
-            await Navigation.PushAsync(new ChangeAccountPage());
-        }
-
-        public async void OnButtonDeleteClicked(object sender, EventArgs args)
-        {
-            try
-            {
-                await accountViewModel.DeleteAccount();
-                await Navigation.PushAsync(new MainPage());
-            }
-            catch (Exception) 
-            { 
-                await DisplayAlert("Error", "Could not delete account", "Ok");
-            }
+            await Navigation.PushAsync(new ChangeAccountPage(accountViewModel));
         }
     }
 }

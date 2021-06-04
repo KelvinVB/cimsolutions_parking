@@ -6,33 +6,90 @@
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.AccountPage"
-             Style="{StaticResource DefaultPageStyle}">
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Account">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="FillAndExpand"  Spacing="20">
-            <Label Text="Account" Style="{StaticResource LabelH1}"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".1*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height=".1*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="1" HeightRequest="120">
+                <Image.Source>
+                    <FontImageSource Glyph="&#xf2bd;" FontFamily="FASolid" Color="Black"/>
+                </Image.Source>
+            </Image>
 
-            <StackLayout VerticalOptions="Start" Padding="15,0">
-                <Label Text="First name: " Style="{StaticResource LabelH2}"/>
-                <Label Text="{Binding account.firstName}" Style="{StaticResource LabelH2}"/>
+            <Grid RowSpacing="20" Grid.Row="2" Margin="20,0,20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".5*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Frame Grid.Row="1" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label d:Text="username" Text="{Binding account.username}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="2" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label d:Text="name" Text="{Binding account.firstName} + {Binding account.lastName}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="3" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label d:Text="email" Text="{Binding account.email}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="4" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf073;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label d:Text="dateOfBirth" Text="{Binding account.dateOfBirth , StringFormat='{0:MMMM dd, yyyy}'}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="5" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf1b9;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label d:Text="licenseplate" Text="{Binding account.licensePlateNumber}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
 
-                <Label Text="Last name: " Style="{StaticResource LabelH2}"/>
-                <Label Text="{Binding account.lastName}" Style="{StaticResource LabelH2}"/>
+                <Button Text="CHANGE" VerticalOptions="Start" Grid.Row="6" Style="{StaticResource ButtonStyle}" Clicked="OnButtonUpdateClicked"/>
 
-                <Label Text="Email: " Style="{StaticResource LabelH2}"/>
-                <Label Text="{Binding account.email}" Style="{StaticResource LabelH2}"/>
-
-                <Label Text="Date of birth: " Style="{StaticResource LabelH2}"/>
-                <Label Text="{Binding account.dateOfBirth, StringFormat='{0:MMMM dd, yyyy}'}" Style="{StaticResource LabelH2}"/>
-
-                <Label Text="License plate: " Style="{StaticResource LabelH2}"/>
-                <Label Text="{Binding account.licensePlateNumber}" Style="{StaticResource LabelH2}"/>
+            </Grid>
+            <StackLayout Grid.Row="3">
+                <Label Style="{StaticResource Line}"/>
+                <Label Text="CIMSOLUTIONS Parking" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>
             </StackLayout>
-
-            <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" Padding="15">
-                <Button Text="Change account" x:Name="ButtonUpdate" Clicked="OnButtonUpdateClicked" Style="{StaticResource ButtonStyle}"/>
-                <Button Text="Log out" x:Name="ButtonLogOut" Clicked="OnButtonLogOutClicked" Style="{StaticResource ButtonStyle}"/>
-                <Button Text="Remove" x:Name="ButtonDelete" Clicked="OnButtonDeleteClicked" Style="{StaticResource RemoveButton}"/>
-            </StackLayout>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

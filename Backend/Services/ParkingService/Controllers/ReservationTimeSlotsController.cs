@@ -101,6 +101,9 @@ namespace ParkingService.Controllers
         {
             try
             {
+                string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                reservationTimeSlot.accountID = accountID;
                 ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(id, reservationTimeSlot);
 
                 if (reservation == null)
@@ -133,6 +136,7 @@ namespace ParkingService.Controllers
         {
             try
             {
+                
                 ReservationTimeSlot reservation = await reservationTimeSlotManager.CreateReservationTimeSlot(reservationTimeSlot);
 
                 if (reservation == null)

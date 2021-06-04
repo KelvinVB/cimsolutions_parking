@@ -5,23 +5,46 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.LoginPage"
-             Style="{StaticResource DefaultPageStyle}">
-
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Login">
     <ContentPage.Content>
-        <StackLayout Spacing="20">
-            <StackLayout>
-                <Label Text="Login" Style="{StaticResource LabelH1}" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0" Grid.Row="0">
+                <Label Text="Welcome to CIMSOLUTIONS Parking" Style="{StaticResource LabelH3}"/>
             </StackLayout>
 
-            <StackLayout VerticalOptions="StartAndExpand" Padding="15,0">
-                <Entry x:Name="EntryUsername" Placeholder="Username" />
-                <Entry x:Name="EntryPassword" Placeholder="Password" />
+            <StackLayout Grid.Row="1" Orientation="Vertical">
+                <Image  Source="cimsolutions_logo_transparant.png" HeightRequest="120"/>
+                <Label Text="Sign In" Style="{StaticResource LabelH1}"/>
             </StackLayout>
-            
-            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Padding="15" >
-                <Button x:Name="ButtonLogin" Text="Login" Clicked="OnButtonLoginClicked" Style="{StaticResource ButtonStyle}"/>
-                <Button x:Name="ButtonRegister" Text="Register" Clicked="OnButtonRegisterClicked" Style="{StaticResource ButtonStyle}"/>
+
+            <Grid RowSpacing="20" Grid.Row="2" Margin="20,0,20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".5*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Entry Grid.Row="1" x:Name="EntryUsername" Placeholder="Username" Style="{StaticResource Entry}"/>
+                <Entry Grid.Row="2" x:Name="EntryPassword" Placeholder="Password" IsPassword="True" Style="{StaticResource Entry}"/>
+
+                <Button x:Name="ButtonLogin" Text="Login" Clicked="OnButtonLoginClicked" VerticalOptions="Start" Grid.Row="3" Style="{StaticResource ButtonStyle}"/>
+
+            </Grid>
+            <StackLayout Grid.Row="3">
+                <Label Style="{StaticResource Line}"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                    <Label Text="Don't Have An Account?" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>
+                    <Button x:Name="ButtonRegister" Text="SIGN UP" Clicked="OnButtonRegisterClicked" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" BackgroundColor="Transparent"/>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
