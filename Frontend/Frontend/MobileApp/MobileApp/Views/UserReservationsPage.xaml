@@ -24,7 +24,7 @@
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="1" Text="Reservations" HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource LabelH1}"/>
-            <Label Grid.Row="2" Text="No Reservations" Style="{StaticResource LabelH2}" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsVisible}" />
+            <!--<Label Grid.Row="2" Text="No Reservations" Style="{StaticResource LabelH2}" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsVisible}" />-->
             <ListView Grid.Row="2" x:Name="TimeSlotsListView"
                 ItemsSource="{Binding timeSlots}"
                 VerticalOptions="FillAndExpand"
@@ -56,13 +56,18 @@
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
                                 FontSize="16"/>
-                                    <Label Text="{Binding startReservation}" 
+                                    <Label Text="{Binding startReservation, StringFormat='{0:dd, MMMM, yyyy}'}" 
                                 d:Text="starting time"
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="13" />
-                                    <Label Text="{Binding endReservation}" 
+                                    <Label Text="{Binding endReservation, StringFormat='{0:dd, MMMM, yyyy}'}" 
                                 d:Text="ending time"
+                                LineBreakMode="NoWrap"
+                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                FontSize="13" />
+                                    <Label Text="{Binding licensePlateNumber}" 
+                                d:Text="license plate"
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="13" />
