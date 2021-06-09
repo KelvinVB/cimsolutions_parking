@@ -2,6 +2,7 @@
 using MobileApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,10 @@ namespace MobileApp.Views
                 {
                     await DisplayAlert("Error", "Could not update account information", "Ok");
                 }
+            }
+            catch (DuplicateNameException)
+            {
+                await DisplayAlert("Error", "User already exists", "Ok");
             }
             catch (Exception)
             {

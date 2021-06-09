@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using MobileApp.Interfaces;
+using System.Data;
 
 namespace MobileApp.Services
 {
@@ -88,6 +89,10 @@ namespace MobileApp.Services
                 if (result.IsSuccessStatusCode)
                 {
                     return account;
+                }
+                else if ((int)result.StatusCode == 409)
+                {
+                    throw new DuplicateNameException(result.Content.ToString());
                 }
                 else
                 {

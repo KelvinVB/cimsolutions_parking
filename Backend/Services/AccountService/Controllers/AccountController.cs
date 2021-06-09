@@ -108,7 +108,7 @@ namespace AccountService.Controllers
             }
             catch (DuplicateNameException)
             {
-                return new ConflictResult();
+                return Conflict();
             }
             catch (Exception)
             {

@@ -83,6 +83,13 @@ namespace AccountService.Managers
             try
             {
                 Account account = accounts.Find(a => a.accountID == request.accountID).FirstOrDefault();
+                Authentication auth = accountCredentials.Find(a => a.accountID == request.accountID).FirstOrDefault();
+                if (request.username != null && request.username != auth.username)
+                {
+                    auth.username = request.username;
+                    account.username = request.username;
+                }
+                                
                 if (request.dateOfBirth != null)
                     account.dateOfBirth = request.dateOfBirth;
                 if (request.email != null)
@@ -95,6 +102,7 @@ namespace AccountService.Managers
                     account.licensePlateNumber = request.licensePlateNumber;
 
                 await accounts.ReplaceOneAsync(a => a.accountID.Equals(account.accountID), account);
+                await accountCredentials.ReplaceOneAsync(a => a.accountID.Equals(account.accountID), auth);
                 return account;
             }
             catch (Exception ex)
