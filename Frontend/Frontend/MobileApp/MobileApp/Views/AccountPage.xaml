@@ -8,6 +8,13 @@
              x:Class="MobileApp.Views.AccountPage"
              Style="{StaticResource DefaultPageStyle}"
              Title="Account">
+    <NavigationPage.TitleView>
+        <Button x:Name="LoginButton" Text="Logout" Clicked="OnButtonLogOutClicked" HorizontalOptions="End" TextColor="White" BackgroundColor="#5d9228" VerticalOptions="End">
+            <Button.ImageSource>
+                <FontImageSource Size="25" Glyph="&#xf2f6;" FontFamily="FASolid" Color="White"/>
+            </Button.ImageSource>
+        </Button>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

@@ -16,6 +16,8 @@ namespace MobileApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
+        MainPage RootPage { get => Application.Current.MainPage as MainPage; }
+
         LoginViewModel loginViewModel;
         public LoginPage()
         {
@@ -39,9 +41,7 @@ namespace MobileApp.Views
                 bool success = await loginViewModel.Login(credentials);
                 if (success)
                 {
-                    var previousPage = Navigation.NavigationStack.LastOrDefault();
-                    await Navigation.PushAsync(new AccountPage());
-                    Navigation.RemovePage(previousPage);
+                    await RootPage.NavigateFromMenu((int)MenuItemType.Account);
                 }
             }
             catch (UnauthorizedAccessException)

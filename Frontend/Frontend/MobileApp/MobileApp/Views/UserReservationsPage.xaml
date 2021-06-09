@@ -56,12 +56,12 @@
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
                                 FontSize="16"/>
-                                    <Label Text="{Binding startReservation, StringFormat='{0:dd, MMMM, yyyy}'}" 
+                                    <Label Text="{Binding startReservation, StringFormat='{0:dd/MMMM/yyyy - HH:mm}'}" 
                                 d:Text="starting time"
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="13" />
-                                    <Label Text="{Binding endReservation, StringFormat='{0:dd, MMMM, yyyy}'}" 
+                                    <Label Text="{Binding endReservation, StringFormat='{0:dd/MMMM/yyyy - HH:mm}'}" 
                                 d:Text="ending time"
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"

@@ -49,14 +49,22 @@ namespace MobileApp.Views
                 return;
             }
 
+            if(timeSlot.licensePlateNumber == null)
+            {
+                await DisplayAlert("Error", "Please fill in a correct license plate number", "Ok");
+                return;
+            }
+
             try
             {
-                bool confirm = await DisplayAlert("Creating new reservation", "Starting: " + timeSlot.startReservation + "\n Ending: " + timeSlot.endReservation, "Yes", "No");
+                string start = String.Format("{0:dd-MM-yyyy}", timeSlot.startReservation);
+                string end = String.Format("{0:dd-MM-yyyy}", timeSlot.endReservation);
+                bool confirm = await DisplayAlert("Creating new reservation", "Starting: " + start + "\n Ending: " + end, "Yes", "No");
 
                 if (confirm)
                 {
                     timeSlot = await parkingSpotViewModel.ReserveWithAccount(timeSlot);
-                    await DisplayAlert("Success", "Reservation planned on: " + timeSlot.startReservation.ToString() + " untill: " + timeSlot.endReservation.ToString(), "Ok");
+                    await DisplayAlert("Success", "Reservation planned on: " + start + " untill: " + end, "Ok");
                 }
             }
             catch (UnauthorizedAccessException)

@@ -91,6 +91,8 @@ namespace AccountService.Managers
                     account.firstName = request.firstName;
                 if (request.lastName != null)
                     account.lastName = request.lastName;
+                if (request.licensePlateNumber != null)
+                    account.licensePlateNumber = request.licensePlateNumber;
 
                 await accounts.ReplaceOneAsync(a => a.accountID.Equals(account.accountID), account);
                 return account;
