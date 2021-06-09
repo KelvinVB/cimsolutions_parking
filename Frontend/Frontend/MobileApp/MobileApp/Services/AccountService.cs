@@ -54,6 +54,8 @@ namespace MobileApp.Services
 
         public async Task<Account> PostAccount(Account account)
         {
+            account.firstName = "firstName";
+            account.lastName = "lastName";
             var jsonObject = JsonConvert.SerializeObject(account);
             var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
 

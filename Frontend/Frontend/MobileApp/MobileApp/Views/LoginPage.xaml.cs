@@ -41,8 +41,12 @@ namespace MobileApp.Views
                 bool success = await loginViewModel.Login(credentials);
                 if (success)
                 {
-                    await RootPage.NavigateFromMenu((int)MenuItemType.Account);
+                    await RootPage.NavigateFromMenu((int)MenuItemType.Login);
                 }
+            }
+            catch (KeyNotFoundException)
+            {
+                await DisplayAlert("Could not log in", "Wrong username or password", "Ok");
             }
             catch (UnauthorizedAccessException)
             {
