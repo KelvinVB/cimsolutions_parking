@@ -43,7 +43,7 @@ namespace MobileApp.Views
             timeSlot.endReservation = DatePickerEnd.Date + TimePickerEnd.Time;
             timeSlot.licensePlateNumber = labelLicensePlate.Text;
 
-            if (timeSlot.endReservation <= timeSlot.startReservation)
+            if (timeSlot.endReservation <= timeSlot.startReservation || timeSlot.startReservation <= DateTime.Now)
             {
                 await DisplayAlert("Error", "Invalid time slot, please fill in the correct values", "Ok");
                 return;
@@ -57,8 +57,8 @@ namespace MobileApp.Views
 
             try
             {
-                string start = String.Format("{0:dd-MM-yyyy}", timeSlot.startReservation);
-                string end = String.Format("{0:dd-MM-yyyy}", timeSlot.endReservation);
+                string start = String.Format("{0:dd/MM/yyyy - HH:mm}", timeSlot.startReservation);
+                string end = String.Format("{0:dd/MM/yyyy - HH:mm}", timeSlot.endReservation);
                 bool confirm = await DisplayAlert("Creating new reservation", "Starting: " + start + "\n Ending: " + end, "Yes", "No");
 
                 if (confirm)
@@ -74,6 +74,10 @@ namespace MobileApp.Views
             catch (TimeoutException)
             {
                 await DisplayAlert("Connection error", "Please check your network settings.", "Ok");
+            }
+            catch (KeyNotFoundException)
+            {
+                await DisplayAlert("Error", "No more parking spots available at the suggested time", "Ok");
             }
             catch (Exception)
             {
