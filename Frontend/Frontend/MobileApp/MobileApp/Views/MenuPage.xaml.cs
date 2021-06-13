@@ -14,7 +14,7 @@ namespace MobileApp.Views
     public partial class MenuPage : ContentPage
     {
         MainPage RootPage { get => Application.Current.MainPage as MainPage; }
-        List<HomeMenuItem> menuItems;
+        public static List<HomeMenuItem> menuItems;
         string token;
         public MenuPage()
         {
@@ -26,19 +26,20 @@ namespace MobileApp.Views
                 new HomeMenuItem {Id = MenuItemType.Reservate, Title="Reservate", Icon= "\uf073"},
                 new HomeMenuItem {Id = MenuItemType.Account, Title="My Account", Icon= "\uf007"},
                 new HomeMenuItem {Id = MenuItemType.Reservations, Title="My Reservations", Icon = "\uf46d"},
-                new HomeMenuItem {Id = MenuItemType.Payments, Title="My Payments",  Icon = "\uf09d" }
-            };
+                new HomeMenuItem {Id = MenuItemType.Payments, Title="My Payments",  Icon = "\uf09d" },
+                new HomeMenuItem { Id = MenuItemType.Login, Title = "Log in", Icon = "\uf2f6" }
+        };
 
             GetToken();
 
-            if (token == null)
-            {
-                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Log in", Icon = "\uf2f6" });
-            }
-            else
-            {
-                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Log Out", Icon = "\uf2f5" });
-            }
+            //if (token == null)
+            //{
+            //    menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Log in", Icon = "\uf2f6" });
+            //}
+            //else
+            //{
+            //    menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Log Out", Icon = "\uf2f5" });
+            //}
 
             ListViewMenu.ItemsSource = menuItems;
 
@@ -51,6 +52,7 @@ namespace MobileApp.Views
                 else
                 {
                     var id = (int)((HomeMenuItem)e.SelectedItem).Id;
+                    GetToken();
 
                     if ((id == (int)MenuItemType.Account || id == (int)MenuItemType.Reservations || id == (int)MenuItemType.Payments) && token == null)
                     {
@@ -64,6 +66,16 @@ namespace MobileApp.Views
 
                 }
             };
+        }
+
+        public void SetLogin()
+        {
+            menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Log in", Icon = "\uf2f6" });
+        }
+
+        public void SetLogout()
+        {
+            menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Log Out", Icon = "\uf2f5" });
         }
 
         public async void GetToken()

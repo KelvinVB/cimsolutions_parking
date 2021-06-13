@@ -15,6 +15,7 @@ namespace MobileApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AccountPage : ContentPage
     {
+        MainPage RootPage { get => Application.Current.MainPage as MainPage; }
         AccountViewModel accountViewModel;
         public AccountPage()
         {
@@ -39,7 +40,11 @@ namespace MobileApp.Views
         {
             SecureStorage.Remove("token");
             accountViewModel.account = null;
-            await Navigation.PopAsync();
+            //await Navigation.PopAsync();
+            //var previousPage = Navigation.NavigationStack.LastOrDefault();
+            //await Navigation.PushAsync(new LoginPage());
+            //Navigation.RemovePage(previousPage);
+            await RootPage.NavigateFromMenu((int)MenuItemType.Login);
         }
 
         public async void OnButtonUpdateClicked(object sender, EventArgs args)

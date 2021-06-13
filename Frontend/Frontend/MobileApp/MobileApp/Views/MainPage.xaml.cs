@@ -7,6 +7,7 @@ using Xamarin.Forms.Xaml;
 
 using MobileApp.Models;
 using Xamarin.Essentials;
+using System.Linq;
 
 namespace MobileApp.Views
 {
@@ -38,20 +39,13 @@ namespace MobileApp.Views
                         MenuPages.Add(id, new NavigationPage(new ReservationPage()));
                         break;
                     case (int)MenuItemType.Account:
-                        if (SecureStorage.GetAsync("token").Result != null)
-                            MenuPages.Add(id, new NavigationPage(new AccountPage()));
-                        else
-                            MenuPages.Add(id, new NavigationPage(new LoginPage()));
+                        MenuPages.Add(id, new NavigationPage(new AccountPage()));
                         break;
                     case (int)MenuItemType.Reservations:
                         MenuPages.Add(id, new NavigationPage(new UserReservationsPage()));
                         break;
                     case (int)MenuItemType.Payments:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));
-                        break;
-                    case (int)MenuItemType.Logout:
-                        SecureStorage.Remove("token");
-                        MenuPages.Add(id, new NavigationPage(new LoginPage()));
                         break;
                     case (int)MenuItemType.Login:
                         MenuPages.Add(id, new NavigationPage(new LoginPage()));

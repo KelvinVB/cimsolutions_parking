@@ -46,6 +46,8 @@ namespace MobileApp.ViewModels
             try
             {
                 timeSlots = await timeSlotService.GetListTimeSlots();
+                for (int i = 0; i < timeSlots.Count; i++)
+                    timeSlots.Move(timeSlots.Count - 1, i);
                 if (timeSlots.Count <= 0)
                 {
                     isVisible = true;

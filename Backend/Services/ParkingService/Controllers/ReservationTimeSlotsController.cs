@@ -18,11 +18,14 @@ namespace ParkingService.Controllers
     public class ReservationTimeSlotsController : ControllerBase
     {
         private readonly IReservationTimeSlotManager reservationTimeSlotManager;
+        private readonly IParkingSpotManager parkingSpotManager;
 
-        public ReservationTimeSlotsController(IReservationTimeSlotManager reservationTimeSlotManager, ParkingContext context)
+        public ReservationTimeSlotsController(IReservationTimeSlotManager reservationTimeSlotManager, IParkingSpotManager parkingSpotManager, ParkingContext context)
         {
             this.reservationTimeSlotManager = reservationTimeSlotManager;
+            this.parkingSpotManager = parkingSpotManager;
             reservationTimeSlotManager.SetContext(context);
+            parkingSpotManager.SetContext(context);
         }
 
         /// <summary>
@@ -104,6 +107,13 @@ namespace ParkingService.Controllers
                 string accountID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
                 reservationTimeSlot.accountID = accountID;
+
+                ParkingSpot parkingSpot = await parkingSpotManager.GetFreeParkingSpot(reservationTimeSlot.startReservation, reservationTimeSlot.endReservation);
+                if(parkingSpot == null)
+                {
+                    return NotFound();
+                }
+
                 ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(id, reservationTimeSlot);
 
                 if (reservation == null)
