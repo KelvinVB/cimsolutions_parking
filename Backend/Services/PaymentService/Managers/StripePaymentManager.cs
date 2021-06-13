@@ -1,4 +1,6 @@
-﻿using PaymentService.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PaymentService.Context;
+using PaymentService.Interfaces;
 using Stripe;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,13 @@ namespace PaymentService.Managers
 {
     public class StripePaymentManager : IStripePaymentManager
     {
+        private PaymentContext context;
+
+        public void SetContext(PaymentContext context)
+        {
+            this.context = context;
+        }
+
         public string CreateToken(string cardNumber, string cardExpMonth, string cardExpYear, string cardCVC)
         {
             throw new NotImplementedException();
@@ -20,7 +29,7 @@ namespace PaymentService.Managers
             {
                 StripeConfiguration.ApiKey = "sk_test_51Iyd0JCW5oBVi3aeyirlYffw09mn2TFbGyt10imL1VdyHYJq46wYgBs4fF6xMLhZBhGqkAwfQrJ9PpQ6qxT8XBZT000gUFLyzy";
 
-                Customer customer = await GetCustomer(id);
+                Models.Customer customer = await context.customers.Where(c => c.accountId == id).FirstOrDefaultAsync();
 
                 if (customer == null)
                 {
@@ -46,8 +55,7 @@ namespace PaymentService.Managers
                     Amount = value,
                     Currency = "eur",
                     Description = "testing stripe payment",
-                    Source = token.Id,
-                    Customer
+                    Source = token.Id
                 };
 
                 ChargeService service = new ChargeService();
@@ -63,27 +71,28 @@ namespace PaymentService.Managers
 
         public async Task<dynamic> GetCustomer(string id)
         {
-            try
-            {
-                var service = new CustomerService();
-                Dictionary<string, string> user = new Dictionary<string, string>
-                {
-                    { "UserId", id },
-                };
+            //try
+            //{
+            //    var service = new CustomerService();
+            //    Dictionary<string, string> user = new Dictionary<string, string>
+            //    {
+            //        { "UserId", id },
+            //    };
 
-                StripeList<Customer> customers = service.List( user );
+            //    StripeList<Customer> customers = service.List( user );
 
-                if (customers.size() > 0)
-                {
-                    Customer customer = customers.get(0);
-                    Customer customer = await service.GetAsync(customer.Metadata({ "UserId", id});
-                }
-                return customer;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            //    if (customers.size() > 0)
+            //    {
+            //        Customer customer = customers.get(0);
+            //        Customer customer = await service.GetAsync(customer.Metadata({ "UserId", id});
+            //    }
+            //    return customer;
+            //}
+            //catch (Exception)
+            //{
+            //    return null;
+            //}
+            return null;
         }
 
         public async Task<dynamic> PostCustomer(string id, string email, string firstName, string lastName)
@@ -111,6 +120,11 @@ namespace PaymentService.Managers
             {
                 throw;
             }
+        }
+
+        public Task<dynamic> PayByIDeal(string cardnumber, int month, int year, string cvc, int value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

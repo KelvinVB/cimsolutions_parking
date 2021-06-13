@@ -12,6 +12,9 @@ namespace PaymentService.Models
         public int year { get; set; }
         public string cvc { get; set; }
         public int value { get; set; }
+        public string email { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
 
     }
 }
