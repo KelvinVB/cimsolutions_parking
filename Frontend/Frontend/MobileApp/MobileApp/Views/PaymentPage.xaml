@@ -4,13 +4,52 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="MobileApp.Views.PaymentPage">
+             x:Class="MobileApp.Views.PaymentPage"
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Payment">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Button Text="Pay" Clicked="OnButtonPaymentClicked"/>
-        </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".1*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height=".1*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="1" Orientation="Vertical">
+                <Label Text="Payment" Style="{StaticResource LabelH1}"/>
+            </StackLayout>
+            
+            <Grid RowSpacing="20" Grid.Row="2" Margin="20,0,20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".5*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Entry Grid.Row="1" x:Name="EntryEmail" Text="{Binding account.email}" Style="{StaticResource Entry}"/>
+                <Entry Grid.Row="2" x:Name="EntryFirstName" Text="{Binding account.firstName}" Style="{StaticResource Entry}"/>
+                <Entry Grid.Row="3" x:Name="EntryLastName" Text="{Binding account.lastName}" Style="{StaticResource Entry}"/>
+                <Frame Grid.Row="4" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf153;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label Text="10,00" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+                <Button x:Name="ButtonPay" HeightRequest="50" Text="Pay" Clicked="OnButtonLoginClicked" VerticalOptions="Start" Grid.Row="5" Style="{StaticResource ButtonStyle}">
+                    <Button.ImageSource>
+                        <FontImageSource Size="25" Glyph="&#xe013;" FontFamily="FASolid" Color="White"/>
+                    </Button.ImageSource>
+                </Button>
+
+            </Grid>
+            
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
