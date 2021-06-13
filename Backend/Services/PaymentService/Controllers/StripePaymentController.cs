@@ -47,7 +47,13 @@ namespace PaymentService.Controllers
         {
             try
             {
-                bool payed = await paymentManager.PayByIDeal(payment.cardnumber, payment.month, payment.year, payment.cvc, payment.value);
+                string id = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                bool payed = await paymentManager.PayByIDeal(id, payment.email, payment.firstName, payment.lastName, payment.value);
                 return payed;
             }
             catch (Exception e)

@@ -12,28 +12,42 @@ namespace PaymentService.Managers
     public class StripePaymentManager : IStripePaymentManager
     {
         private PaymentContext context;
+        private string key = "sk_test_51Iyd0JCW5oBVi3aeyirlYffw09mn2TFbGyt10imL1VdyHYJq46wYgBs4fF6xMLhZBhGqkAwfQrJ9PpQ6qxT8XBZT000gUFLyzy";
 
         public void SetContext(PaymentContext context)
         {
             this.context = context;
         }
 
-        public string CreateToken(string cardNumber, string cardExpMonth, string cardExpYear, string cardCVC)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Creates a payment. Creates new customer or adds payment to existing customer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="cardnumber"></param>
+        /// <param name="month"></param>
+        /// <param name="year"></param>
+        /// <param name="cvc"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public async Task<dynamic> PayByCreditCard(string id, string email, string firstName, string lastName, string cardnumber, int month, int year, string cvc, int value)
         {
             try
             {
-                StripeConfiguration.ApiKey = "sk_test_51Iyd0JCW5oBVi3aeyirlYffw09mn2TFbGyt10imL1VdyHYJq46wYgBs4fF6xMLhZBhGqkAwfQrJ9PpQ6qxT8XBZT000gUFLyzy";
-
+                StripeConfiguration.ApiKey = key;
                 Models.Customer customer = await context.customers.Where(c => c.accountId == id).FirstOrDefaultAsync();
+                Customer paymentCustomer = new Customer();
 
                 if (customer == null)
                 {
-                    customer = await PostCustomer(id, email, firstName, lastName);
+                    paymentCustomer = await PostCustomer(id, email, firstName, lastName);
+                    customer = new Models.Customer();
+                    customer.accountId = id;
+                    customer.customerId = paymentCustomer.Id;
+                    await context.customers.AddAsync(customer);
+                    context.SaveChanges();
                 }
 
                 TokenCreateOptions optionstoken = new TokenCreateOptions
@@ -54,8 +68,9 @@ namespace PaymentService.Managers
                 {
                     Amount = value,
                     Currency = "eur",
-                    Description = "testing stripe payment",
-                    Source = token.Id
+                    Description = "Parking spot reservation. Date: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
+                    Source = token.Id,
+                    Customer = customer.customerId
                 };
 
                 ChargeService service = new ChargeService();
@@ -69,43 +84,52 @@ namespace PaymentService.Managers
             }
         }
 
+        /// <summary>
+        /// Gets a customer with account id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<dynamic> GetCustomer(string id)
         {
-            //try
-            //{
-            //    var service = new CustomerService();
-            //    Dictionary<string, string> user = new Dictionary<string, string>
-            //    {
-            //        { "UserId", id },
-            //    };
+            try
+            {
+                Models.Customer customer = await context.customers.Where(c => c.accountId == id).FirstOrDefaultAsync();
 
-            //    StripeList<Customer> customers = service.List( user );
+                if (customer == null)
+                {
+                    return null;
+                }
 
-            //    if (customers.size() > 0)
-            //    {
-            //        Customer customer = customers.get(0);
-            //        Customer customer = await service.GetAsync(customer.Metadata({ "UserId", id});
-            //    }
-            //    return customer;
-            //}
-            //catch (Exception)
-            //{
-            //    return null;
-            //}
-            return null;
+                var service = new CustomerService();
+
+                Customer stripeCustomer = await service.GetAsync(customer.customerId);
+
+                return stripeCustomer;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
+        /// <summary>
+        /// Adds a new customer with account id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <returns></returns>
         public async Task<dynamic> PostCustomer(string id, string email, string firstName, string lastName)
         {
             try
             {
-                StripeConfiguration.ApiKey = "sk_test_51Iyd0JCW5oBVi3aeyirlYffw09mn2TFbGyt10imL1VdyHYJq46wYgBs4fF6xMLhZBhGqkAwfQrJ9PpQ6qxT8XBZT000gUFLyzy";
+                StripeConfiguration.ApiKey = key;
 
                 var options = new CustomerCreateOptions
                 {
                     Email = email,
                     Name = firstName + " " + lastName,
-                    PaymentMethod = "pm_1FWS6ZClCIKljWvsVCvkdyWg",
                     Metadata = new Dictionary<string, string>
                     {
                         { "UserId", id },
@@ -122,9 +146,56 @@ namespace PaymentService.Managers
             }
         }
 
-        public Task<dynamic> PayByIDeal(string cardnumber, int month, int year, string cvc, int value)
+        /// <summary>
+        /// IDeal payment
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<dynamic> PayByIDeal(string id, string email, string firstName, string lastName, int value)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                StripeConfiguration.ApiKey = key;
+
+                Models.Customer customer = await context.customers.Where(c => c.accountId == id).FirstOrDefaultAsync();
+                Customer paymentCustomer = new Customer();
+
+                if (customer == null)
+                {
+                    paymentCustomer = await PostCustomer(id, email, firstName, lastName);
+                    customer = new Models.Customer();
+                    customer.accountId = id;
+                    customer.customerId = paymentCustomer.Id;
+                    await context.customers.AddAsync(customer);
+                    context.SaveChanges();
+                }
+
+                var options = new PaymentIntentCreateOptions
+                {
+                    Amount = value,
+                    Currency = "eur",
+                    Customer = customer.customerId,
+                    Description = "Parking spot reservation. Date: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
+                    PaymentMethodTypes = new List<string>
+                    {
+                        "ideal",
+                    },
+                };
+
+                var service = new PaymentIntentService();
+                var intent = service.Create(options);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
