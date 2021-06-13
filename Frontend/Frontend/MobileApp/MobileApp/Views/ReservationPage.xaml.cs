@@ -43,20 +43,28 @@ namespace MobileApp.Views
             timeSlot.endReservation = DatePickerEnd.Date + TimePickerEnd.Time;
             timeSlot.licensePlateNumber = labelLicensePlate.Text;
 
-            if (timeSlot.endReservation <= timeSlot.startReservation)
+            if (timeSlot.endReservation <= timeSlot.startReservation || timeSlot.startReservation <= DateTime.Now)
             {
                 await DisplayAlert("Error", "Invalid time slot, please fill in the correct values", "Ok");
                 return;
             }
 
+            if(timeSlot.licensePlateNumber == null)
+            {
+                await DisplayAlert("Error", "Please fill in a correct license plate number", "Ok");
+                return;
+            }
+
             try
             {
-                bool confirm = await DisplayAlert("Creating new reservation", "Starting: " + timeSlot.startReservation + "\n Ending: " + timeSlot.endReservation, "Yes", "No");
+                string start = String.Format("{0:dd/MM/yyyy - HH:mm}", timeSlot.startReservation);
+                string end = String.Format("{0:dd/MM/yyyy - HH:mm}", timeSlot.endReservation);
+                bool confirm = await DisplayAlert("Creating new reservation", "Starting: " + start + "\n Ending: " + end, "Yes", "No");
 
                 if (confirm)
                 {
                     timeSlot = await parkingSpotViewModel.ReserveWithAccount(timeSlot);
-                    await DisplayAlert("Success", "Reservation planned on: " + timeSlot.startReservation.ToString() + " untill: " + timeSlot.endReservation.ToString(), "Ok");
+                    await DisplayAlert("Success", "Reservation planned on: " + start + " untill: " + end, "Ok");
                 }
             }
             catch (UnauthorizedAccessException)
@@ -66,6 +74,10 @@ namespace MobileApp.Views
             catch (TimeoutException)
             {
                 await DisplayAlert("Connection error", "Please check your network settings.", "Ok");
+            }
+            catch (KeyNotFoundException)
+            {
+                await DisplayAlert("Error", "No more parking spots available at the suggested time", "Ok");
             }
             catch (Exception)
             {

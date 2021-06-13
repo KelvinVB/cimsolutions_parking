@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using MobileApp.Interfaces;
+using System.Data;
 
 namespace MobileApp.Services
 {
@@ -53,6 +54,8 @@ namespace MobileApp.Services
 
         public async Task<Account> PostAccount(Account account)
         {
+            account.firstName = "firstName";
+            account.lastName = "lastName";
             var jsonObject = JsonConvert.SerializeObject(account);
             var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
 
@@ -88,6 +91,10 @@ namespace MobileApp.Services
                 if (result.IsSuccessStatusCode)
                 {
                     return account;
+                }
+                else if ((int)result.StatusCode == 409)
+                {
+                    throw new DuplicateNameException(result.Content.ToString());
                 }
                 else
                 {

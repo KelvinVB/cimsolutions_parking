@@ -14,6 +14,8 @@ namespace MobileApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterPage : ContentPage
     {
+        MainPage RootPage { get => Application.Current.MainPage as MainPage; }
+
         AccountViewModel accountViewModel;
         public RegisterPage()
         {
@@ -50,8 +52,7 @@ namespace MobileApp.Views
                 if (success)
                 {
                     await DisplayAlert("Account created", "Your account has been successfully created", "Ok");
-                    await Navigation.PopAsync();
-                    await Navigation.PushAsync(new AccountPage(accountViewModel));
+                    await RootPage.NavigateFromMenu((int)MenuItemType.Login);
                 }
                 else
                 {

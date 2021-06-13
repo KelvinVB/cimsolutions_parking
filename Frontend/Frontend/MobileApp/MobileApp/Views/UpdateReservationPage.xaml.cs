@@ -16,29 +16,41 @@ namespace MobileApp.Views
     public partial class UpdateReservationPage : ContentPage
     {
         TimeSlotViewModel timeSlotViewModel;
+        AccountViewModel accountViewModel;
+        TimeSlot time;
 
         public UpdateReservationPage()
         {
             InitializeComponent();
+            time = timeSlotViewModel.timeSlot;
             this.timeSlotViewModel = new TimeSlotViewModel();
             BindingContext = this.timeSlotViewModel;
         }
-        public UpdateReservationPage(TimeSlotViewModel timeSlotViewModel)
+        public UpdateReservationPage(TimeSlotViewModel timeSlotViewModel, AccountViewModel accountViewModel)
         {
             InitializeComponent();
+            time = timeSlotViewModel.timeSlot;
             this.timeSlotViewModel = timeSlotViewModel;
+            this.accountViewModel = accountViewModel;
+            BindingContext = this.accountViewModel;
             BindingContext = timeSlotViewModel;
         }
 
         public async void OnButtonUpdateTimeSlot(object sender, EventArgs args)
         {
+            if (time.endReservation < DateTime.Now || time.startReservation < DateTime.Now)
+            {
+                await DisplayAlert("Error", "The reservation has expired, can't update this reservation", "Ok");
+                return;
+            }
+
             TimeSlot timeSlot = timeSlotViewModel.timeSlot;
             TimeSlot updatedTimeSlot = timeSlot;
             updatedTimeSlot.startReservation = DatePickerStart.Date + TimePickerStart.Time;
             updatedTimeSlot.endReservation = DatePickerEnd.Date + TimePickerEnd.Time;
             updatedTimeSlot.licensePlateNumber = labelLicensePlate.Text;
 
-            if (updatedTimeSlot.endReservation < DateTime.Now || updatedTimeSlot.startReservation < DateTime.Now || updatedTimeSlot.endReservation < updatedTimeSlot.startReservation)
+            if (updatedTimeSlot.endReservation < updatedTimeSlot.startReservation)
             {
                 await DisplayAlert("Error", "Invalid time input", "Ok");
                 return;
@@ -65,6 +77,10 @@ namespace MobileApp.Views
             {
                 await DisplayAlert("Error", "Could not update the given time slot, please check your login details", "Ok");
             }
+            catch (KeyNotFoundException)
+            {
+                await DisplayAlert("Error", "No more parking spots available at the suggested time", "Ok");
+            }
             catch (Exception)
             {
                 await DisplayAlert("Error", "Something went wrong, please try again later", "Ok");
@@ -74,6 +90,12 @@ namespace MobileApp.Views
 
         public async void OnButtonDeleteTimeSlot(object sender, EventArgs args)
         {
+            if (timeSlotViewModel.timeSlot.startReservation < DateTime.Now || timeSlotViewModel.timeSlot.endReservation < DateTime.Now)
+            {
+                await DisplayAlert("Error", "The reservation has expired, can't remove this reservation", "Ok");
+                return;
+            }
+
             bool answer = await DisplayAlert("Canceling reservation", "Are you sure you want to cancel the reservation? You can't undo this action.", "Yes", "No");
             if (answer)
             {

@@ -82,18 +82,28 @@ namespace AccountService.Managers
         {
             try
             {
-                Account oldAccount = accounts.Find(a => a.accountID == account.accountID).FirstOrDefault();
-                if (account.dateOfBirth != DateTime.MinValue)
-                    oldAccount.dateOfBirth = account.dateOfBirth;
-                if (account.email != null)
-                    oldAccount.email = account.email;
-                if (account.firstName != null)
-                    oldAccount.firstName = account.firstName;
-                if (account.lastName != null)
-                    oldAccount.lastName = account.lastName;
+                Account account = accounts.Find(a => a.accountID == request.accountID).FirstOrDefault();
+                Authentication auth = accountCredentials.Find(a => a.accountID == request.accountID).FirstOrDefault();
+                if (request.username != null && request.username != auth.username)
+                {
+                    auth.username = request.username;
+                    account.username = request.username;
+                }
+                                
+                if (request.dateOfBirth != null)
+                    account.dateOfBirth = request.dateOfBirth;
+                if (request.email != null)
+                    account.email = request.email;
+                if (request.firstName != null)
+                    account.firstName = request.firstName;
+                if (request.lastName != null)
+                    account.lastName = request.lastName;
+                if (request.licensePlateNumber != null)
+                    account.licensePlateNumber = request.licensePlateNumber;
 
-                await accounts.ReplaceOneAsync(a => a.accountID.Equals(oldAccount.accountID), oldAccount);
-                return oldAccount;
+                await accounts.ReplaceOneAsync(a => a.accountID.Equals(account.accountID), account);
+                await accountCredentials.ReplaceOneAsync(a => a.accountID.Equals(account.accountID), auth);
+                return account;
             }
             catch (Exception ex)
             {

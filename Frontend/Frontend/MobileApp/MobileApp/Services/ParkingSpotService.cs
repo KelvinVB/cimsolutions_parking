@@ -80,6 +80,10 @@ namespace MobileApp.Services
                 {
                     throw new UnauthorizedAccessException(result.Content.ToString());
                 }
+                else if ((int)result.StatusCode == 404)
+                {
+                    throw new KeyNotFoundException(result.Content.ToString());
+                }
                 else
                 {
                     return null;

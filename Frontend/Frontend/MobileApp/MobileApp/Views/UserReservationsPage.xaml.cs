@@ -16,6 +16,7 @@ namespace MobileApp.Views
     public partial class UserReservationsPage : ContentPage
     {
         TimeSlotViewModel timeSlotViewModel;
+        AccountViewModel accountViewModel;
 
         public UserReservationsPage(TimeSlotViewModel timeSlotViewModel)
         {
@@ -27,6 +28,7 @@ namespace MobileApp.Views
         {
             InitializeComponent();
             this.timeSlotViewModel = new TimeSlotViewModel();
+            this.accountViewModel = new AccountViewModel();
             BindingContext = this.timeSlotViewModel;
         }
 
@@ -39,7 +41,7 @@ namespace MobileApp.Views
         {
             timeSlotViewModel.timeSlot = e.Item as TimeSlot;
             timeSlotViewModel.SetTimeStamps();
-            await Navigation.PushAsync(new UpdateReservationPage(timeSlotViewModel));
+            await Navigation.PushAsync(new UpdateReservationPage(timeSlotViewModel, accountViewModel));
         }
 
         public async void OnButtonCreateClicked(object sender, EventArgs args)

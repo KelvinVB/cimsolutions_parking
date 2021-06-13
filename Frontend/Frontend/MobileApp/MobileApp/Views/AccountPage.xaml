@@ -8,6 +8,13 @@
              x:Class="MobileApp.Views.AccountPage"
              Style="{StaticResource DefaultPageStyle}"
              Title="Account">
+    <NavigationPage.TitleView>
+        <Button x:Name="LoginButton" Text="Logout" Clicked="OnButtonLogOutClicked" HorizontalOptions="End" TextColor="White" BackgroundColor="#5d9228" VerticalOptions="End">
+            <Button.ImageSource>
+                <FontImageSource Size="25" Glyph="&#xf2f6;" FontFamily="FASolid" Color="White"/>
+            </Button.ImageSource>
+        </Button>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -46,10 +53,14 @@
                     <StackLayout Orientation="Horizontal">
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="&#xf13e;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                                <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
                             </Image.Source>
                         </Image>
-                        <Label d:Text="name" Text="{Binding account.firstName} + {Binding account.lastName}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                        <StackLayout Orientation="Horizontal">
+                           <Label d:Text="firstName" Text="{Binding account.firstName}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/> 
+                           <Label d:Text="lastName" Text="{Binding account.lastName}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/> 
+                        </StackLayout>
+                        
                     </StackLayout>
                 </Frame>
                 <Frame Grid.Row="3" Style="{StaticResource LabelFrame}" HeightRequest="30">
