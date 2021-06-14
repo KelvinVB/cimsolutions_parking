@@ -27,11 +27,11 @@ namespace MobileApp.ViewModels
             }
         }
 
-        public async Task<TimeSlot> ReserveWithAccount(TimeSlot timeSlot)
+        public async Task<TimeSlot> Reservation(TimeSlot timeSlot)
         {
             try
             {
-                await parkingSpotService.ReserveWithAccount(timeSlot);
+                await parkingSpotService.Reservation(timeSlot);
                 return timeSlot;
             }
             catch (Exception)
@@ -40,11 +40,11 @@ namespace MobileApp.ViewModels
             }
         }
 
-        public async Task<TimeSlot> ReserveWithoutAccount(TimeSlot timeSlot)
+        public async Task<TimeSlot> ReservationWithoutAccount(TimeSlot timeSlot)
         {
             try
             {
-                await parkingSpotService.ReserveWithoutAccount(timeSlot);
+                await parkingSpotService.ReservationWithoutAccount(timeSlot);
                 return timeSlot;
             }
             catch (Exception)

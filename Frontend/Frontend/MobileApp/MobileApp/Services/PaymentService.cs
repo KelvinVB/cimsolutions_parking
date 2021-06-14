@@ -13,7 +13,7 @@ namespace MobileApp.Services
 {
     public class PaymentService : IPaymentService
     {
-        private static HttpClient client;
+        private HttpClient client;
         private readonly string path;
         public PaymentService()
         {

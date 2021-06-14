@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -73,6 +73,7 @@ namespace MobileApp.Views
                 if (answer)
                 {
                     await accountViewModel.DeleteAccount();
+                    SecureStorage.Remove("token");
                     await Navigation.PushAsync(new MainPage());
                 }
 

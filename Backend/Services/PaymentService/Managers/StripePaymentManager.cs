@@ -40,6 +40,7 @@ namespace PaymentService.Managers
                 Models.Customer customer = await context.customers.Where(c => c.accountId == id).FirstOrDefaultAsync();
                 Customer paymentCustomer = new Customer();
 
+                //create new customer if it doesn't exists
                 if (customer == null)
                 {
                     paymentCustomer = await PostCustomer(id, email, firstName, lastName);
@@ -50,6 +51,7 @@ namespace PaymentService.Managers
                     context.SaveChanges();
                 }
 
+                //setup token options
                 TokenCreateOptions optionstoken = new TokenCreateOptions
                 {
                     Card = new TokenCardOptions
@@ -64,6 +66,7 @@ namespace PaymentService.Managers
                 TokenService tokenService = new TokenService();
                 Token token = await tokenService.CreateAsync(optionstoken);
 
+                //setup payment options
                 ChargeCreateOptions options = new ChargeCreateOptions
                 {
                     Amount = value,
@@ -159,12 +162,12 @@ namespace PaymentService.Managers
         {
             try
             {
-
                 StripeConfiguration.ApiKey = key;
 
                 Models.Customer customer = await context.customers.Where(c => c.accountId == id).FirstOrDefaultAsync();
                 Customer paymentCustomer = new Customer();
 
+                //create new customer if it doesn't exists
                 if (customer == null)
                 {
                     paymentCustomer = await PostCustomer(id, email, firstName, lastName);
@@ -175,6 +178,7 @@ namespace PaymentService.Managers
                     context.SaveChanges();
                 }
 
+                //setup payment options
                 var options = new PaymentIntentCreateOptions
                 {
                     Amount = value,

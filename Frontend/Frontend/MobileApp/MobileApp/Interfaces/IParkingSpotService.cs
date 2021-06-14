@@ -9,7 +9,7 @@ namespace MobileApp.Interfaces
     public interface IParkingSpotService
     {
         Task<int> GetFreeSpotsAsync(TimeSlot timeSlot);
-        Task<TimeSlot> ReserveWithAccount(TimeSlot timeSlot);
-        Task<TimeSlot> ReserveWithoutAccount(TimeSlot timeSlot);
+        Task<TimeSlot> Reservation(TimeSlot timeSlot);
+        Task<TimeSlot> ReservationWithoutAccount(TimeSlot timeSlot);
     }
 }

@@ -27,7 +27,7 @@ namespace MobileApp.ViewModels
             Initialize();
         }
 
-        public async Task Initialize()
+        public async void Initialize()
         {
             try
             {

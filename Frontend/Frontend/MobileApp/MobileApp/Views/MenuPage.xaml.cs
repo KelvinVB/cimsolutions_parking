@@ -32,15 +32,6 @@ namespace MobileApp.Views
 
             GetToken();
 
-            //if (token == null)
-            //{
-            //    menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Log in", Icon = "\uf2f6" });
-            //}
-            //else
-            //{
-            //    menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Log Out", Icon = "\uf2f5" });
-            //}
-
             ListViewMenu.ItemsSource = menuItems;
 
             ListViewMenu.SelectedItem = menuItems[0];

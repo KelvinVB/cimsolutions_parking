@@ -31,19 +31,15 @@ namespace MobileApp.Views
             BindingContext = this.accountViewModel;
         }
 
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
-            await accountViewModel.InitializeAccount();
+            accountViewModel.InitializeAccount();
         }
 
         public async void OnButtonLogOutClicked(object sender, EventArgs args)
         {
             SecureStorage.Remove("token");
             accountViewModel.account = null;
-            //await Navigation.PopAsync();
-            //var previousPage = Navigation.NavigationStack.LastOrDefault();
-            //await Navigation.PushAsync(new LoginPage());
-            //Navigation.RemovePage(previousPage);
             await RootPage.NavigateFromMenu((int)MenuItemType.Login);
         }
 

@@ -11,7 +11,7 @@ namespace MobileApp.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private static HttpClient client;
+        private HttpClient client;
         private readonly string path;
         public AuthenticationService()
         {
@@ -47,7 +47,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return null;
                 }
             }
             catch (Exception)

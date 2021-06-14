@@ -14,7 +14,7 @@ namespace MobileApp.Services
 {
     public class TimeSlotService : ITimeSlotService
     {
-        private static HttpClient client;
+        private HttpClient client;
         private readonly string path;
 
         public TimeSlotService()

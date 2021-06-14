@@ -22,6 +22,11 @@ namespace PaymentService.Controllers
             paymentManager.SetContext(context);
         }
 
+        /// <summary>
+        /// Credit card payment
+        /// </summary>
+        /// <param name="payment"></param>
+        /// <returns></returns>
         [Route("paybycard")]
         public async Task<dynamic> PayByCard([FromBody] Payment payment)
         {
@@ -42,6 +47,11 @@ namespace PaymentService.Controllers
             }
         }
 
+        /// <summary>
+        /// IDeal payment
+        /// </summary>
+        /// <param name="payment"></param>
+        /// <returns></returns>
         [Route("paybyideal")]
         public async Task<dynamic> PayByIDeal([FromBody] Payment payment)
         {

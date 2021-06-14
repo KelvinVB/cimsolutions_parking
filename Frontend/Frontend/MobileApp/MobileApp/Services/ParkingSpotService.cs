@@ -14,7 +14,7 @@ namespace MobileApp.Services
 {
     public class ParkingSpotService : IParkingSpotService
     {
-        private static HttpClient client;
+        private HttpClient client;
         private readonly string path;
 
         public ParkingSpotService()
@@ -58,7 +58,7 @@ namespace MobileApp.Services
             }
         }
 
-        public async Task<TimeSlot> ReserveWithAccount(TimeSlot timeSlot)
+        public async Task<TimeSlot> Reservation(TimeSlot timeSlot)
         {
             string token = await SecureStorage.GetAsync("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -95,7 +95,7 @@ namespace MobileApp.Services
             }
         }
 
-        public Task<TimeSlot> ReserveWithoutAccount(TimeSlot timeSlot)
+        public Task<TimeSlot> ReservationWithoutAccount(TimeSlot timeSlot)
         {
             throw new NotImplementedException();
         }
