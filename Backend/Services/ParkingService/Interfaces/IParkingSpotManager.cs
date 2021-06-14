@@ -15,7 +15,7 @@ namespace ParkingService.Interfaces
         Task<List<ParkingSpot>> GetAllParkingSpots(int parkingGarageID);
         Task<ParkingSpot> UpdateParkingSpot(int id, ParkingSpot parkingSpot);
         Task<ParkingSpot> DeleteParkingSpot(int parkingSpotID);
-        Task<int> GetAmountFreeParkingSpots(int id, DateTime startDate, DateTime endDate);
+        Task<int> GetAmountFreeParkingSpots(DateTime startDate, DateTime endDate);
         Task<ParkingSpot> GetFreeParkingSpot(DateTime startDate, DateTime endDate);
     }
 }

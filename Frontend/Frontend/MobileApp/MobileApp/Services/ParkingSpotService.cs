@@ -29,7 +29,7 @@ namespace MobileApp.Services
             path = "https://10.0.2.2:5001/api/parkingspots/";
         }
 
-        public async Task<int> GetFreeSpotsAsync(StartEndDateTime timeSlot)
+        public async Task<int> GetFreeSpotsAsync(TimeSlot timeSlot)
         {
             int freeSpaces = 0;
             var jsonObject = JsonConvert.SerializeObject(timeSlot);

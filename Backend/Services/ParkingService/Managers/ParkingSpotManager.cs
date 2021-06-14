@@ -129,11 +129,11 @@ namespace ParkingService.Managers
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns>int</returns>
-        public async Task<int> GetAmountFreeParkingSpots(int id, DateTime startDate, DateTime endDate)
+        public async Task<int> GetAmountFreeParkingSpots(DateTime startDate, DateTime endDate)
         {
             try
             {
-                List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p => p.reservationTimeSlots).Where(p=>p.parkingGarageID == id).ToListAsync();
+                List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p => p.reservationTimeSlots).ToListAsync();
                 if(parkingSpots == null)
                 {
                     return -1;

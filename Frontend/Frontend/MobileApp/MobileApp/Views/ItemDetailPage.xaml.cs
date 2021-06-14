@@ -39,12 +39,12 @@ namespace MobileApp.Views
         }
         async void OnButtonClicked(object sender, EventArgs args)
         {
-            StartEndDateTime timeSlot = new StartEndDateTime();
+            TimeSlot timeSlot = new TimeSlot();
             DateTime start = DatePickerStart.Date + TimePickerStart.Time;
             DateTime end = DatePickerEnd.Date + TimePickerEnd.Time;
 
-            timeSlot.startDateTime = start;
-            timeSlot.endDateTime = end;
+            timeSlot.startReservation = start;
+            timeSlot.endReservation = end;
 
             try
             {

@@ -191,11 +191,11 @@ namespace ParkingService.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] TimeSlot timeSlot)
+        public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] ReservationTimeSlot timeSlot)
         {
             try
             {
-                int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.parkingGarageId, timeSlot.startDateTime, timeSlot.endDateTime);
+                int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.startReservation, timeSlot.endReservation);
                 if (amount == -1)
                 {
                     return NotFound();

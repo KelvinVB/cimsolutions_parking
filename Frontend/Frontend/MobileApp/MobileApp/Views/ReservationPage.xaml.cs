@@ -49,7 +49,7 @@ namespace MobileApp.Views
                 return;
             }
 
-            if(timeSlot.licensePlateNumber == null)
+            if (timeSlot.licensePlateNumber == null)
             {
                 await DisplayAlert("Error", "Please fill in a correct license plate number", "Ok");
                 return;
@@ -63,8 +63,29 @@ namespace MobileApp.Views
 
                 if (confirm)
                 {
-                    timeSlot = await parkingSpotViewModel.ReserveWithAccount(timeSlot);
-                    await DisplayAlert("Success", "Reservation planned on: " + start + " untill: " + end, "Ok");
+                    int spots = await parkingSpotViewModel.GetFreeSpot(timeSlot);
+
+                    if (spots > 0)
+                    {
+                        PaymentPage paymentPage = new PaymentPage(accountViewModel);
+                        await Navigation.PushModalAsync(paymentPage);
+                        await paymentPage.PageClosedTask;
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "No more parking spots available.", "Ok");
+                        return;
+                    }
+
+                    if (PaymentInformation.pay)
+                    {
+                        timeSlot = await parkingSpotViewModel.ReserveWithAccount(timeSlot);
+                        await DisplayAlert("Success", "Reservation planned on: " + start + " untill: " + end, "Ok");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "Payment not succeeded.", "Ok");
+                    }
                 }
             }
             catch (UnauthorizedAccessException)
@@ -82,6 +103,10 @@ namespace MobileApp.Views
             catch (Exception)
             {
                 await DisplayAlert("Error", "An unexpected error occured. Please check if you have entered correct values in all fields.", "Ok");
+            }
+            finally
+            {
+                PaymentInformation.pay = false;
             }
         }
 

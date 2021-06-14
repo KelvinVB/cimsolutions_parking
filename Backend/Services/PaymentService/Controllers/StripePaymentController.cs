@@ -23,7 +23,7 @@ namespace PaymentService.Controllers
         }
 
         [Route("paybycard")]
-        public async Task<dynamic> PayByCard(Payment payment)
+        public async Task<dynamic> PayByCard([FromBody] Payment payment)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace PaymentService.Controllers
         }
 
         [Route("paybyideal")]
-        public async Task<dynamic> PayByIDeal(Payment payment)
+        public async Task<dynamic> PayByIDeal([FromBody] Payment payment)
         {
             try
             {
@@ -54,7 +54,14 @@ namespace PaymentService.Controllers
                 }
 
                 bool payed = await paymentManager.PayByIDeal(id, payment.email, payment.firstName, payment.lastName, payment.value);
-                return payed;
+                if (payed)
+                {
+                    return Ok(true);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception e)
             {

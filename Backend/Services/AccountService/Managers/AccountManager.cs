@@ -78,7 +78,7 @@ namespace AccountService.Managers
             }
         }
 
-        public async Task<Account> UpdateAccount(Account account)
+        public async Task<Account> UpdateAccount(Account request)
         {
             try
             {
