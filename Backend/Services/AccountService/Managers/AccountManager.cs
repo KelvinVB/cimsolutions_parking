@@ -78,6 +78,11 @@ namespace AccountService.Managers
             }
         }
 
+        /// <summary>
+        /// Update existing account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>Account</returns>
         public async Task<Account> UpdateAccount(Account request)
         {
             try
@@ -115,6 +120,11 @@ namespace AccountService.Managers
             }
         }
 
+        /// <summary>
+        /// Remove account
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns>Account</returns>
         public async Task<Account> DeleteAccount(string accountID)
         {
             try

@@ -107,6 +107,10 @@ namespace ParkingService.Managers
             }
         }
 
+        /// <summary>
+        /// Get a list of all parking garages
+        /// </summary>
+        /// <returns><List<ParkingGarage></returns>
         public async Task<List<ParkingGarage>> GetAllParkingGarages()
         {
             try
