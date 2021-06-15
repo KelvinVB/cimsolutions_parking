@@ -88,3 +88,11 @@ services:
       dockerfile: Dockerfile
     ports: 
        - "5100:80"
+
+  paymentservice:
+    container_name: paymentservice
+    build:
+      context: ./paymentservice
+      dockerfile: Dockerfile
+    ports: 
+       - "5200:80"

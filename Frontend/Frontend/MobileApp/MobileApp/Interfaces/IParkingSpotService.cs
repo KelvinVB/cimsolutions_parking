@@ -10,6 +10,5 @@ namespace MobileApp.Interfaces
     {
         Task<int> GetFreeSpotsAsync(TimeSlot timeSlot);
         Task<TimeSlot> Reservation(TimeSlot timeSlot);
-        Task<TimeSlot> ReservationWithoutAccount(TimeSlot timeSlot);
     }
 }

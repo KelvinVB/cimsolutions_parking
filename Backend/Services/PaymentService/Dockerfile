@@ -7,10 +7,12 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["PaymentService/PaymentService.csproj", "PaymentService/"]
+COPY ["PaymentService.csproj", "PaymentService/"]
 RUN dotnet restore "PaymentService/PaymentService.csproj"
-COPY . .
+
 WORKDIR "/src/PaymentService"
+COPY . .
+RUN find -type d -name bin -prune -exec rm -rf {} \; && find -type d -name obj -prune -exec rm -rf {} \;
 RUN dotnet build "PaymentService.csproj" -c Release -o /app/build
 
 FROM build AS publish

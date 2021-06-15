@@ -77,6 +77,7 @@ namespace MobileApp.Views
                         //navigate to payment page
                         PaymentPage paymentPage = new PaymentPage(accountViewModel);
                         await Navigation.PushModalAsync(paymentPage);
+                        //await payment completion
                         await paymentPage.PageClosedTask;
                     }
                     else

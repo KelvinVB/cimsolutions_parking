@@ -26,6 +26,11 @@ namespace MobileApp.Views
             MenuPages.Add((int)MenuItemType.Home, (NavigationPage)Detail);
         }
 
+        /// <summary>
+        /// Navigate to existing page or create a new navigation page 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task NavigateFromMenu(int id)
         {
             if (!MenuPages.ContainsKey(id))

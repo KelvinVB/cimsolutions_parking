@@ -13,6 +13,11 @@ namespace MobileApp.ViewModels
             
         }
 
+        /// <summary>
+        /// Send iDeal payment request
+        /// </summary>
+        /// <param name="payment"></param>
+        /// <returns>bool</returns>
         public async Task<bool> PayByIDeal(Payment payment)
         {
             try

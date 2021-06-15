@@ -31,6 +31,11 @@ namespace MobileApp.Views
             BindingContext = this.accountViewModel;
         }
 
+        /// <summary>
+        /// Create new account
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonRegisterClicked(object sender, EventArgs args)
         {
             if (EntryPassword.Text != EntryConfirmPassword.Text)
@@ -65,6 +70,11 @@ namespace MobileApp.Views
             }
         }
 
+        /// <summary>
+        /// return to login page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonLoginClicked(object sender, EventArgs args)
         {
             var previousPage = Navigation.NavigationStack.LastOrDefault();

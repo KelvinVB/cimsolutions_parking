@@ -1,4 +1,5 @@
-﻿using MobileApp.Interfaces;
+﻿using MobileApp.Helper;
+using MobileApp.Interfaces;
 using MobileApp.Models;
 using Newtonsoft.Json;
 using System;
@@ -15,7 +16,6 @@ namespace MobileApp.Services
     public class TimeSlotService : ITimeSlotService
     {
         private HttpClient client;
-        private readonly string path;
 
         public TimeSlotService()
         {
@@ -24,11 +24,12 @@ namespace MobileApp.Services
             httpClientHandler.ServerCertificateCustomValidationCallback =
             (message, cert, chain, errors) => { return true; };
             client = new HttpClient(httpClientHandler);
-
-            client.Timeout = TimeSpan.FromSeconds(10);
-            path = "https://10.0.2.2:5001/api/reservationtimeslots/";
         }
 
+        /// <summary>
+        /// get a list of timeslots
+        /// </summary>
+        /// <returns>ObservableCollection<TimeSlot></returns>
         public async Task<ObservableCollection<TimeSlot>> GetListTimeSlots()
         {
             string token = await SecureStorage.GetAsync("token");
@@ -36,7 +37,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.GetAsync(path + "list");
+                var result = await client.GetAsync(Content.timeSlotPath + "list");
                 var jsonString = await result.Content.ReadAsStringAsync();
                 List<TimeSlot> timeSlots = JsonConvert.DeserializeObject<List<TimeSlot>>(jsonString);
 
@@ -64,6 +65,11 @@ namespace MobileApp.Services
             }
         }
 
+        /// <summary>
+        /// Get timeslot information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>TimeSlot</returns>
         public async Task<TimeSlot> GetTimeSlot(int id)
         {
             string token = await SecureStorage.GetAsync("token");
@@ -71,7 +77,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.GetAsync(path + id);
+                var result = await client.GetAsync(Content.timeSlotPath + id);
                 var jsonString = await result.Content.ReadAsStringAsync();
                 TimeSlot timeSlot = JsonConvert.DeserializeObject<TimeSlot>(jsonString);
 
@@ -98,6 +104,11 @@ namespace MobileApp.Services
             }
         }
 
+        /// <summary>
+        /// Update timeslot
+        /// </summary>
+        /// <param name="timeSlot"></param>
+        /// <returns>TimeSlot</returns>
         public async Task<TimeSlot> UpdateTimeSlot(TimeSlot timeSlot)
         {
             string token = await SecureStorage.GetAsync("token");
@@ -107,7 +118,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.PutAsync(path + timeSlot.reservationTimeSlotID, content);
+                var result = await client.PutAsync(Content.timeSlotPath + timeSlot.reservationTimeSlotID, content);
                 var jsonString = await result.Content.ReadAsStringAsync();
                 TimeSlot newTimeSlot = JsonConvert.DeserializeObject<TimeSlot>(jsonString);
 
@@ -138,6 +149,11 @@ namespace MobileApp.Services
             }
         }
 
+        /// <summary>
+        /// Remove timeslot
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>TimeSlot</returns>
         public async Task<TimeSlot> DeleteTimeSlot(int id)
         {
             string token = await SecureStorage.GetAsync("token");
@@ -145,7 +161,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.DeleteAsync(path + id);
+                var result = await client.DeleteAsync(Content.timeSlotPath + id);
                 var jsonString = await result.Content.ReadAsStringAsync();
                 TimeSlot removedTimeSlot = JsonConvert.DeserializeObject<TimeSlot>(jsonString);
 

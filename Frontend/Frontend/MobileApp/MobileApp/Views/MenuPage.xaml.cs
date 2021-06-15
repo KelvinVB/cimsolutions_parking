@@ -23,7 +23,7 @@ namespace MobileApp.Views
             menuItems = new List<HomeMenuItem>
             {
                 new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon= "\uf015"},
-                new HomeMenuItem {Id = MenuItemType.Reservate, Title="Reservate", Icon= "\uf073"},
+                new HomeMenuItem {Id = MenuItemType.Reservate, Title="Plan Reservation", Icon= "\uf073"},
                 new HomeMenuItem {Id = MenuItemType.Account, Title="My Account", Icon= "\uf007"},
                 new HomeMenuItem {Id = MenuItemType.Reservations, Title="My Reservations", Icon = "\uf46d"},
                 new HomeMenuItem {Id = MenuItemType.Payments, Title="My Payments",  Icon = "\uf09d" },

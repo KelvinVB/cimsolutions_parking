@@ -30,6 +30,11 @@ namespace MobileApp.Views
             BindingContext = this.accountViewModel;
         }
 
+        /// <summary>
+        /// Update account with given information
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonUpdateClicked(object sender, EventArgs args)
         {
             Account account = new Account
@@ -65,10 +70,16 @@ namespace MobileApp.Views
             }
         }
 
+        /// <summary>
+        /// Remove current account
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonDeleteClicked(object sender, EventArgs args)
         {
             try
             {
+                //ask for confirmation
                 bool answer = await DisplayAlert("Remove account", "Are you sure you want to remove your account? You can't undo this action.", "Yes", "No");
                 if (answer)
                 {

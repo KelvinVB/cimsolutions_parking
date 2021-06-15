@@ -30,6 +30,11 @@ namespace MobileApp.Views
             this.loginViewModel = loginViewModel;
         }
 
+        /// <summary>
+        /// Login user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         async void OnButtonLoginClicked(object sender, EventArgs args)
         {
             Authentication credentials = new Authentication();
@@ -57,6 +62,12 @@ namespace MobileApp.Views
                 await DisplayAlert("Error", "Something went wrong", "Ok");
             }
         }
+
+        /// <summary>
+        /// Navigate to registration page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         async void OnButtonRegisterClicked(object sender, EventArgs args)
         {
             var previousPage = Navigation.NavigationStack.LastOrDefault();

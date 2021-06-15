@@ -86,11 +86,11 @@ namespace ParkingService.Managers
         /// </summary>
         /// <param name="reservationTimeSlot"></param>
         /// <returns>ReservationTimeSlot</returns>
-        public async Task<ReservationTimeSlot> UpdateReservationTimeSlot(int id, ReservationTimeSlot reservationTimeSlot)
+        public async Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
         {
             try
             {
-                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.Where(r => r.reservationTimeSlotID == id).AsNoTracking().FirstOrDefaultAsync();
+                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.Where(r => r.reservationTimeSlotID == reservationTimeSlot.reservationTimeSlotID).AsNoTracking().FirstOrDefaultAsync();
 
                 if(oldReservationTimeSlot == null)
                 {

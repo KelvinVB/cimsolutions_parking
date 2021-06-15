@@ -36,6 +36,11 @@ namespace MobileApp.Views
             accountViewModel.InitializeAccount();
         }
 
+        /// <summary>
+        /// Logout current user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonLogOutClicked(object sender, EventArgs args)
         {
             SecureStorage.Remove("token");
@@ -43,6 +48,11 @@ namespace MobileApp.Views
             await RootPage.NavigateFromMenu((int)MenuItemType.Login);
         }
 
+        /// <summary>
+        /// Navigate to change account page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonUpdateClicked(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new ChangeAccountPage(accountViewModel));

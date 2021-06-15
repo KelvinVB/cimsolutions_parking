@@ -1,4 +1,5 @@
-﻿using MobileApp.Interfaces;
+﻿using MobileApp.Helper;
+using MobileApp.Interfaces;
 using MobileApp.Models;
 using Newtonsoft.Json;
 using System;
@@ -14,7 +15,6 @@ namespace MobileApp.Services
     public class PaymentService : IPaymentService
     {
         private HttpClient client;
-        private readonly string path;
         public PaymentService()
         {
             var httpClientHandler = new HttpClientHandler();
@@ -22,9 +22,13 @@ namespace MobileApp.Services
             httpClientHandler.ServerCertificateCustomValidationCallback =
             (message, cert, chain, errors) => { return true; };
             client = new HttpClient(httpClientHandler);
-            path = "https://10.0.2.2:5201/";
         }
 
+        /// <summary>
+        /// Send a iDeal payment request
+        /// </summary>
+        /// <param name="payment"></param>
+        /// <returns>bool</returns>
         public async Task<bool> PayByIDeal(Payment payment)
         {
             string token = await SecureStorage.GetAsync("token");
@@ -34,7 +38,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.PostAsync(path + "paybyideal", content);
+                var result = await client.PostAsync(Content.paymentPath + "paybyideal", content);
 
                 if (result.IsSuccessStatusCode)
                 {
