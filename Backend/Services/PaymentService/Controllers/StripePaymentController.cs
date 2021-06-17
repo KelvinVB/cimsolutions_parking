@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using PaymentService.Context;
+using PaymentService.Helpers;
 using PaymentService.Interfaces;
 using PaymentService.Models;
+using Stripe;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,10 +20,10 @@ namespace PaymentService.Controllers
     {
         private readonly IStripePaymentManager paymentManager;
 
-        public StripePaymentController(IStripePaymentManager paymentManager, PaymentContext context)
+        public StripePaymentController(IStripePaymentManager paymentManager, PaymentContext context, IOptions<AppSettings> config)
         {
             this.paymentManager = paymentManager;
-            paymentManager.SetContext(context);
+            paymentManager.SetContext(context, config);
         }
 
         /// <summary>
@@ -43,7 +47,7 @@ namespace PaymentService.Controllers
             }
             catch(Exception e)
             {
-                return e.Message;
+                return BadRequest(e.Message);
             }
         }
 
@@ -75,7 +79,33 @@ namespace PaymentService.Controllers
             }
             catch (Exception e)
             {
-                return e.Message;
+                return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get all payments of a user
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [Route("getpayments")]
+        public async Task<dynamic> GetPayments()
+        {
+            try
+            {
+                string id = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                StripeList<PaymentIntent> charges = await paymentManager.GetPayments(id);
+
+                if(charges == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(charges);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
     }

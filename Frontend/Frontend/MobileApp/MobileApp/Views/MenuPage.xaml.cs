@@ -8,8 +8,6 @@ using Xamarin.Forms.Xaml;
 
 namespace MobileApp.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
     public partial class MenuPage : ContentPage
     {
@@ -57,16 +55,6 @@ namespace MobileApp.Views
 
                 }
             };
-        }
-
-        public void SetLogin()
-        {
-            menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Log in", Icon = "\uf2f6" });
-        }
-
-        public void SetLogout()
-        {
-            menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Log Out", Icon = "\uf2f5" });
         }
 
         public async void GetToken()

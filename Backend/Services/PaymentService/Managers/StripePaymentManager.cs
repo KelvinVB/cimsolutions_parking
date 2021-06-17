@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using PaymentService.Context;
+using PaymentService.Helpers;
 using PaymentService.Interfaces;
 using Stripe;
 using System;
@@ -14,9 +16,10 @@ namespace PaymentService.Managers
         private PaymentContext context;
         private string key = "sk_test_51Iyd0JCW5oBVi3aeyirlYffw09mn2TFbGyt10imL1VdyHYJq46wYgBs4fF6xMLhZBhGqkAwfQrJ9PpQ6qxT8XBZT000gUFLyzy";
 
-        public void SetContext(PaymentContext context)
+        public void SetContext(PaymentContext context, IOptions<AppSettings> config)
         {
             this.context = context;
+            key = config.Value.key;
         }
 
         /// <summary>
@@ -143,8 +146,9 @@ namespace PaymentService.Managers
 
                 return customer;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                string message = ex.Message;
                 throw;
             }
         }
@@ -199,6 +203,35 @@ namespace PaymentService.Managers
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        public async Task<dynamic> GetPayments(string id)
+        {
+            try
+            {
+                Models.Customer customer = await context.customers.Where(c => c.accountId == id).FirstOrDefaultAsync();
+                if(customer == null)
+                {
+                    return null;
+                }
+                
+                StripeConfiguration.ApiKey = key;
+                var options = new PaymentIntentListOptions
+                {
+                    Limit = 50,
+                    Customer = customer.customerId
+                };
+                var service = new PaymentIntentService();
+                StripeList<PaymentIntent> charges = await service.ListAsync(
+                  options
+                );
+
+                return charges;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }
