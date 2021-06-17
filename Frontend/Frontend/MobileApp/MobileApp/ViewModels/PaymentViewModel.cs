@@ -1,6 +1,8 @@
 ﻿using MobileApp.Models;
+using Stripe;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,9 +10,26 @@ namespace MobileApp.ViewModels
 {
     public class PaymentViewModel : BaseViewModel
     {
+        private ObservableCollection<PaymentIntent> userPayments { get; set; }
+        public ObservableCollection<PaymentIntent> payments { get { return userPayments; } set { userPayments = value; OnPropertyChanged(); } }
+
         public PaymentViewModel()
         {
-            
+            payments = new ObservableCollection<PaymentIntent>();
+            Initialize();
+        }
+
+        public async void Initialize()
+        {
+            try
+            {
+                await GetPayments();
+                OnPropertyChanged("userPayments");
+            }
+            catch (Exception)
+            {
+                payments = null;
+            }
         }
 
         /// <summary>
@@ -24,6 +43,22 @@ namespace MobileApp.ViewModels
             {
                 bool payed = await paymentService.PayByIDeal(payment);
                 return payed;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Get a list of all payments by user
+        /// </summary>
+        /// <returns></returns>
+        public async Task GetPayments()
+        {
+            try
+            {
+                payments = await paymentService.GetPayments();
             }
             catch (Exception)
             {

@@ -2,8 +2,10 @@
 using MobileApp.Interfaces;
 using MobileApp.Models;
 using Newtonsoft.Json;
+using Stripe;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -22,6 +24,34 @@ namespace MobileApp.Services
             httpClientHandler.ServerCertificateCustomValidationCallback =
             (message, cert, chain, errors) => { return true; };
             client = new HttpClient(httpClientHandler);
+        }
+
+        public async Task<ObservableCollection<PaymentIntent>> GetPayments()
+        {
+            string token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            try
+            {
+                var result = await client.GetAsync(Content.paymentPath + "getpayments");
+                var jsonString = await result.Content.ReadAsStringAsync();
+                StripeList<PaymentIntent> payments = JsonConvert.DeserializeObject<StripeList<PaymentIntent>>(jsonString);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    ObservableCollection<PaymentIntent> paymentCollection = new ObservableCollection<PaymentIntent>(payments);
+                    return paymentCollection;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+                throw;
+            }
         }
 
         /// <summary>

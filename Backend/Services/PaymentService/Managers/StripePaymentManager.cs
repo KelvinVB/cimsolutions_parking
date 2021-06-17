@@ -146,9 +146,8 @@ namespace PaymentService.Managers
 
                 return customer;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                string message = ex.Message;
                 throw;
             }
         }
@@ -223,11 +222,11 @@ namespace PaymentService.Managers
                     Customer = customer.customerId
                 };
                 var service = new PaymentIntentService();
-                StripeList<PaymentIntent> charges = await service.ListAsync(
+                StripeList<PaymentIntent> payments = await service.ListAsync(
                   options
                 );
 
-                return charges;
+                return payments;
             }
             catch (Exception)
             {

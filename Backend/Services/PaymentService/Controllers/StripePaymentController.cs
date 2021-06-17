@@ -94,14 +94,14 @@ namespace PaymentService.Controllers
             try
             {
                 string id = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                StripeList<PaymentIntent> charges = await paymentManager.GetPayments(id);
+                StripeList<PaymentIntent> payments = await paymentManager.GetPayments(id);
 
-                if(charges == null)
+                if(payments == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(charges);
+                return Ok(payments);
             }
             catch(Exception e)
             {
