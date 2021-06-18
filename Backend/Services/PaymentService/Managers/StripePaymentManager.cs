@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using PaymentService.Context;
 using PaymentService.Helpers;
 using PaymentService.Interfaces;
+using PaymentService.Models;
 using Stripe;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace PaymentService.Managers
             {
                 StripeConfiguration.ApiKey = key;
                 Models.Customer customer = await context.customers.Where(c => c.accountId == id).FirstOrDefaultAsync();
-                Customer paymentCustomer = new Customer();
+                Stripe.Customer paymentCustomer = new Stripe.Customer();
 
                 //create new customer if it doesn't exists
                 if (customer == null)
@@ -108,7 +109,7 @@ namespace PaymentService.Managers
 
                 var service = new CustomerService();
 
-                Customer stripeCustomer = await service.GetAsync(customer.customerId);
+                Stripe.Customer stripeCustomer = await service.GetAsync(customer.customerId);
 
                 return stripeCustomer;
             }
@@ -142,7 +143,7 @@ namespace PaymentService.Managers
                     }
                 };
                 var service = new CustomerService();
-                Customer customer = await service.CreateAsync(options);
+                Stripe.Customer customer = await service.CreateAsync(options);
 
                 return customer;
             }
@@ -168,7 +169,7 @@ namespace PaymentService.Managers
                 StripeConfiguration.ApiKey = key;
 
                 Models.Customer customer = await context.customers.Where(c => c.accountId == id).FirstOrDefaultAsync();
-                Customer paymentCustomer = new Customer();
+                Stripe.Customer paymentCustomer = new Stripe.Customer();
 
                 //create new customer if it doesn't exists
                 if (customer == null)
@@ -210,11 +211,11 @@ namespace PaymentService.Managers
             try
             {
                 Models.Customer customer = await context.customers.Where(c => c.accountId == id).FirstOrDefaultAsync();
-                if(customer == null)
+                if (customer == null)
                 {
                     return null;
                 }
-                
+
                 StripeConfiguration.ApiKey = key;
                 var options = new PaymentIntentListOptions
                 {
@@ -226,7 +227,13 @@ namespace PaymentService.Managers
                   options
                 );
 
-                return payments;
+                List<PaymentIntentInformation> pi = new List<PaymentIntentInformation>();
+                foreach (var p in payments)
+                {
+                    pi.Add(new PaymentIntentInformation { id = p.Id, description = p.Description, value = (double)p.Amount/100 });
+                }
+
+                return pi;
             }
             catch (Exception)
             {

@@ -26,7 +26,7 @@ namespace MobileApp.Services
             client = new HttpClient(httpClientHandler);
         }
 
-        public async Task<ObservableCollection<PaymentIntent>> GetPayments()
+        public async Task<ObservableCollection<PaymentIntentInformation>> GetPayments()
         {
             string token = await SecureStorage.GetAsync("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -35,11 +35,11 @@ namespace MobileApp.Services
             {
                 var result = await client.GetAsync(Content.paymentPath + "getpayments");
                 var jsonString = await result.Content.ReadAsStringAsync();
-                StripeList<PaymentIntent> payments = JsonConvert.DeserializeObject<StripeList<PaymentIntent>>(jsonString);
+                List<PaymentIntentInformation> payments = JsonConvert.DeserializeObject<List<PaymentIntentInformation>>(jsonString);
 
                 if (result.IsSuccessStatusCode)
                 {
-                    ObservableCollection<PaymentIntent> paymentCollection = new ObservableCollection<PaymentIntent>(payments);
+                    ObservableCollection<PaymentIntentInformation> paymentCollection = new ObservableCollection<PaymentIntentInformation>(payments);
                     return paymentCollection;
                 }
                 else

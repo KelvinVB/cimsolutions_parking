@@ -11,6 +11,6 @@ namespace MobileApp.Interfaces
     public interface IPaymentService
     {
         Task<bool> PayByIDeal(Payment payment);
-        Task<ObservableCollection<PaymentIntent>> GetPayments();
+        Task<ObservableCollection<PaymentIntentInformation>> GetPayments();
     }
 }

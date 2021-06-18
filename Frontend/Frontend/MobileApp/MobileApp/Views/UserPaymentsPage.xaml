@@ -50,7 +50,7 @@
                                             LineBreakMode="NoWrap"
                                             Style="{DynamicResource ListItemDetailTextStyle}"
                                             FontSize="13" />
-                                        <Label Text="{Binding amount}" 
+                                        <Label Text="{Binding value, StringFormat='{0:0.00}'}" 
                                             d:Text="amount"
                                             LineBreakMode="NoWrap"
                                             Style="{DynamicResource ListItemDetailTextStyle}"

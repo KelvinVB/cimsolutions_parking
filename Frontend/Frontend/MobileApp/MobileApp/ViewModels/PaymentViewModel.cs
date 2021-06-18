@@ -10,13 +10,12 @@ namespace MobileApp.ViewModels
 {
     public class PaymentViewModel : BaseViewModel
     {
-        private ObservableCollection<PaymentIntent> userPayments { get; set; }
-        public ObservableCollection<PaymentIntent> payments { get { return userPayments; } set { userPayments = value; OnPropertyChanged(); } }
+        private ObservableCollection<PaymentIntentInformation> userPayments { get; set; }
+        public ObservableCollection<PaymentIntentInformation> payments { get { return userPayments; } set { userPayments = value; OnPropertyChanged(); } }
 
         public PaymentViewModel()
         {
-            payments = new ObservableCollection<PaymentIntent>();
-            Initialize();
+            payments = new ObservableCollection<PaymentIntentInformation>();
         }
 
         public async void Initialize()

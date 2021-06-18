@@ -94,7 +94,7 @@ namespace PaymentService.Controllers
             try
             {
                 string id = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                StripeList<PaymentIntent> payments = await paymentManager.GetPayments(id);
+                List<PaymentIntentInformation> payments = await paymentManager.GetPayments(id);
 
                 if(payments == null)
                 {
