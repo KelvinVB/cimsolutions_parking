@@ -44,10 +44,9 @@
                 </Frame>
                 <Button x:Name="ButtonPay" HeightRequest="50" Text="Pay" Clicked="OnButtonPay" VerticalOptions="Start" Grid.Row="5" Style="{StaticResource ButtonStyle}">
                     <Button.ImageSource>
-                        <FontImageSource Size="25" Glyph="&#xe013;" FontFamily="FASolid" Color="White"/>
+                        <FontImageSource Size="25" Glyph="&#xf09d;" FontFamily="FASolid" Color="White"/>
                     </Button.ImageSource>
                 </Button>
-                
             </Grid>
             <Button x:Name="ButtonCancel" HeightRequest="50" Text="Cancel" Clicked="OnButtonCancel" VerticalOptions="Start" Grid.Row="3" Style="{StaticResource RemoveButton}"/>
         </Grid>

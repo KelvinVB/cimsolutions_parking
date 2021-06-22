@@ -206,6 +206,11 @@ namespace PaymentService.Managers
             }
         }
 
+        /// <summary>
+        /// Get a list of payments for an user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<dynamic> GetPayments(string id)
         {
             try

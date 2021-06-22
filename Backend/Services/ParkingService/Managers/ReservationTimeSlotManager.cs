@@ -71,7 +71,7 @@ namespace ParkingService.Managers
         {
             try
             {
-                ReservationTimeSlot reservation = await context.reservationTimeSlots.Where(r=> r.reservationTimeSlotID == reservationTimeSlotID).FirstOrDefaultAsync();
+                ReservationTimeSlot reservation = await context.reservationTimeSlots.Where(r=> r.reservationTimeSlotID == reservationTimeSlotID).AsNoTracking().FirstOrDefaultAsync();
 
                 return reservation;
             }
@@ -90,21 +90,26 @@ namespace ParkingService.Managers
         {
             try
             {
-                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.Where(r => r.reservationTimeSlotID == reservationTimeSlot.reservationTimeSlotID).AsNoTracking().FirstOrDefaultAsync();
+                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.FirstOrDefaultAsync(r => r.reservationTimeSlotID == reservationTimeSlot.reservationTimeSlotID);
 
                 if(oldReservationTimeSlot == null)
                 {
                     return null;
                 }
+                context.Entry(oldReservationTimeSlot).State = EntityState.Detached;
 
                 oldReservationTimeSlot = reservationTimeSlot;
+                context.Entry(oldReservationTimeSlot).State = EntityState.Modified;
+                
                 context.reservationTimeSlots.Update(oldReservationTimeSlot);
+                                
                 await context.SaveChangesAsync();
 
                 return reservationTimeSlot;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                string m = ex.Message;
                 throw;
             }
         }
@@ -118,7 +123,7 @@ namespace ParkingService.Managers
         {
             try
             {
-                List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.parkingSpotID == parkingSpotID).ToListAsync();
+                List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.parkingSpotID == parkingSpotID).AsNoTracking().ToListAsync();
 
                 return reservations;
             }
@@ -137,7 +142,7 @@ namespace ParkingService.Managers
         {
             try
             {
-                List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.accountID.Equals(accountID)).ToListAsync();
+                List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.accountID.Equals(accountID)).AsNoTracking().ToListAsync();
 
                 return reservations;
             }
