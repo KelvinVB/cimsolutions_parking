@@ -351,3 +351,4 @@ MigrationBackup/
 
 #SonarQube
 .sonarqube/
+Backend/Services/data/Entropy.bin
