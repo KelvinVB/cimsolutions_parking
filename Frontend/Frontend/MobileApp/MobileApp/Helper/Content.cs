@@ -6,10 +6,10 @@ namespace MobileApp.Helper
 {
     public static class Content
     {
-        public static string parkingSpotPath = "https://10.0.2.2:5001/api/parkingspots/";
-        public static string authenticationPath = "https://10.0.2.2:5101/api/authentication/";
-        public static string accountPath = "https://10.0.2.2:5101/api/account/";
-        public static string timeSlotPath = "https://10.0.2.2:5001/api/reservationtimeslots/";
-        public static string paymentPath = "https://10.0.2.2:5201/";
+        public static string parkingSpotPath = "http://10.0.2.2:8000/parking/api/parkingspots/";
+        public static string authenticationPath = "http://10.0.2.2:8000/accounts/api/authentication/";
+        public static string accountPath = "http://10.0.2.2:8000/accounts/api/account/";
+        public static string timeSlotPath = "http://10.0.2.2:8000/parking/api/reservationtimeslots/";
+        public static string paymentPath = "http://10.0.2.2:8000/payments/";
     }
 }
