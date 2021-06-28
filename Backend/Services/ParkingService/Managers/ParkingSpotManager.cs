@@ -129,11 +129,11 @@ namespace ParkingService.Managers
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns>int</returns>
-        public async Task<int> GetAmountFreeParkingSpots(int id, DateTime startDate, DateTime endDate)
+        public async Task<int> GetAmountFreeParkingSpots(DateTime startDate, DateTime endDate)
         {
             try
             {
-                List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p => p.reservationTimeSlots).Where(p=>p.parkingGarageID == id).ToListAsync();
+                List<ParkingSpot> parkingSpots = await context.parkingSpots.Include(p => p.reservationTimeSlots).ToListAsync();
                 if(parkingSpots == null)
                 {
                     return -1;
@@ -187,7 +187,9 @@ namespace ParkingService.Managers
                     for (int j = 0; j < parkingSpots[i].reservationTimeSlots.Count; j++)
                     {
                         List<ReservationTimeSlot> reservations = parkingSpots[i].reservationTimeSlots.ToList();
-                        if (reservations[j].startReservation < endDate && reservations[j].endReservation >= startDate)
+
+                        DateTime endReservation = reservations[j].endReservation.AddHours(1);
+                        if (reservations[j].startReservation < endDate && endReservation >= startDate)
                         {
                             free = false;
                         }

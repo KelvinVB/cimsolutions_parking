@@ -8,8 +8,6 @@ using Xamarin.Forms.Xaml;
 
 namespace MobileApp.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
     public partial class MenuPage : ContentPage
     {
@@ -23,7 +21,7 @@ namespace MobileApp.Views
             menuItems = new List<HomeMenuItem>
             {
                 new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon= "\uf015"},
-                new HomeMenuItem {Id = MenuItemType.Reservate, Title="Reservate", Icon= "\uf073"},
+                new HomeMenuItem {Id = MenuItemType.Reservate, Title="Reservation", Icon= "\uf073"},
                 new HomeMenuItem {Id = MenuItemType.Account, Title="My Account", Icon= "\uf007"},
                 new HomeMenuItem {Id = MenuItemType.Reservations, Title="My Reservations", Icon = "\uf46d"},
                 new HomeMenuItem {Id = MenuItemType.Payments, Title="My Payments",  Icon = "\uf09d" },
@@ -31,15 +29,6 @@ namespace MobileApp.Views
         };
 
             GetToken();
-
-            //if (token == null)
-            //{
-            //    menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Log in", Icon = "\uf2f6" });
-            //}
-            //else
-            //{
-            //    menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Log Out", Icon = "\uf2f5" });
-            //}
 
             ListViewMenu.ItemsSource = menuItems;
 
@@ -66,16 +55,6 @@ namespace MobileApp.Views
 
                 }
             };
-        }
-
-        public void SetLogin()
-        {
-            menuItems.Add(new HomeMenuItem { Id = MenuItemType.Login, Title = "Log in", Icon = "\uf2f6" });
-        }
-
-        public void SetLogout()
-        {
-            menuItems.Add(new HomeMenuItem { Id = MenuItemType.Logout, Title = "Log Out", Icon = "\uf2f5" });
         }
 
         public async void GetToken()

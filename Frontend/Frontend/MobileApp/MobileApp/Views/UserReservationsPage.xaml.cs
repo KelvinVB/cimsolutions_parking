@@ -32,11 +32,16 @@ namespace MobileApp.Views
             BindingContext = this.timeSlotViewModel;
         }
 
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
-            await timeSlotViewModel.Initialize();
+            timeSlotViewModel.Initialize();
         }
 
+        /// <summary>
+        /// Show selected timeslot
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public async void ItemClicked(object sender, ItemTappedEventArgs e)
         {
             timeSlotViewModel.timeSlot = e.Item as TimeSlot;
@@ -44,6 +49,11 @@ namespace MobileApp.Views
             await Navigation.PushAsync(new UpdateReservationPage(timeSlotViewModel, accountViewModel));
         }
 
+        /// <summary>
+        /// Navigate to reservation page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonCreateClicked(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new ReservationPage());

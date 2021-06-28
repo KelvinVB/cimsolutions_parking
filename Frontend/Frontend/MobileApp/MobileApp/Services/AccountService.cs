@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using MobileApp.Interfaces;
 using System.Data;
+using MobileApp.Helper;
 
 namespace MobileApp.Services
 {
     public class AccountService : IAccountService
     {
-        private static HttpClient client;
-        private readonly string path;
+        private HttpClient client;
         public AccountService()
         {
             var httpClientHandler = new HttpClientHandler();
@@ -23,9 +23,12 @@ namespace MobileApp.Services
             httpClientHandler.ServerCertificateCustomValidationCallback =
             (message, cert, chain, errors) => { return true; };
             client = new HttpClient(httpClientHandler);
-            path = "https://10.0.2.2:5101/api/account/";
         }
 
+        /// <summary>
+        /// Get current account with token
+        /// </summary>
+        /// <returns>Account</returns>
         public async Task<Account> GetAccount()
         {
             string token = await SecureStorage.GetAsync("token");
@@ -33,7 +36,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.GetAsync(path + "get/");
+                var result = await client.GetAsync(Content.accountPath + "get/");
                 var jsonString = await result.Content.ReadAsStringAsync();
                 Account account = JsonConvert.DeserializeObject<Account>(jsonString);
 
@@ -52,6 +55,11 @@ namespace MobileApp.Services
             }
         }
 
+        /// <summary>
+        /// Create a new account
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns>Account</returns>
         public async Task<Account> PostAccount(Account account)
         {
             account.firstName = "firstName";
@@ -61,7 +69,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.PostAsync(path + "create/", content);
+                var result = await client.PostAsync(Content.accountPath + "create/", content);
 
                 if (result.IsSuccessStatusCode)
                 {
@@ -77,6 +85,12 @@ namespace MobileApp.Services
                 throw;
             }
         }
+
+        /// <summary>
+        /// Update current account with token
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns>Account</returns>
         public async Task<Account> PutAccount(Account account)
         {
             string token = await SecureStorage.GetAsync("token");
@@ -86,7 +100,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.PutAsync(path + "update/", content);
+                var result = await client.PutAsync(Content.accountPath + "update/", content);
 
                 if (result.IsSuccessStatusCode)
                 {
@@ -106,6 +120,11 @@ namespace MobileApp.Services
                 throw;
             }
         }
+
+        /// <summary>
+        /// Remove current account
+        /// </summary>
+        /// <returns>bool</returns>
         public async Task<bool> DeleteAccount()
         {
             string token = await SecureStorage.GetAsync("token");
@@ -113,7 +132,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.DeleteAsync(path + "delete/");
+                var result = await client.DeleteAsync(Content.accountPath + "delete/");
 
                 if (result.IsSuccessStatusCode)
                 {

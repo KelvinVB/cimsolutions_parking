@@ -11,8 +11,6 @@ using System.Linq;
 
 namespace MobileApp.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
     public partial class MainPage : MasterDetailPage
     {
@@ -26,6 +24,11 @@ namespace MobileApp.Views
             MenuPages.Add((int)MenuItemType.Home, (NavigationPage)Detail);
         }
 
+        /// <summary>
+        /// Navigate to existing page or create a new navigation page 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task NavigateFromMenu(int id)
         {
             if (!MenuPages.ContainsKey(id))
@@ -45,7 +48,7 @@ namespace MobileApp.Views
                         MenuPages.Add(id, new NavigationPage(new UserReservationsPage()));
                         break;
                     case (int)MenuItemType.Payments:
-                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                        MenuPages.Add(id, new NavigationPage(new UserPaymentsPage()));
                         break;
                     case (int)MenuItemType.Login:
                         MenuPages.Add(id, new NavigationPage(new LoginPage()));

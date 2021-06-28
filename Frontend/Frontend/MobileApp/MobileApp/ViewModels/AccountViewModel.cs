@@ -19,7 +19,7 @@ namespace MobileApp.ViewModels
             InitializeAccount();
         }
 
-        public async Task InitializeAccount()
+        public async void InitializeAccount()
         {
             try
             {
@@ -31,6 +31,12 @@ namespace MobileApp.ViewModels
                 account = null;
             }
         }
+
+        /// <summary>
+        /// Create a new account
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns>bool</returns>
         public async Task<bool> PostAccount(Account account)
         {
             try
@@ -52,6 +58,11 @@ namespace MobileApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Update existing account
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns>bool</returns>
         public async Task<bool> UpdateAccount(Account account)
         {
             try
@@ -73,6 +84,10 @@ namespace MobileApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Delete existing account
+        /// </summary>
+        /// <returns></returns>
         public async Task<bool> DeleteAccount()
         {
             try

@@ -24,12 +24,16 @@
     <PackageReference Include="Flurl" Version="3.0.1" />
     <PackageReference Include="Flurl.Http" Version="3.0.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />  
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Stripe.net" Version="39.53.0" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />  
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.725" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\UserPaymentsPage.xaml.cs">
+      <DependentUpon>UserPaymentsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\UserReservationsPage.xaml.cs">
       <DependentUpon>UserReservationsPage.xaml</DependentUpon>
     </Compile>
@@ -46,6 +50,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\UserPaymentsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\PaymentPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RegisterPage.xaml">

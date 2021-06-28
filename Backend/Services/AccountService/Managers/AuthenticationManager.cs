@@ -36,16 +36,6 @@ namespace AccountService.Managers
 
         }
 
-        public IEnumerable<Account> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Account GetById(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Authenticates using credentials
         /// </summary>

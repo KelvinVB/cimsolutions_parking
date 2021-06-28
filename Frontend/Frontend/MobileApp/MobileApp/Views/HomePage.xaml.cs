@@ -20,8 +20,14 @@ namespace MobileApp.Views
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Navigate to account page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private async void AccountButtonClicked(object sender, EventArgs args)
         {
+            //navigate to login page if no token is set
             if (SecureStorage.GetAsync("token").Result != null)
             {
                 var id = (int)(MenuItemType.Account);
@@ -34,21 +40,36 @@ namespace MobileApp.Views
             }
         }
 
-        private async void ReservateButtonClicked(object sender, EventArgs args)
+        /// <summary>
+        /// Navigate to reservation page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private async void ReservationButtonClicked(object sender, EventArgs args)
         {
             var id = (int)(MenuItemType.Reservate);
             await RootPage.NavigateFromMenu(id);
         }
 
+        /// <summary>
+        /// Navigate to user reservations page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private async void ReservationsButtonClicked(object sender, EventArgs args)
         {
             var id = (int)(MenuItemType.Reservations);
             await RootPage.NavigateFromMenu(id);
         }
 
-        private async void AboutButtonClicked(object sender, EventArgs args)
+        /// <summary>
+        /// Navigate to payments page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private async void PaymentsButtonClicked(object sender, EventArgs args)
         {
-            var id = (int)(MenuItemType.Account);
+            var id = (int)(MenuItemType.Payments);
             await RootPage.NavigateFromMenu(id);
         }
     }

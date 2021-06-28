@@ -24,7 +24,6 @@
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="1" Text="Reservations" HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource LabelH1}"/>
-            <!--<Label Grid.Row="2" Text="No Reservations" Style="{StaticResource LabelH2}" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsVisible}" />-->
             <ListView Grid.Row="2" x:Name="TimeSlotsListView"
                 ItemsSource="{Binding timeSlots}"
                 VerticalOptions="FillAndExpand"

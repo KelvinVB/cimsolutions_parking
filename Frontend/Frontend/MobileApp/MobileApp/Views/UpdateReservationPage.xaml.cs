@@ -36,8 +36,14 @@ namespace MobileApp.Views
             BindingContext = timeSlotViewModel;
         }
 
+        /// <summary>
+        /// Update reservation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonUpdateTimeSlot(object sender, EventArgs args)
         {
+            //check for expired datetime
             if (time.endReservation < DateTime.Now || time.startReservation < DateTime.Now)
             {
                 await DisplayAlert("Error", "The reservation has expired, can't update this reservation", "Ok");
@@ -50,7 +56,8 @@ namespace MobileApp.Views
             updatedTimeSlot.endReservation = DatePickerEnd.Date + TimePickerEnd.Time;
             updatedTimeSlot.licensePlateNumber = labelLicensePlate.Text;
 
-            if (updatedTimeSlot.endReservation < updatedTimeSlot.startReservation)
+            //end datetime can't be greater than start datetime
+            if (updatedTimeSlot.endReservation <= updatedTimeSlot.startReservation)
             {
                 await DisplayAlert("Error", "Invalid time input", "Ok");
                 return;
@@ -88,14 +95,21 @@ namespace MobileApp.Views
 
         }
 
+        /// <summary>
+        /// Delete reservation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonDeleteTimeSlot(object sender, EventArgs args)
         {
+            //check for expired datetime
             if (timeSlotViewModel.timeSlot.startReservation < DateTime.Now || timeSlotViewModel.timeSlot.endReservation < DateTime.Now)
             {
                 await DisplayAlert("Error", "The reservation has expired, can't remove this reservation", "Ok");
                 return;
             }
 
+            //ask for confirmation
             bool answer = await DisplayAlert("Canceling reservation", "Are you sure you want to cancel the reservation? You can't undo this action.", "Yes", "No");
             if (answer)
             {
@@ -118,6 +132,11 @@ namespace MobileApp.Views
             }
         }
 
+        /// <summary>
+        /// Change license plate number
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonChangeClicked(object sender, EventArgs args)
         {
             string result = await DisplayPromptAsync("License plate number", "Please fill in your license plate number.", maxLength: 8, keyboard: Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
@@ -135,6 +154,11 @@ namespace MobileApp.Views
             labelLicensePlate.Text = result;
         }
 
+        /// <summary>
+        /// Change duration on selected date
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void DateSelectedEvent(object sender, EventArgs args)
         {
             DateTime startDate = DatePickerStart.Date + TimePickerStart.Time;
@@ -153,6 +177,12 @@ namespace MobileApp.Views
                 EntryDurationMinutes.Text = minutes.ToString();
             }
         }
+
+        /// <summary>
+        /// Change duration on selected time
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void EntryTimeEvent(object sender, EventArgs args)
         {
             DateTime startDate = DatePickerStart.Date + TimePickerStart.Time;

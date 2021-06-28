@@ -13,7 +13,7 @@ namespace ParkingService.Interfaces
         Task<ReservationTimeSlot> CreateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot);
         Task<ReservationTimeSlot> GetReservationTimeSlot(int reservationTimeSlotID);
         Task<List<ReservationTimeSlot>> GetAllReservationTimeSlots(int parkingSpotID);
-        Task<ReservationTimeSlot> UpdateReservationTimeSlot(int id, ReservationTimeSlot reservationTimeSlot);
+        Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot);
         Task<ReservationTimeSlot> DeleteReservationTimeSlot(int reservationTimeSlotID);
         Task<List<ReservationTimeSlot>> GetUserReservationTimeSlots(string accountID);
     }

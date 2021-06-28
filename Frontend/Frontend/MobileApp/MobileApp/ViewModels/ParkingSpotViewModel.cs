@@ -14,7 +14,13 @@ namespace MobileApp.ViewModels
         {
             parkingSpot = new ParkingSpot();
         }
-        public async Task<int> GetFreeSpot(StartEndDateTime timeSlot)
+
+        /// <summary>
+        /// Check for free spots
+        /// </summary>
+        /// <param name="timeSlot"></param>
+        /// <returns>int</returns>
+        public async Task<int> GetFreeSpot(TimeSlot timeSlot)
         {
             try
             {
@@ -27,24 +33,16 @@ namespace MobileApp.ViewModels
             }
         }
 
-        public async Task<TimeSlot> ReserveWithAccount(TimeSlot timeSlot)
+        /// <summary>
+        /// Plans a reservation
+        /// </summary>
+        /// <param name="timeSlot"></param>
+        /// <returns>TimeSlot</returns>
+        public async Task<TimeSlot> Reservation(TimeSlot timeSlot)
         {
             try
             {
-                await parkingSpotService.ReserveWithAccount(timeSlot);
-                return timeSlot;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<TimeSlot> ReserveWithoutAccount(TimeSlot timeSlot)
-        {
-            try
-            {
-                await parkingSpotService.ReserveWithoutAccount(timeSlot);
+                await parkingSpotService.Reservation(timeSlot);
                 return timeSlot;
             }
             catch (Exception)

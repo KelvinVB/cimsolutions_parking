@@ -56,7 +56,7 @@ namespace AccountService.Controllers
         /// Creates a new account
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>account</returns>
+        /// <returns>Account</returns>
         [HttpPost("create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -84,6 +84,11 @@ namespace AccountService.Controllers
             }
         }
 
+        /// <summary>
+        /// Update account with token
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>Account</returns>
         [HttpPut("update")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -116,6 +121,10 @@ namespace AccountService.Controllers
             }
         }
 
+        /// <summary>
+        /// Remove account with token
+        /// </summary>
+        /// <returns>Account</returns>
         [HttpDelete("delete")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]

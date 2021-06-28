@@ -191,11 +191,11 @@ namespace ParkingService.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] TimeSlot timeSlot)
+        public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] ReservationTimeSlot timeSlot)
         {
             try
             {
-                int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.parkingGarageId, timeSlot.startDateTime, timeSlot.endDateTime);
+                int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.startReservation, timeSlot.endReservation);
                 if (amount == -1)
                 {
                     return NotFound();
@@ -218,12 +218,12 @@ namespace ParkingService.Controllers
         /// </summary>
         /// <param name="reservation"></param>
         /// <returns>ReservationTimeSlot</returns>
-        [HttpPost("reserve")]
+        [HttpPost("reservation")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ReservationTimeSlot>> Reserve([FromBody] ReservationTimeSlot reservation)
+        public async Task<ActionResult<ReservationTimeSlot>> Reservation([FromBody] ReservationTimeSlot reservation)
         {
             string accountID = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (accountID == null)

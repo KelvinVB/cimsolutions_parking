@@ -23,7 +23,7 @@
                         <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="White"/>
                     </Button.ImageSource>
                 </Button>
-                <Button Grid.Row="0" Grid.Column="1" Text="Reservate" Clicked="ReservateButtonClicked" Style="{StaticResource HomeButton}">
+                <Button Grid.Row="0" Grid.Column="1" Text="Plan Reservation" Clicked="ReservationButtonClicked" Style="{StaticResource HomeButton}">
                     <Button.ImageSource>
                         <FontImageSource Glyph="&#xf073;" FontFamily="FASolid" Color="White"/>
                     </Button.ImageSource>
@@ -33,7 +33,7 @@
                         <FontImageSource Glyph="&#xf46d;" FontFamily="FASolid" Color="White"/>
                     </Button.ImageSource>
                 </Button>
-                <Button Grid.Row="1" Grid.Column="1" Text="Payments" Clicked="AboutButtonClicked" Style="{StaticResource HomeButton}">
+                <Button Grid.Row="1" Grid.Column="1" Text="Payments" Clicked="PaymentsButtonClicked" Style="{StaticResource HomeButton}">
                     <Button.ImageSource>
                         <FontImageSource Glyph="&#xf09d;" FontFamily="FASolid" Color="White"/>
                     </Button.ImageSource>

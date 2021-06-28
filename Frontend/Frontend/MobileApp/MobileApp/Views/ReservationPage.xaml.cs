@@ -36,6 +36,11 @@ namespace MobileApp.Views
             TimePickerEnd.Time = DateTime.Now.TimeOfDay;
         }
 
+        /// <summary>
+        /// Make a reservation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonClicked(object sender, EventArgs args)
         {
             TimeSlot timeSlot = new TimeSlot();
@@ -49,7 +54,7 @@ namespace MobileApp.Views
                 return;
             }
 
-            if(timeSlot.licensePlateNumber == null)
+            if (timeSlot.licensePlateNumber == null)
             {
                 await DisplayAlert("Error", "Please fill in a correct license plate number", "Ok");
                 return;
@@ -57,14 +62,40 @@ namespace MobileApp.Views
 
             try
             {
+                //confirm reservation
                 string start = String.Format("{0:dd/MM/yyyy - HH:mm}", timeSlot.startReservation);
                 string end = String.Format("{0:dd/MM/yyyy - HH:mm}", timeSlot.endReservation);
                 bool confirm = await DisplayAlert("Creating new reservation", "Starting: " + start + "\n Ending: " + end, "Yes", "No");
 
                 if (confirm)
                 {
-                    timeSlot = await parkingSpotViewModel.ReserveWithAccount(timeSlot);
-                    await DisplayAlert("Success", "Reservation planned on: " + start + " untill: " + end, "Ok");
+                    //check for availability
+                    int spots = await parkingSpotViewModel.GetFreeSpot(timeSlot);
+
+                    if (spots > 0)
+                    {
+                        //navigate to payment page
+                        PaymentPage paymentPage = new PaymentPage(accountViewModel);
+                        await Navigation.PushModalAsync(paymentPage);
+                        //await payment completion
+                        await paymentPage.PageClosedTask;
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "No more parking spots available.", "Ok");
+                        return;
+                    }
+
+                    //payment success
+                    if (PaymentInformation.pay)
+                    {
+                        timeSlot = await parkingSpotViewModel.Reservation(timeSlot);
+                        await DisplayAlert("Success", "Reservation planned on: " + start + " untill: " + end, "Ok");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "Payment not succeeded.", "Ok");
+                    }
                 }
             }
             catch (UnauthorizedAccessException)
@@ -83,8 +114,17 @@ namespace MobileApp.Views
             {
                 await DisplayAlert("Error", "An unexpected error occured. Please check if you have entered correct values in all fields.", "Ok");
             }
+            finally
+            {
+                PaymentInformation.pay = false;
+            }
         }
 
+        /// <summary>
+        /// Change license plate number
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void OnButtonChangeClicked(object sender, EventArgs args)
         {
             string result = await DisplayPromptAsync("License plate number", "Please fill in your license plate number.", maxLength: 8, keyboard: Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
@@ -93,6 +133,7 @@ namespace MobileApp.Views
                 return;
             }
 
+            //check for correct length
             if (result.Length < 6)
             {
                 await DisplayAlert("Error", "Please fill in a correct license plate number", "Ok");
@@ -102,6 +143,11 @@ namespace MobileApp.Views
             labelLicensePlate.Text = result;
         }
 
+        /// <summary>
+        /// Change duration on selected date
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void DateSelectedEvent(object sender, EventArgs args)
         {
             DateTime startDate = DatePickerStart.Date + TimePickerStart.Time;
@@ -114,6 +160,7 @@ namespace MobileApp.Views
             int minutes = span.Minutes;
             hours = hours + (days * 24);
 
+            //set duration fields
             if (hours >= 0 && minutes >= 0)
             {
                 EntryDurationHours.Text = hours.ToString();
@@ -121,6 +168,11 @@ namespace MobileApp.Views
             }
         }
 
+        /// <summary>
+        /// Change duration on selected time
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void EntryTimeEvent(object sender, EventArgs args)
         {
             DateTime startDate = DatePickerStart.Date + TimePickerStart.Time;
@@ -132,6 +184,7 @@ namespace MobileApp.Views
             endDate = endDate.AddHours(hours);
             endDate = endDate.AddMinutes(minutes);
 
+            //set datetime with duration field
             DatePickerEnd.Date = endDate.Date;
             TimePickerEnd.Time = new TimeSpan(endDate.Hour, endDate.Minute, 0);
         }

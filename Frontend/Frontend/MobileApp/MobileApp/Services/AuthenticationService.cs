@@ -1,4 +1,5 @@
-﻿using MobileApp.Interfaces;
+﻿using MobileApp.Helper;
+using MobileApp.Interfaces;
 using MobileApp.Models;
 using Newtonsoft.Json;
 using System;
@@ -11,8 +12,7 @@ namespace MobileApp.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private static HttpClient client;
-        private readonly string path;
+        private HttpClient client;
         public AuthenticationService()
         {
             var httpClientHandler = new HttpClientHandler();
@@ -20,16 +20,20 @@ namespace MobileApp.Services
             httpClientHandler.ServerCertificateCustomValidationCallback =
             (message, cert, chain, errors) => { return true; };
             client = new HttpClient(httpClientHandler);
-            path = "https://10.0.2.2:5101/api/authentication/";
         }
 
+        /// <summary>
+        /// Login user
+        /// </summary>
+        /// <param name="credentials"></param>
+        /// <returns>Account</returns>
         public async Task<Account> Login(Authentication credentials)
         {
             try
             {
                 var jsonObject = JsonConvert.SerializeObject(credentials);
                 var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(path + "authenticate", content);
+                var result = await client.PostAsync(Content.authenticationPath + "authenticate", content);
                 string jsonString = await result.Content.ReadAsStringAsync();
                 Account account = JsonConvert.DeserializeObject<Account>(jsonString);
 
@@ -47,7 +51,7 @@ namespace MobileApp.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    return null;
                 }
             }
             catch (Exception)

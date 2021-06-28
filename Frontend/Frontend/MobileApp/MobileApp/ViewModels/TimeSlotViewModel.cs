@@ -18,8 +18,6 @@ namespace MobileApp.ViewModels
         public TimeSlot timeSlot { get { return updatedTimeSlot; } set { updatedTimeSlot = value; OnPropertyChanged(); } }
         private ObservableCollection<TimeSlot> userTimeSlots { get; set; }
         public ObservableCollection<TimeSlot> timeSlots { get { return userTimeSlots; } set { userTimeSlots = value; OnPropertyChanged(); } }
-        private bool listEmpty;
-        public bool isVisible { get { return listEmpty; } set { listEmpty = value; OnPropertyChanged(); } }
 
         public TimeSlotViewModel()
         {
@@ -27,13 +25,12 @@ namespace MobileApp.ViewModels
             Initialize();
         }
 
-        public async Task Initialize()
+        public async void Initialize()
         {
             try
             {
                 await GetListTimeSlots();
                 OnPropertyChanged("userTimeSlots");
-                OnPropertyChanged("isVisible");
             }
             catch (Exception)
             {
@@ -41,20 +38,20 @@ namespace MobileApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Get a list of all timeslots for current user
+        /// </summary>
+        /// <returns></returns>
         public async Task GetListTimeSlots()
         {
             try
             {
                 timeSlots = await timeSlotService.GetListTimeSlots();
+
+                //reorganize list
                 for (int i = 0; i < timeSlots.Count; i++)
+                {
                     timeSlots.Move(timeSlots.Count - 1, i);
-                if (timeSlots.Count <= 0)
-                {
-                    isVisible = true;
-                }
-                else
-                {
-                    isVisible = false;
                 }
             }
             catch (Exception)
@@ -63,6 +60,11 @@ namespace MobileApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Get timeslot
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>TimeSlot</returns>
         public async Task<TimeSlot> GetTimeSlot(int id)
         {
             try
@@ -78,12 +80,20 @@ namespace MobileApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Set timeslot to the given time in the reservation
+        /// </summary>
         public void SetTimeStamps()
         {
             timeStampStart = timeSlot.startReservation.TimeOfDay;
             timeStampEnd = timeSlot.endReservation.TimeOfDay;
         }
 
+        /// <summary>
+        /// Update timeslot
+        /// </summary>
+        /// <param name="newTimeSlot"></param>
+        /// <returns>TimeSlot</returns>
         public async Task<TimeSlot> UpdateTimeSlot(TimeSlot newTimeSlot)
         {
             try
@@ -97,6 +107,11 @@ namespace MobileApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Remove timeslot
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>TimeSlot</returns>
         public async Task<TimeSlot> DeleteTimeSlot(int id)
         {
             try

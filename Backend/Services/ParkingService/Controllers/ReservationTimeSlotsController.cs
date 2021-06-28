@@ -91,7 +91,6 @@ namespace ParkingService.Controllers
         /// <summary>
         /// updates existing reservation
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="reservationTimeSlot"></param>
         /// <returns>ReservationTimeSlot</returns>
         [HttpPut("{id}")]
@@ -100,7 +99,7 @@ namespace ParkingService.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ReservationTimeSlot>> PutReservationTimeSlot(int id, [FromBody] ReservationTimeSlot reservationTimeSlot)
+        public async Task<ActionResult<ReservationTimeSlot>> PutReservationTimeSlot([FromBody] ReservationTimeSlot reservationTimeSlot)
         {
             try
             {
@@ -114,7 +113,7 @@ namespace ParkingService.Controllers
                     return NotFound();
                 }
 
-                ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(id, reservationTimeSlot);
+                ReservationTimeSlot reservation = await reservationTimeSlotManager.UpdateReservationTimeSlot(reservationTimeSlot);
 
                 if (reservation == null)
                 {

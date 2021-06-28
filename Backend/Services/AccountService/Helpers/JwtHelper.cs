@@ -51,7 +51,7 @@ namespace AccountService.Helpers
                 string accountID = jwtToken.Claims.First(x => x.Type == "id").Value;
 
                 //jwt validation succeeded
-                context.Items["Account"] = authenticationManager.GetById(accountID);
+                //context.Items["Account"] = authenticationManager.GetById(accountID);
             }
             catch
             {
