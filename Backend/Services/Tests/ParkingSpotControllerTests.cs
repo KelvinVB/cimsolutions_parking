@@ -240,7 +240,9 @@ namespace Tests
             // Act
             DateTime start = new DateTime(2021, 1, 1, 12, 0, 0);
             DateTime end = new DateTime(2021, 1, 1, 13, 0, 0);
-            TimeSlot timeSlot = new TimeSlot(1, start, end);
+            ReservationTimeSlot timeSlot = new ReservationTimeSlot();
+            timeSlot.startReservation = start;
+            timeSlot.endReservation = end;
 
             var result = await controller.FreeSpots(timeSlot);
 
@@ -267,7 +269,7 @@ namespace Tests
                 licensePlateNumber = "AA-12-AA"
             };
 
-            var result = await controller.Reserve(timeSlot);
+            var result = await controller.Reservation(timeSlot);
 
             // Assert
             OkObjectResult actionResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -291,7 +293,7 @@ namespace Tests
                 licensePlateNumber = "AA-12-AA"
             };
                         
-            var result = await controller.Reserve(timeSlot);
+            var result = await controller.Reservation(timeSlot);
 
             // Assert
             UnauthorizedResult actionResult = Assert.IsType<UnauthorizedResult>(result.Result);

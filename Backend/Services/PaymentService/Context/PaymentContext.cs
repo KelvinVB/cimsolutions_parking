@@ -33,7 +33,7 @@ namespace PaymentService.Context
                 {
                     id = 1,
                     accountId = "accountId",
-                    customerId = "customerId"
+                    customerId = "cus_Jlfy0dfCc9Ai70"
                 }
             );
         }

@@ -39,7 +39,8 @@ namespace Tests
             context.Database.Migrate();
 
             ReservationTimeSlotManager timeSlotRepo = new ReservationTimeSlotManager();
-            controller = new ReservationTimeSlotsController(timeSlotRepo, context);
+            ParkingSpotManager parkingSpotRepo = new ParkingSpotManager();
+            controller = new ReservationTimeSlotsController(timeSlotRepo, parkingSpotRepo, context);
 
             var claim = new Claim("accountID", "testID");
             var httpContext = new Mock<HttpContext>();
@@ -155,9 +156,10 @@ namespace Tests
                 startReservation = new DateTime(2021, 3, 26, 10, 30, 00),
                 endReservation = new DateTime(2021, 3, 26, 11, 30, 00),
                 licensePlateNumber = "A-111-AA",
-                parkingSpotID = 1
+                parkingSpotID = 1,
+                reservationTimeSlotID = 1
             };
-            var result = await controller.PutReservationTimeSlot(1, timeSlot);
+            var result = await controller.PutReservationTimeSlot(timeSlot);
 
             // Assert
             OkObjectResult actionResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -180,7 +182,7 @@ namespace Tests
                 licensePlateNumber = "A-111-AA",
                 parkingSpotID = 1
             };
-            var result = await controller.PutReservationTimeSlot(0, timeSlot);
+            var result = await controller.PutReservationTimeSlot(timeSlot);
 
             // Assert
             NotFoundResult actionResult = Assert.IsType<NotFoundResult>(result.Result);
@@ -198,9 +200,10 @@ namespace Tests
                 startReservation = new DateTime(2021, 3, 26, 10, 30, 00),
                 endReservation = new DateTime(2021, 3, 26, 11, 30, 00),
                 licensePlateNumber = "A-111-AA",
-                parkingSpotID = 0
+                parkingSpotID = 0,
+                reservationTimeSlotID = 1
             };
-            var result = await controller.PutReservationTimeSlot(1, timeSlot);
+            var result = await controller.PutReservationTimeSlot(timeSlot);
 
             // Assert
             BadRequestResult actionResult = Assert.IsType<BadRequestResult>(result.Result);

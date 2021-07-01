@@ -16,6 +16,8 @@ using Stripe;
 
 namespace PaymentService.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class StripePaymentController : Controller
     {
         private readonly IStripePaymentManager paymentManager;

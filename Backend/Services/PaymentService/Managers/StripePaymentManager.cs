@@ -182,13 +182,17 @@ namespace PaymentService.Managers
                     context.SaveChanges();
                 }
 
+                DateTime currentTime = DateTime.Now;
+                TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+                DateTime convertedTime = TimeZoneInfo.ConvertTime(currentTime, timeZone);
+
                 //setup payment options
                 var options = new PaymentIntentCreateOptions
                 {
                     Amount = value,
                     Currency = "eur",
                     Customer = customer.customerId,
-                    Description = "Parking spot reservation. Date: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
+                    Description = "Parking spot reservation. Date: " + convertedTime.ToString("dd/MM/yyyy HH:mm"),
                     PaymentMethodTypes = new List<string>
                     {
                         "ideal",
