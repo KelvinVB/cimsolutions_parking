@@ -15,7 +15,7 @@ namespace AccountService.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private IAuthenticationManager authenticationManager;
+        private readonly IAuthenticationManager authenticationManager;
 
         public AuthenticationController(IAuthenticationManager authenticationManager)
         {
@@ -28,14 +28,27 @@ namespace AccountService.Controllers
         /// <param name="request"></param>
         /// <returns>AuthenticateResponse with token</returns>
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] Authentication request)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Authenticate([FromBody] Authentication request)
         {
-            AuthenticateResponse response = authenticationManager.Authenticate(request);
+            try
+            {
+                AuthenticateResponse response = await authenticationManager.Authenticate(request);
 
-            if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                if (response == null)
+                {
+                    return NotFound(new { message = "Username or password is incorrect" });
+                }
+                
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
 
-            return Ok(response);
         }
     }
 }

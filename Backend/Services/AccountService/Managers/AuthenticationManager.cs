@@ -36,46 +36,52 @@ namespace AccountService.Managers
 
         }
 
-        public IEnumerable<Account> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Account GetById(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Authenticates using credentials
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="authentication"></param>
         /// <returns>AuthenticateResponse</returns>
-        AuthenticateResponse IAuthenticationManager.Authenticate(Authentication request)
+        public async Task<AuthenticateResponse> Authenticate(Authentication authentication)
         {
-            Authentication auth = accountCredentials.Find(x => x.username == request.username).SingleOrDefault();
-            bool validPassword = BCrypt.Net.BCrypt.Verify(request.password, auth.password);
-            if (!validPassword)
+            try
             {
-                return null;
+                Authentication auth = await accountCredentials.Find(x => x.username.Equals(authentication.username)).SingleOrDefaultAsync();
+
+                if (auth == null)
+                {
+                    return null;
+                }
+
+                bool validPassword = BCrypt.Net.BCrypt.Verify(authentication.password, auth.password);
+                if (!validPassword)
+                {
+                    return null;
+                }
+
+                Account user = await accounts.Find(x => x.accountID.Equals(auth.accountID)).SingleOrDefaultAsync();
+
+                // return null if user not found
+                if (user == null)
+                {
+                    return null;
+                }
+                
+                //add accountId and role claim
+                Claim[] claims = new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier,user.accountID),
+                    new Claim(ClaimTypes.Role, user.role)
+                };
+
+                // authentication successful so generate jwt token
+                string token = generateJwtToken(claims, DateTime.Now);
+
+                return new AuthenticateResponse(user, token);
             }
-
-            Account user = accounts.Find(x => x.accountID == auth.accountID).SingleOrDefault();
-
-            // return null if user not found
-            if (user == null) return null;
-
-            //add accountId and role claim
-            Claim[] claims = new[]
+            catch (Exception)
             {
-            new Claim(ClaimTypes.NameIdentifier,user.accountID),
-            new Claim(ClaimTypes.Role, user.role)
-            };
-
-            // authentication successful so generate jwt token
-            string token = generateJwtToken(auth, claims, DateTime.Now);
-
-            return new AuthenticateResponse(user, token);
+                throw;
+            }
         }
 
         /// <summary>
@@ -85,7 +91,7 @@ namespace AccountService.Managers
         /// <param name="claims"></param>
         /// <param name="currentDateTime"></param>
         /// <returns>string token</returns>
-        private string generateJwtToken(Authentication user, Claim[] claims, DateTime currentDateTime)
+        private string generateJwtToken(Claim[] claims, DateTime currentDateTime)
         {
             JwtSecurityToken jwtToken = new JwtSecurityToken(
                 jwtTokenConfig.Issuer,

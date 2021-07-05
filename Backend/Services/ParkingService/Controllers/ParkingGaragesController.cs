@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ namespace ParkingService.Controllers
     [Route("api/[controller]")]
     public class ParkingGaragesController : ControllerBase
     {
-        private IParkingGarageManager parkingGarageManager;
+        private readonly IParkingGarageManager parkingGarageManager;
 
         public ParkingGaragesController(IParkingGarageManager parkingGarageManager, ParkingContext context)
         {
@@ -28,9 +29,19 @@ namespace ParkingService.Controllers
         /// </summary>
         /// <returns>List of ParkingGarage</returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<ParkingGarage>>> GetParkingGarages()
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<ParkingGarage> parkingGarage = await parkingGarageManager.GetAllParkingGarages();
+                return Ok(parkingGarage);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -39,16 +50,29 @@ namespace ParkingService.Controllers
         /// <param name="id"></param>
         /// <returns>ParkingGarage</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParkingGarage>> GetParkingGarage(int id)
         {
-            var parkingGarage = await parkingGarageManager.GetParkingGarage(id);
-
-            if (parkingGarage == null)
+            try
             {
-                return NotFound();
-            }
+                var parkingGarage = await parkingGarageManager.GetParkingGarage(id);
 
-            return parkingGarage;
+                if (parkingGarage == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(parkingGarage);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -58,18 +82,32 @@ namespace ParkingService.Controllers
         /// <param name="parkingGarage"></param>
         /// <returns>ParkingGarage</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ParkingGarage>> PutParkingGarage(int id, ParkingGarage parkingGarage)
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ParkingGarage>> PutParkingGarage(int id, [FromBody] ParkingGarage parkingGarage)
         {
-            if (id != parkingGarage.parkingGarageID)
+            try
+            {
+                ParkingGarage updatedParkingGarage = await parkingGarageManager.UpdateParkingGarage(id, parkingGarage);
+                if(updatedParkingGarage == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(parkingGarage);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
-
-            parkingGarage.parkingGarageID = id;
-
-            await parkingGarageManager.UpdateParkingGarage(parkingGarage);
-
-            return parkingGarage;
         }
 
         /// <summary>
@@ -78,11 +116,23 @@ namespace ParkingService.Controllers
         /// <param name="parkingGarage"></param>
         /// <returns>ParkingGarage</returns>
         [HttpPost]
-        public async Task<ActionResult<ParkingGarage>> PostParkingGarage(ParkingGarage parkingGarage)
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<ParkingGarage>> PostParkingGarage([FromBody] ParkingGarage parkingGarage)
         {
-            ParkingGarage newParkingGarage = await parkingGarageManager.CreateParkingGarage(parkingGarage);
+            try
+            {
+                ParkingGarage newParkingGarage = await parkingGarageManager.CreateParkingGarage(parkingGarage);
 
-            return newParkingGarage;
+                return Ok(newParkingGarage);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -91,15 +141,32 @@ namespace ParkingService.Controllers
         /// <param name="id"></param>
         /// <returns>ParkingGarage</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParkingGarage>> DeleteParkingGarage(int id)
         {
-            ParkingGarage parkingGarage = await parkingGarageManager.DeleteParkingGarage(id);
-            if (parkingGarage == null)
+            try
+            {
+                ParkingGarage parkingGarage = await parkingGarageManager.DeleteParkingGarage(id);
+                if (parkingGarage == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(parkingGarage);
+            }
+            catch (NullReferenceException)
             {
                 return NotFound();
             }
-
-            return parkingGarage;
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }

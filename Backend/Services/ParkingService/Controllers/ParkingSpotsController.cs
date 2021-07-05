@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,8 +17,8 @@ namespace ParkingService.Controllers
     [ApiController]
     public class ParkingSpotsController : ControllerBase
     {
-        private IParkingSpotManager parkingSpotManager;
-        private IReservationTimeSlotManager reservationTimeSlotManager;
+        private readonly IParkingSpotManager parkingSpotManager;
+        private readonly IReservationTimeSlotManager reservationTimeSlotManager;
 
         public ParkingSpotsController(IParkingSpotManager parkingSpotManager, IReservationTimeSlotManager reservationTimeSlotManager, ParkingContext context)
         {
@@ -27,14 +28,33 @@ namespace ParkingService.Controllers
             reservationTimeSlotManager.SetContext(context);
         }
 
-        /// <summary>
-        /// Get all parking spots
-        /// </summary>
-        /// <returns>List of ParkingSpot</returns>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ParkingSpot>>> GetParkingSpots()
+        // <summary>
+        // Get all parking spots in a parking garage
+        // </summary>
+        // <returns>List of ParkingSpot</returns>
+        [HttpGet("all/{id}")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<ParkingSpot>>> GetParkingSpots(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<ParkingSpot> parkingSpots = await parkingSpotManager.GetAllParkingSpots(id);
+                if (parkingSpots == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(parkingSpots);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -43,16 +63,29 @@ namespace ParkingService.Controllers
         /// <param name="id"></param>
         /// <returns>ParkingSpot</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParkingSpot>> GetParkingSpot(int id)
         {
-            var parkingSpot = await parkingSpotManager.GetParkingSpot(id);
-
-            if (parkingSpot == null)
+            try
             {
-                return NotFound();
-            }
+                var parkingSpot = await parkingSpotManager.GetParkingSpot(id);
 
-            return parkingSpot;
+                if (parkingSpot == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(parkingSpot);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -62,18 +95,32 @@ namespace ParkingService.Controllers
         /// <param name="parkingSpot"></param>
         /// <returns>ParkingSpot</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ParkingSpot>> PutParkingSpot(int id, ParkingSpot parkingSpot)
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ParkingSpot>> PutParkingSpot(int id, [FromBody] ParkingSpot parkingSpot)
         {
-            if (id != parkingSpot.parkingSpotID)
+            try
+            {
+                ParkingSpot updatedParkingSpot = await parkingSpotManager.UpdateParkingSpot(id, parkingSpot);
+                if (updatedParkingSpot == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(updatedParkingSpot);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
-
-            parkingSpot.parkingSpotID = id;
-
-            await parkingSpotManager.UpdateParkingSpot(parkingSpot);
-
-            return parkingSpot;
         }
 
         /// <summary>
@@ -82,11 +129,23 @@ namespace ParkingService.Controllers
         /// <param name="parkingSpot"></param>
         /// <returns>ParkingSpot</returns>
         [HttpPost]
-        public async Task<ActionResult<ParkingSpot>> PostParkingSpot(ParkingSpot parkingSpot)
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<ParkingSpot>> PostParkingSpot([FromBody] ParkingSpot parkingSpot)
         {
-            ParkingSpot newParkingSpot = await parkingSpotManager.CreateParkingSpot(parkingSpot);
+            try
+            {
+                ParkingSpot newParkingSpot = await parkingSpotManager.CreateParkingSpot(parkingSpot);
 
-            return newParkingSpot;
+                return Ok(newParkingSpot);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -94,40 +153,100 @@ namespace ParkingService.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ParkingSpot</returns>
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParkingSpot>> DeleteParkingSpot(int id)
         {
-            ParkingSpot parkingSpot = await parkingSpotManager.DeleteParkingSpot(id);
-            if (parkingSpot == null)
+            try
+            {
+                ParkingSpot parkingSpot = await parkingSpotManager.DeleteParkingSpot(id);
+                if (parkingSpot == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(parkingSpot);
+            }
+            catch (NullReferenceException)
             {
                 return NotFound();
             }
-
-            return parkingSpot;
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
-        [HttpGet("freespots")]
-        public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] TimeSlot timeSlot)
+        /// <summary>
+        /// returns amount of free spots within a timeslot
+        /// </summary>
+        /// <param name="timeSlot"></param>
+        /// <returns>ReservationTimeSlot</returns>
+        [HttpPost("freespots")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ReservationTimeSlot>> FreeSpots([FromBody] ReservationTimeSlot timeSlot)
         {
-            int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.startDateTime, timeSlot.endDateTime);
+            try
+            {
+                int amount = await parkingSpotManager.GetAmountFreeParkingSpots(timeSlot.startReservation, timeSlot.endReservation);
+                if (amount == -1)
+                {
+                    return NotFound();
+                }
 
-            return Ok(amount);
+                return Ok(amount);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
-        [HttpPost("reserve")]
-        public async Task<ActionResult<ReservationTimeSlot>> Reserve([FromBody] ReservationTimeSlot reservation)
+        /// <summary>
+        /// Reserve a parking spot
+        /// </summary>
+        /// <param name="reservation"></param>
+        /// <returns>ReservationTimeSlot</returns>
+        [HttpPost("reservation")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ReservationTimeSlot>> Reservation([FromBody] ReservationTimeSlot reservation)
         {
             string accountID = this.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            ParkingSpot parkingSpot = await parkingSpotManager.GetFreeParkingSpot(reservation.startReservation, reservation.endReservation);
-            if (parkingSpot == null)
+            if (accountID == null)
             {
-                return BadRequest("No parking spots available");
+                return Unauthorized();
             }
-            else
+
+            try
             {
+                ParkingSpot parkingSpot = await parkingSpotManager.GetFreeParkingSpot(reservation.startReservation, reservation.endReservation);
+
+                if (parkingSpot == null)
+                {
+                    return NotFound("No parking spots available");
+                }
                 reservation.parkingSpotID = parkingSpot.parkingSpotID;
-                await reservationTimeSlotManager.CreateReservationTimeSlot(reservation);
-                return Ok(parkingSpot);
+                reservation.accountID = accountID;
+                ReservationTimeSlot newReservation = await reservationTimeSlotManager.CreateReservationTimeSlot(reservation);
+                return Ok(newReservation);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
             }
         }
     }

@@ -7,11 +7,13 @@ namespace ParkingService.Models
 {
     public class TimeSlot
     {
+        public int parkingGarageId { get; set; }
         public DateTime startDateTime { get; set; }
         public DateTime endDateTime { get; set; }
 
-        public TimeSlot(DateTime startDateTime, DateTime endDateTime)
+        public TimeSlot(int id, DateTime startDateTime, DateTime endDateTime)
         {
+            this.parkingGarageId = id;
             this.startDateTime = startDateTime;
             this.endDateTime = endDateTime;
         }

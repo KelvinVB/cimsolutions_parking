@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MobileApp.Views.ChangeAccountPage"
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Change Account">
+         
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="1" Text="Please fill in your information." VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Style="{StaticResource LabelH1}"/>
+
+            <ScrollView Grid.Row="2" VerticalOptions="Center">
+                <StackLayout Margin="20,0,20,0" Orientation="Vertical">
+                    <Frame Style="{StaticResource EntryFrame}" HeightRequest="50">
+                        <StackLayout Orientation="Horizontal">
+                            <Image>
+                                <Image.Source>
+                                    <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                                </Image.Source>
+                            </Image>
+                            <Entry x:Name="EntryUsername" d:Placeholder="username" Text="{Binding account.username}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Style="{StaticResource EntryFrame}" HeightRequest="50">
+                        <StackLayout Orientation="Horizontal">
+                            <Image>
+                                <Image.Source>
+                                    <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                                </Image.Source>
+                            </Image>
+                            <Entry x:Name="EntryFirstName" d:Placeholder="firstname" Text="{Binding account.firstName}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Style="{StaticResource EntryFrame}" HeightRequest="50">
+                        <StackLayout Orientation="Horizontal">
+                            <Image>
+                                <Image.Source>
+                                    <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                                </Image.Source>
+                            </Image>
+                            <Entry x:Name="EntryLastName" d:Placeholder="lastname" Text="{Binding account.lastName}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Style="{StaticResource EntryFrame}" HeightRequest="50">
+                        <StackLayout Orientation="Horizontal">
+                            <Image>
+                                <Image.Source>
+                                    <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                                </Image.Source>
+                            </Image>
+                            <Entry x:Name="EntryEmail" d:Placeholder="email" Text="{Binding account.email}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Style="{StaticResource EntryFrame}" HeightRequest="50">
+                        <StackLayout Orientation="Horizontal">
+                            <Image>
+                                <Image.Source>
+                                    <FontImageSource Glyph="&#xf073;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                                </Image.Source>
+                            </Image>
+                            <DatePicker x:Name="DatePickerDateOfBirth" Date="{Binding account.dateOfBirth.Date}" Style="{StaticResource LabelH2}" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame  Style="{StaticResource EntryFrame}" HeightRequest="50">
+                        <StackLayout Orientation="Horizontal">
+                            <Image>
+                                <Image.Source>
+                                    <FontImageSource Glyph="&#xf1b9;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                                </Image.Source>
+                            </Image>
+                            <Entry x:Name="EntryLicensePlate" d:Placeholder="license plate" Text="{Binding account.licensePlateNumber}" Style="{StaticResource Entry}" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </Frame>
+                    <Button HeightRequest="40" x:Name="ButtonRemove" Clicked="OnButtonDeleteClicked" HorizontalOptions="FillAndExpand" VerticalOptions="End" Style="{StaticResource RemoveButton}">
+                        <Button.ImageSource>
+                            <FontImageSource Size="25" Glyph="&#xf2ed;" FontFamily="FASolid" Color="White"/>
+                        </Button.ImageSource>
+                    </Button>
+                </StackLayout>
+            </ScrollView>
+
+            <Button Grid.Row="3" Text="UPDATE" x:Name="ButtonUpdate" Clicked="OnButtonUpdateClicked" Margin="20" VerticalOptions="End" Style="{StaticResource ButtonStyle}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

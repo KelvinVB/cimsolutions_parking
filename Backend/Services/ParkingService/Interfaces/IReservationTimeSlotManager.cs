@@ -15,5 +15,6 @@ namespace ParkingService.Interfaces
         Task<List<ReservationTimeSlot>> GetAllReservationTimeSlots(int parkingSpotID);
         Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot);
         Task<ReservationTimeSlot> DeleteReservationTimeSlot(int reservationTimeSlotID);
+        Task<List<ReservationTimeSlot>> GetUserReservationTimeSlots(string accountID);
     }
 }

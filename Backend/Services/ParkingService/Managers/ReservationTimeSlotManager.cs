@@ -30,9 +30,9 @@ namespace ParkingService.Managers
                 await context.SaveChangesAsync();
                 return reservationTimeSlot;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return null;
+                throw;
             }
         }
 
@@ -45,15 +45,20 @@ namespace ParkingService.Managers
         {
             try
             {
-                ReservationTimeSlot reservation = await context.reservationTimeSlots.FindAsync(reservationTimeSlotID);
+                ReservationTimeSlot reservation = await context.reservationTimeSlots.Where(r=> r.reservationTimeSlotID == reservationTimeSlotID).FirstOrDefaultAsync();
+                if(reservation == null)
+                {
+                    return null;
+                }
+
                 context.reservationTimeSlots.Remove(reservation);
                 await context.SaveChangesAsync();
 
                 return reservation;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return null;
+                throw;
             }
         }
 
@@ -66,42 +71,84 @@ namespace ParkingService.Managers
         {
             try
             {
-                ReservationTimeSlot reservation = await context.reservationTimeSlots.FindAsync(reservationTimeSlotID);
+                ReservationTimeSlot reservation = await context.reservationTimeSlots.Where(r=> r.reservationTimeSlotID == reservationTimeSlotID).AsNoTracking().FirstOrDefaultAsync();
 
                 return reservation;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return null;
+                throw;
             }
         }
 
+        /// <summary>
+        /// update timeslot
+        /// </summary>
+        /// <param name="reservationTimeSlot"></param>
+        /// <returns>ReservationTimeSlot</returns>
         public async Task<ReservationTimeSlot> UpdateReservationTimeSlot(ReservationTimeSlot reservationTimeSlot)
         {
             try
             {
-                context.reservationTimeSlots.Update(reservationTimeSlot);
+                ReservationTimeSlot oldReservationTimeSlot = await context.reservationTimeSlots.FirstOrDefaultAsync(r => r.reservationTimeSlotID == reservationTimeSlot.reservationTimeSlotID);
+
+                if(oldReservationTimeSlot == null)
+                {
+                    return null;
+                }
+                context.Entry(oldReservationTimeSlot).State = EntityState.Detached;
+
+                oldReservationTimeSlot = reservationTimeSlot;
+                context.Entry(oldReservationTimeSlot).State = EntityState.Modified;
+                
+                context.reservationTimeSlots.Update(oldReservationTimeSlot);
+                                
                 await context.SaveChangesAsync();
 
                 return reservationTimeSlot;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return null;
+                string m = ex.Message;
+                throw;
             }
         }
 
+        /// <summary>
+        /// Gets all timeslots
+        /// </summary>
+        /// <param name="parkingSpotID"></param>
+        /// <returns>List of ReservationTimeSlot</returns>
         public async Task<List<ReservationTimeSlot>> GetAllReservationTimeSlots(int parkingSpotID)
         {
             try
             {
-                List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.parkingSpotID == parkingSpotID).ToListAsync();
+                List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.parkingSpotID == parkingSpotID).AsNoTracking().ToListAsync();
 
                 return reservations;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return null;
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// gets all timeslots for account
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns>ReservationTimeSlots</returns>
+        public async Task<List<ReservationTimeSlot>> GetUserReservationTimeSlots(string accountID)
+        {
+            try
+            {
+                List<ReservationTimeSlot> reservations = await context.reservationTimeSlots.Where(p => p.accountID.Equals(accountID)).AsNoTracking().ToListAsync();
+
+                return reservations;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

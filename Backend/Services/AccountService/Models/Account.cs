@@ -25,5 +25,6 @@ namespace AccountService.Models
         public string role { get; set; } = "user";
         [BsonIgnore]
         public string password { get; set; }
+        public string licensePlateNumber { get; set; }
     }
 }

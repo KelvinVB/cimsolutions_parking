@@ -10,7 +10,7 @@ namespace ParkingService.Models
     {
         public int parkingSpotID { get; set; }
         public string name { get; set; }
-        public parkStatus parkStatus { get; set; }
+        public ParkStatus parkStatus { get; set; }
         public int parkingGarageID { get; set; }
         public ParkingGarage parkingGarage { get; set; }
         [JsonIgnore]
@@ -19,11 +19,11 @@ namespace ParkingService.Models
         public ParkingSpot()
         {
             reservationTimeSlots = new List<ReservationTimeSlot>();
-            parkStatus = parkStatus.Free;
+            parkStatus = ParkStatus.Free;
         }
     }
 
-    public enum parkStatus
+    public enum ParkStatus
     {
         Free,
         Occupied,

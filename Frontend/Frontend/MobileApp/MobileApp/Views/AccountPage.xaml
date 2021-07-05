@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
+             mc:Ignorable="d"
+             x:Class="MobileApp.Views.AccountPage"
+             Style="{StaticResource DefaultPageStyle}"
+             Title="Account">
+    <NavigationPage.TitleView>
+        <Button x:Name="LoginButton" Text="Logout" Clicked="OnButtonLogOutClicked" HorizontalOptions="End" TextColor="White" BackgroundColor="#5d9228" VerticalOptions="End">
+            <Button.ImageSource>
+                <FontImageSource Size="25" Glyph="&#xf2f6;" FontFamily="FASolid" Color="White"/>
+            </Button.ImageSource>
+        </Button>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".1*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height=".1*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="1" HeightRequest="120">
+                <Image.Source>
+                    <FontImageSource Glyph="&#xf2bd;" FontFamily="FASolid" Color="Black"/>
+                </Image.Source>
+            </Image>
+
+            <Grid RowSpacing="20" Grid.Row="2" Margin="20,0,20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".5*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Frame Grid.Row="1" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label d:Text="username" Text="{Binding account.username}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="2" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf007;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <StackLayout Orientation="Horizontal">
+                           <Label d:Text="firstName" Text="{Binding account.firstName}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/> 
+                           <Label d:Text="lastName" Text="{Binding account.lastName}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/> 
+                        </StackLayout>
+                        
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="3" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf0e0;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label d:Text="email" Text="{Binding account.email}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="4" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf073;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label d:Text="dateOfBirth" Text="{Binding account.dateOfBirth , StringFormat='{0:MMMM dd, yyyy}'}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="5" Style="{StaticResource LabelFrame}" HeightRequest="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="&#xf1b9;" FontFamily="FASolid" Color="{d:DynamicResource Icon}"/>
+                            </Image.Source>
+                        </Image>
+                        <Label d:Text="licenseplate" Text="{Binding account.licensePlateNumber}" Style="{StaticResource LabelH2}" VerticalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+
+                <Button Text="CHANGE" VerticalOptions="Start" Grid.Row="6" Style="{StaticResource ButtonStyle}" Clicked="OnButtonUpdateClicked"/>
+
+            </Grid>
+            <StackLayout Grid.Row="3">
+                <Label Style="{StaticResource Line}"/>
+                <Label Text="CIMSOLUTIONS Parking" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" Style="{StaticResource LabelH3}"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

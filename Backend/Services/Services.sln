@@ -3,9 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountService", "AccountService\AccountService.csproj", "{8297A791-2A85-4CBF-8BEB-C0D26DBF4763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountService", "AccountService\AccountService.csproj", "{8297A791-2A85-4CBF-8BEB-C0D26DBF4763}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkingService", "ParkingService\ParkingService.csproj", "{DD354F4F-252A-446D-BA98-3A4374F47B1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC3F9521-9FA5-471A-BCC5-313E12EDE0B1}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+		docker-compose.yaml = docker-compose.yaml
+		kong.yml = kong.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{A0246C38-4EE1-4B51-B05D-27CBF0814BE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService", "PaymentService\PaymentService.csproj", "{5C0FCA5F-6482-4484-8BDC-74D0881DA8B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +32,14 @@ Global
 		{DD354F4F-252A-446D-BA98-3A4374F47B1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD354F4F-252A-446D-BA98-3A4374F47B1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD354F4F-252A-446D-BA98-3A4374F47B1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0246C38-4EE1-4B51-B05D-27CBF0814BE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0246C38-4EE1-4B51-B05D-27CBF0814BE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0246C38-4EE1-4B51-B05D-27CBF0814BE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0246C38-4EE1-4B51-B05D-27CBF0814BE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C0FCA5F-6482-4484-8BDC-74D0881DA8B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C0FCA5F-6482-4484-8BDC-74D0881DA8B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C0FCA5F-6482-4484-8BDC-74D0881DA8B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C0FCA5F-6482-4484-8BDC-74D0881DA8B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

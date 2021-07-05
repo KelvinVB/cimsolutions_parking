@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -42,10 +43,21 @@ namespace AccountService.Managers
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(account.password);
 
-            await accounts.InsertOneAsync(account);
-            Authentication auth = new Authentication(account.accountID, account.username, passwordHash);
-            await accountCredentials.InsertOneAsync(auth);
-            return account;
+            try
+            {
+                await accounts.InsertOneAsync(account);
+                Authentication auth = new Authentication(account.accountID, account.username, passwordHash);
+                await accountCredentials.InsertOneAsync(auth);
+                return account;
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.IndexOf("11000") != -1)
+                {
+                    throw new DuplicateNameException();
+                }
+                throw;
+            }
         }
 
         /// <summary>
@@ -55,38 +67,84 @@ namespace AccountService.Managers
         /// <returns>account</returns>
         public async Task<Account> GetAccount(string accountID)
         {
-            Account response = await accounts.Find(a => a.accountID == accountID).FirstOrDefaultAsync<Account>();
-            return response;
+            try
+            {
+                Account response = await accounts.Find(a => a.accountID == accountID).FirstOrDefaultAsync<Account>();
+                return response;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
+        /// <summary>
+        /// Update existing account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>Account</returns>
         public async Task<Account> UpdateAccount(Account request)
         {
-            Account account = accounts.Find(a => a.accountID == request.accountID).FirstOrDefault();
-            if (request.dateOfBirth != null)
-                account.dateOfBirth = request.dateOfBirth;
-            if (request.email != null)
-                account.email = request.email;
-            if (request.firstName != null)
-                account.firstName = request.firstName;
-            if (request.lastName != null)
-                account.lastName = request.lastName;
-            
-            await accounts.ReplaceOneAsync(a => a.accountID.Equals(account.accountID), account);
-            return account;
+            try
+            {
+                Account account = accounts.Find(a => a.accountID == request.accountID).FirstOrDefault();
+                Authentication auth = accountCredentials.Find(a => a.accountID == request.accountID).FirstOrDefault();
+                if (request.username != null && request.username != auth.username)
+                {
+                    auth.username = request.username;
+                    account.username = request.username;
+                }
+                                
+                if (request.dateOfBirth != null)
+                    account.dateOfBirth = request.dateOfBirth;
+                if (request.email != null)
+                    account.email = request.email;
+                if (request.firstName != null)
+                    account.firstName = request.firstName;
+                if (request.lastName != null)
+                    account.lastName = request.lastName;
+                if (request.licensePlateNumber != null)
+                    account.licensePlateNumber = request.licensePlateNumber;
+
+                await accounts.ReplaceOneAsync(a => a.accountID.Equals(account.accountID), account);
+                await accountCredentials.ReplaceOneAsync(a => a.accountID.Equals(account.accountID), auth);
+                return account;
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.IndexOf("11000") != -1)
+                {
+                    throw new DuplicateNameException();
+                }
+                throw;
+            }
         }
 
+        /// <summary>
+        /// Remove account
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns>Account</returns>
         public async Task<Account> DeleteAccount(string accountID)
         {
-            Account account = accounts.Find(a => a.accountID.Equals(accountID)).FirstOrDefault();
-            Authentication auth = accountCredentials.Find(a => a.accountID.Equals(accountID)).FirstOrDefault();
+            try
+            {
+                Account account = accounts.Find(a => a.accountID.Equals(accountID)).FirstOrDefault();
+                Authentication auth = accountCredentials.Find(a => a.accountID.Equals(accountID)).FirstOrDefault();
 
-            if (account == null || auth == null)
-                return null;
+                if (account == null || auth == null)
+                    return null;
 
-            await accounts.DeleteOneAsync(a => a.accountID.Equals(account.accountID));
-            await accountCredentials.DeleteOneAsync(a => a.accountID.Equals(auth.accountID));
+                await accounts.DeleteOneAsync(a => a.accountID.Equals(account.accountID));
+                await accountCredentials.DeleteOneAsync(a => a.accountID.Equals(auth.accountID));
 
-            return account;
+                return account;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

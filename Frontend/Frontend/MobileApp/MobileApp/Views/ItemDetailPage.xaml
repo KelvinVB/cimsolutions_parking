@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MobileApp.Views.ItemDetailPage"
+             Title="{Binding Title}">
+
+    <StackLayout Spacing="20" Padding="15">
+        <Label Text="Parking" Style="{StaticResource LabelH1}" />
+
+        <Label Text="Start Date:" Style="{StaticResource LabelH2}"/>
+        <DatePicker x:Name="DatePickerStart" FontSize="Medium"/>
+        <TimePicker x:Name="TimePickerStart" FontSize="Medium"/>
+
+        <Label Text="End Date:" Style="{StaticResource LabelH2}"/>
+        <DatePicker x:Name="DatePickerEnd" FontSize="Medium"/>
+        <TimePicker x:Name="TimePickerEnd" FontSize="Medium"/>
+
+        <Button x:Name="ButtonFreeSpots"  Text="Check time" FontSize="Medium" Clicked="OnButtonClicked" Style="{StaticResource ButtonStyle}"/>
+
+        <Label x:Name="amountLabel" Text="Free spots: " Style="{StaticResource LabelH2}"/>
+    </StackLayout>
+    
+</ContentPage>
