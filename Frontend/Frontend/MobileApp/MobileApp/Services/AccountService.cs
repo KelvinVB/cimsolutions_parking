@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using MobileApp.Interfaces;
 using System.Data;
-using MobileApp.Helper;
+using MobileApp.Helpers;
 
 namespace MobileApp.Services
 {
@@ -36,7 +36,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.GetAsync(Content.accountPath + "get/");
+                var result = await client.GetAsync(Paths.accountPath + "get/");
                 var jsonString = await result.Content.ReadAsStringAsync();
                 Account account = JsonConvert.DeserializeObject<Account>(jsonString);
 
@@ -69,7 +69,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.PostAsync(Content.accountPath + "create/", content);
+                var result = await client.PostAsync(Paths.accountPath + "create/", content);
 
                 if (result.IsSuccessStatusCode)
                 {
@@ -100,7 +100,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.PutAsync(Content.accountPath + "update/", content);
+                var result = await client.PutAsync(Paths.accountPath + "update/", content);
 
                 if (result.IsSuccessStatusCode)
                 {
@@ -132,7 +132,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.DeleteAsync(Content.accountPath + "delete/");
+                var result = await client.DeleteAsync(Paths.accountPath + "delete/");
 
                 if (result.IsSuccessStatusCode)
                 {

@@ -4,7 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels;assembly=MobileApp"
-             xmlns:local="clr-namespace:MobileApp.Helper"
+             xmlns:local="clr-namespace:MobileApp.Helpers"
              mc:Ignorable="d"
              x:Class="MobileApp.Views.UserReservationsPage"
              Style="{StaticResource DefaultPageStyle}"

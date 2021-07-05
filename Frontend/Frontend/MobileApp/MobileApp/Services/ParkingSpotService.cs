@@ -1,5 +1,5 @@
 ﻿using Flurl.Http;
-using MobileApp.Helper;
+using MobileApp.Helpers;
 using MobileApp.Interfaces;
 using MobileApp.Models;
 using Newtonsoft.Json;
@@ -41,7 +41,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.PostAsync(Content.parkingSpotPath + "freespots", content);
+                var result = await client.PostAsync(Paths.parkingSpotPath + "freespots", content);
                 freeSpaces = Int32.Parse(result.Content.ReadAsStringAsync().Result);
                 if (result.IsSuccessStatusCode)
                 {
@@ -76,7 +76,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.PostAsync(Content.parkingSpotPath + "reservation", content);
+                var result = await client.PostAsync(Paths.parkingSpotPath + "reservation", content);
                 if (result.IsSuccessStatusCode)
                 {
                     return timeSlot;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MobileApp.Helper
+namespace MobileApp.Helpers
 {
     public class JsonSerializer
     {

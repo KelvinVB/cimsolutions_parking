@@ -1,4 +1,4 @@
-﻿using MobileApp.Helper;
+﻿using MobileApp.Helpers;
 using MobileApp.Interfaces;
 using MobileApp.Models;
 using Newtonsoft.Json;
@@ -37,7 +37,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.GetAsync(Content.timeSlotPath + "list");
+                var result = await client.GetAsync(Paths.timeSlotPath + "list");
                 var jsonString = await result.Content.ReadAsStringAsync();
                 List<TimeSlot> timeSlots = JsonConvert.DeserializeObject<List<TimeSlot>>(jsonString);
 
@@ -77,7 +77,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.GetAsync(Content.timeSlotPath + id);
+                var result = await client.GetAsync(Paths.timeSlotPath + id);
                 var jsonString = await result.Content.ReadAsStringAsync();
                 TimeSlot timeSlot = JsonConvert.DeserializeObject<TimeSlot>(jsonString);
 
@@ -118,7 +118,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.PutAsync(Content.timeSlotPath + timeSlot.reservationTimeSlotID, content);
+                var result = await client.PutAsync(Paths.timeSlotPath + timeSlot.reservationTimeSlotID, content);
                 var jsonString = await result.Content.ReadAsStringAsync();
                 TimeSlot newTimeSlot = JsonConvert.DeserializeObject<TimeSlot>(jsonString);
 
@@ -161,7 +161,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.DeleteAsync(Content.timeSlotPath + id);
+                var result = await client.DeleteAsync(Paths.timeSlotPath + id);
                 var jsonString = await result.Content.ReadAsStringAsync();
                 TimeSlot removedTimeSlot = JsonConvert.DeserializeObject<TimeSlot>(jsonString);
 

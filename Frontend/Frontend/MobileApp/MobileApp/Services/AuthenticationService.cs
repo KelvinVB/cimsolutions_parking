@@ -1,4 +1,4 @@
-﻿using MobileApp.Helper;
+﻿using MobileApp.Helpers;
 using MobileApp.Interfaces;
 using MobileApp.Models;
 using Newtonsoft.Json;
@@ -33,7 +33,7 @@ namespace MobileApp.Services
             {
                 var jsonObject = JsonConvert.SerializeObject(credentials);
                 var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(Content.authenticationPath + "authenticate", content);
+                var result = await client.PostAsync(Paths.authenticationPath + "authenticate", content);
                 string jsonString = await result.Content.ReadAsStringAsync();
                 Account account = JsonConvert.DeserializeObject<Account>(jsonString);
 

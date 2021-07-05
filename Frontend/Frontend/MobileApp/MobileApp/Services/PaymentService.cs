@@ -1,4 +1,4 @@
-﻿using MobileApp.Helper;
+﻿using MobileApp.Helpers;
 using MobileApp.Interfaces;
 using MobileApp.Models;
 using Newtonsoft.Json;
@@ -33,7 +33,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.GetAsync(Content.paymentPath + "getpayments");
+                var result = await client.GetAsync(Paths.paymentPath + "getpayments");
                 var jsonString = await result.Content.ReadAsStringAsync();
                 List<PaymentIntentInformation> payments = JsonConvert.DeserializeObject<List<PaymentIntentInformation>>(jsonString);
 
@@ -68,7 +68,7 @@ namespace MobileApp.Services
 
             try
             {
-                var result = await client.PostAsync(Content.paymentPath + "paybyideal", content);
+                var result = await client.PostAsync(Paths.paymentPath + "paybyideal", content);
 
                 if (result.IsSuccessStatusCode)
                 {

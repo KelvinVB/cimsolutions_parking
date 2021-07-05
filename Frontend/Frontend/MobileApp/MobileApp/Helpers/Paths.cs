@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MobileApp.Helper
+namespace MobileApp.Helpers
 {
-    public static class Content
+    public static class Paths
     {
         public static string parkingSpotPath = "http://10.0.2.2:8000/parking/api/parkingspots/";
         public static string authenticationPath = "http://10.0.2.2:8000/accounts/api/authentication/";
