@@ -25,6 +25,7 @@ namespace Tests
 
         public ParkingSpotControllerTests()
         {
+            //setup test database
             ServiceProvider serviceProvider = new ServiceCollection()
             .AddEntityFrameworkSqlServer()
             .BuildServiceProvider();
@@ -37,10 +38,12 @@ namespace Tests
             context = new ParkingContext(builder.Options);
             context.Database.Migrate();
 
+            //mock controller
             ParkingSpotManager parkingSpotRepo = new ParkingSpotManager();
             ReservationTimeSlotManager timeSlotRepo = new ReservationTimeSlotManager();
             controller = new ParkingSpotsController(parkingSpotRepo, timeSlotRepo, context);
 
+            //mock http requests
             var claim = new Claim("accountID", "testID");
             var httpContext = new Mock<HttpContext>();
             httpContext.Setup(m => m.User.IsInRole("admin")).Returns(true);

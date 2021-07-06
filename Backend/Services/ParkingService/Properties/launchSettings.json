@@ -11,14 +11,12 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Parking": {
       "commandName": "Project",
-      "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -26,7 +24,6 @@
     },
     "Docker": {
       "commandName": "Docker",
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/weatherforecast",
       "publishAllPorts": true,
       "useSSL": true
     }

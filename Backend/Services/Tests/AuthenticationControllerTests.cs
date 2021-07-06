@@ -25,11 +25,12 @@ namespace Tests
 
         public AuthenticationControllerTests()
         {
+            //setup test database
             settings = new AccountDatabaseSettings()
             {
                 AccountsCollectionName = "accountsCollection",
                 AuthenticationCollectionName = "authenticationsCollection",
-                ConnectionString = "mongodb+srv://admin:admin@testaccountdatabase.ggmxx.mongodb.net/TestAccountDatabase?retryWrites=true&w=majority",
+                ConnectionString = "ChangeToMongoDBConnectionString",
                 DatabaseName = "TestAccountDatabase"
             };
             JwtTokenConfig jwtTokenConfig = new JwtTokenConfig()
@@ -44,6 +45,7 @@ namespace Tests
             AuthenticationManager manager = new AuthenticationManager(settings, jwtTokenConfig);
             controller = new AuthenticationController(manager);
 
+            //mock http requests
             idString = "e70f904b69e7372796e4f799";
             var claim = new Claim("accountID", idString);
             var httpContext = new Mock<HttpContext>();

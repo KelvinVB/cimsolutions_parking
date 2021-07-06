@@ -25,6 +25,7 @@ namespace Tests
 
         public PaymentControllerTest()
         {
+            //setup test database
             ServiceProvider serviceProvider = new ServiceCollection()
             .AddEntityFrameworkSqlServer()
             .BuildServiceProvider();
@@ -37,13 +38,17 @@ namespace Tests
             context = new PaymentContext(builder.Options);
             context.Database.Migrate();
 
+            //setup stripe configuration
             StripePaymentManager paymentManager = new StripePaymentManager();
             PaymentService.Helpers.AppSettings appsettings = new PaymentService.Helpers.AppSettings();
-            appsettings.key = "sk_test_51Iyd0JCW5oBVi3aeyirlYffw09mn2TFbGyt10imL1VdyHYJq46wYgBs4fF6xMLhZBhGqkAwfQrJ9PpQ6qxT8XBZT000gUFLyzy";
+
+            //stripe key
+            appsettings.key = "ChangeToStripeKey";
             IOptions<PaymentService.Helpers.AppSettings> options = Options.Create(appsettings);
 
             controller = new StripePaymentController(paymentManager, context, options);
 
+            //mock http requests
             var claim = new Claim("accountID", "accountId");
             var httpContext = new Mock<HttpContext>();
             httpContext.Setup(m => m.User.IsInRole("admin")).Returns(true);

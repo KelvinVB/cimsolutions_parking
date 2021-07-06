@@ -27,16 +27,18 @@ namespace Tests
 
         public AccountControllerTests()
         {
+            //setup test database
             settings = new AccountDatabaseSettings(){
                 AccountsCollectionName = "accountsCollection",
                 AuthenticationCollectionName = "authenticationsCollection",
-                ConnectionString = "mongodb+srv://admin:admin@testaccountdatabase.ggmxx.mongodb.net/TestAccountDatabase?retryWrites=true&w=majority",
+                ConnectionString = "ChangeToMongoDBConnectionString",
                 DatabaseName = "TestAccountDatabase"
             };
 
             AccountManager manager = new AccountManager(settings);
             controller = new AccountController(manager);
 
+            //mock http requests
             idString = "e70f904b69e7372796e4f799";
             var claim = new Claim("accountID", idString);
             var httpContext = new Mock<HttpContext>();
