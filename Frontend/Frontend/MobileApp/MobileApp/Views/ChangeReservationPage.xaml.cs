@@ -13,20 +13,20 @@ using Xamarin.Forms.Xaml;
 namespace MobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class UpdateReservationPage : ContentPage
+    public partial class ChangeReservationPage : ContentPage
     {
         TimeSlotViewModel timeSlotViewModel;
         AccountViewModel accountViewModel;
         TimeSlot time;
 
-        public UpdateReservationPage()
+        public ChangeReservationPage()
         {
             InitializeComponent();
             time = timeSlotViewModel.timeSlot;
             this.timeSlotViewModel = new TimeSlotViewModel();
             BindingContext = this.timeSlotViewModel;
         }
-        public UpdateReservationPage(TimeSlotViewModel timeSlotViewModel, AccountViewModel accountViewModel)
+        public ChangeReservationPage(TimeSlotViewModel timeSlotViewModel, AccountViewModel accountViewModel)
         {
             InitializeComponent();
             time = timeSlotViewModel.timeSlot;

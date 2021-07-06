@@ -46,7 +46,7 @@ namespace MobileApp.Views
         {
             timeSlotViewModel.timeSlot = e.Item as TimeSlot;
             timeSlotViewModel.SetTimeStamps();
-            await Navigation.PushAsync(new UpdateReservationPage(timeSlotViewModel, accountViewModel));
+            await Navigation.PushAsync(new ChangeReservationPage(timeSlotViewModel, accountViewModel));
         }
 
         /// <summary>

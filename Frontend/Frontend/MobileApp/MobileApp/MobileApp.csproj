@@ -31,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\ChangeReservationPage.xaml.cs">
+      <DependentUpon>ChangeReservationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\UserPaymentsPage.xaml.cs">
       <DependentUpon>UserPaymentsPage.xaml</DependentUpon>
     </Compile>
@@ -64,7 +67,7 @@
     <EmbeddedResource Update="Views\ReservationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\UpdateReservationPage.xaml">
+    <EmbeddedResource Update="Views\ChangeReservationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\UserReservationsPage.xaml">
