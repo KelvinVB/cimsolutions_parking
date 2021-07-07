@@ -9,11 +9,6 @@
              x:Class="MobileApp.Views.UserReservationsPage"
              Style="{StaticResource DefaultPageStyle}"
              Title="Reservations">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <local:VisibilityConverter x:Key="visibilityConverter"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <ContentPage.Content>
 
         <Grid>
@@ -31,8 +26,7 @@
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 CachingStrategy="RecycleElement"
-                ItemTapped="ItemClicked"
-                IsVisible="{Binding Path=IsVisible, Converter={StaticResource visibilityConverter}}">
+                ItemTapped="ItemClicked">
                 <d:ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>First Item</x:String>
